@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<div ng-controller='VendorController'>
+    <div class="portlet-body form">
+        <form action="#" class="form-horizontal form-bordered">
+            <div class="form-body">  
+
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">Vendor</label>
+                    <div class="col-md-4">
+                        <select class="form-control input-medium select2me" data-placeholder="Select..." ng-model='vendor.vendor' ng-options='vendorItem.name for vendorItem in vendorItems track by vendorItem.id' required></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">IMEI</label>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            <input type="text" id="typeahead_example_2" name="typeahead_example_2" class="form-control" ng-model='vendor.imei' />
+                        </div>
+                        <p class="help-block">
+                            <code>E.g: 05675464</code>
+                        </p>
+                    </div>
+                </div>
+
+               <div class="form-group">
+                    <label class="control-label col-md-3">Phones</label>
+                    <div class="col-md-6">
+                        <input id="tags_2" type="text" class="form-control tags medium" value="tag1,tag2"/>
+                    </div>
+                </div>
+
+                <div class="form-group" style="float: right">
+                    <button style="width:100px" type="button" class="btn red"><i class="fa fa-times"></i> Cancel</button>
+                    <button  style="width:100px" type="button" class="btn green" ng-click="Save(vouchType)"><i class="fa fa-floppy-o"></i> Save</button>
+                </div>
+            </div>   
+        </form>
+    </div>
+</div>
+
