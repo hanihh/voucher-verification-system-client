@@ -15,7 +15,7 @@
  });
  }])
  */
-
+ 
 var app = angular.module('app', ['ui.router']);
 var _BaseOutterHtmlPath = "views/wizardviews/";
 
