@@ -35,11 +35,11 @@ app.controller('DistributionsController', ['$scope', '$rootScope', 'WizardViewsS
         
         $scope.Save = function (dist) {
             //sharedProperties.setProperty('Checked');
-            //WizardViewsService.createDistribution(dist);
-            treeProgress.distributionsChecked = true;
+            WizardViewsService.createDistribution(dist);
+            //treeProgress.distributionsChecked = true;
             //  alert($rootScope.treeProgress.distributionsChecked);
             
-            TreeProgress.AddDistributions("gff");
+            //TreeProgress.AddDistributions("gff");
         }
     }]);
 
