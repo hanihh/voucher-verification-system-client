@@ -13,8 +13,8 @@ var Governorate = Base.extend({
         this.ar_name = "";
         this.en_name = "";
         this.code = "";
-        this.country = "";               
-        this.districts = [];
+        this.countryId = 0;               
+        //this.districts = [];
     },
     parse: function(data){
             var governorate = new Governorate();
@@ -24,7 +24,7 @@ var Governorate = Base.extend({
             governorate.en_name = jsonObj['en_name'];
             governorate.ar_name = jsonObj['ar_name'];
             governorate.code = jsonObj['code'];
-            governorate.country = jsonObj['country'];
+            governorate.countryId = jsonObj['country_id'];
             /*
             for (x in jsonObj.districts)
             {

@@ -4,10 +4,4 @@
  * and open the template in the editor.
  */
 
-$.getScript("./InheritanceLib.js", function(){});
 
-var Base = Class.extend({
-    init: function() {
-        
-    }
-});

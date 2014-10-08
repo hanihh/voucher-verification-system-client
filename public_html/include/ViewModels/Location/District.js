@@ -13,8 +13,8 @@ var District = Base.extend({
         this.code = code;
         this.ar_name = ar_name;
         this.en_name = en_name;
-        this.governorate = "";           
-        this.subdistricts = [];
+        this.governorateId = 0;           
+       // this.subdistricts = [];
     },
     parse: function(data){
         var district = new District();            
@@ -24,7 +24,7 @@ var District = Base.extend({
         district.en_name = jsonObj['en_name'];
         district.ar_name = jsonObj['ar_name'];
         district.code = jsonObj['code'];
-        district.governorate = jsonObj['governorate'];
+        district.governorateId = jsonObj['governerate_id'];
         /*
         for(x in jsonObj.subdistricts)
         {

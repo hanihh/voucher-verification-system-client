@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<div ng-controller='subdistributionsController'>
+    <div class="portlet-body form">
+        <form action="#" class="form-horizontal form-bordered">
+            <div class="form-body">  
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">Code</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" ng-model="subdist.code" placeholder="Code...">
+                    </div>
+                </div>  
+                <div class="form-group">
+                    <label class="control-label col-md-3">Status</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" ng-model="subdist.status" placeholder="Pending" disabled >
+                    </div>
+                </div> 
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">Start-End Date:</label>
+                    <div class="col-md-4">
+                        <div class="input-group" id="defaultrange">
+                            <input type="text" class="form-control">
+                            <span class="input-group-btn">
+                                <button class="btn default date-range-toggle" type="button"><i class="fa fa-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">Country</label>
+                    <div class="col-md-4">
+                        <select class="form-control" data-placeholder="Select..." ng-model='country' ng-options='countryItem.name for countryItem in countryItems' required></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">Governorate</label>
+                    <div class="col-md-4">
+                        <select class="form-control" data-placeholder="Select..." ng-model='governorate' ng-options='governorateItem.en_name for governorateItem in governorateItems| filter:{countryId: country.id}' required></select>									
+                    </div>
+                </div>   
+                <div class="form-group">
+                    <label class="control-label col-md-3">District</label>
+                    <div class="col-md-4">
+                        <select class="form-control" data-placeholder="Select..." ng-model='district' ng-options='districtItem.en_name for districtItem in districtItems| filter:{governorateId: governorate.id}' required></select>									
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">Subdistrict</label>
+                    <div class="col-md-4">
+                        <select class="form-control" data-placeholder="Select..." ng-model='subdistrict' ng-options='subdistrictItem.en_name for subdistrictItem in subdistrictItems| filter:{districtId: district.id}' required></select>										
+                    </div>
+                </div> 
+                <div class="form-group">
+                    <label class="control-label col-md-3">Community</label>
+                    <div class="col-md-4">
+                        <select class="form-control" data-placeholder="Select..." ng-model='community' ng-options='communityItem.en_name for communityItem in communityItems | filter:{subdistrictId: subdistrict.id}' required></select>										
+                    </div>
+                </div> 
+                <div class="form-group">
+                    <label class="control-label col-md-3">Note</label>
+                    <div class="col-md-4">
+                        <textarea class="form-control" rows="3" ng-model='subdist.note'></textarea>
+                    </div>
+                </div> 
+                <div class="form-group" style="float: right">
+                    <button style="width:100px" type="button" class="btn red"><i class="fa fa-times"></i> Cancel</button>
+                    <button  style="width:100px" type="button" class="btn green" ng-click="Save(subdist)"><i class="fa fa-floppy-o"></i> Save</button>
+                </div>
+            </div>   
+        </form>
+    </div>
+</div>
+
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/clockface/js/clockface.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-daterangepicker/moment.min.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="include/theme/metronic/admin/pages/scripts/components-pickers.js"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+
+<script>
+      jQuery(document).ready(function () {              
+           ComponentsPickers.init();    
+    });
+</script>

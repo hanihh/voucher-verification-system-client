@@ -12,7 +12,7 @@ var Country = Base.extend({
         this.id = id;
         this.name = name;
         this.code = code;    
-        this.governorates = [];
+        //this.governorates = [];
     }, 
     
     parse: function(data){

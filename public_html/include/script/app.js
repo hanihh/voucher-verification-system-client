@@ -109,34 +109,6 @@ var treeProgress = {
 }
 
 
-app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($urlRouterProvider, $stateProvider, $httpProvider) {
-        $urlRouterProvider.otherwise('/home');
-        $stateProvider.state('home', {
-            url: "/home",
-            templateUrl: 'views/home.html'
-        }).
-                state('distributions', {
-                    url: '/distributions',
-                    templateUrl: 'views/wizardviews/Distributions.html'
-                }).state('newsubdistribution', {
-            url: '/newsubdistribution',
-            templateUrl: 'views/wizardviews/newsubdistribution.html'
-        }).state('newvendor', {
-            url: '/newvendor',
-            templateUrl: 'views/wizardviews/newvendor.html'
-        }).state('newvouchertype', {
-            url: '/newvouchertype',
-            templateUrl: 'views/wizardviews/newvouchertype.html'
-        }).state('beneficiariesDist', {
-            url: '/beneficiariesDist',
-            templateUrl: 'views/wizardviews/NewBeneficiarySubDist.html'
-        });
-
-        $httpProvider.defaults.useXDomain = true;
-        delete $httpProvider.defaults.headers.common['X-Requested-With'];
-
-    }]);
-
 /*
  app.config(['$routeProvider', function($routeProvider){
  routeProvider.when('home/distributions', {templateUrl: 'views/wizardviews/Distributions.html', controller: DistributionsController}).otherwise({redirectTo: '/'});
@@ -161,66 +133,7 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($
  }]);
  */
 
-app.factory('WizardViewsService', ['$http', function ($http) {
-        var dataFactory = {};
-        dataFactory.getPrograms = function () {
-            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/program'});
-        };
-        dataFactory.getDonors = function () {
-            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/donor'});
-        };
-        dataFactory.getCountries = function () {
-            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/country'});
-        };
-        dataFactory.getGovernorates = function () {
-            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/governorate'});
-        };
-        dataFactory.getDistricts = function () {
-            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/district'});
-        };
-        dataFactory.getSubdistricts = function () {
-            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/subdistrict'});
-        };
-        dataFactory.getCommunities = function () {
-            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/community'});
-        };
-        dataFactory.getVoucherTypes = function () {
-            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/VoucherType'});
-        };
-        dataFactory.getBeneficiaries = function () {
-            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/Beneficiary'});
-        };
-        dataFactory.getVendors = function () {
-             return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/Vendor'});
-        };
-        dataFactory.createDistribution = function (Distribution) {
-            var stringify = JSON.stringify(Distribution);
-            console.log(stringify);
-            return $http.post('http://localhost:8080/vvs_v2/index.php/api/distribution/', stringify);
-        };
-        /*
-         dataFactory.updateUsersFields = function (filedsObj) {
-         return $http.put('/Membership/UpdateUsersFields', filedsObj);
-         };
-         dataFactory.deleteUser = function (user) {
-         return $http.delete('/Membership/DeleteUser?UserName=' + user.UserName);
-         };
-         */
-        return dataFactory;
-    }]);
 
-app.factory('sharedProperties', function () {
-    var distributionChecked = '';
-
-    return {
-        getProperty: function () {
-            return distributionChecked;
-        },
-        setProperty: function (value) {
-            distributionChecked = value;
-        }
-    };
-});
 
 
 
@@ -248,7 +161,7 @@ $(document).ready(function () {
            //!!!! Getting sibiling other than parents !!!!!
         $("#" + id).parents().each(function ()
         {
-            console.log($(this));
+            //console.log($(this));
             if($(this).hasClass("SystemNode"))
                 breadcrumb.push($(this).attr('id'));
         });

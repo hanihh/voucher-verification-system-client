@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 
-<input type="hidden" id="breadcrumb-current" value="home-Distributions" />
-
 <div ng-controller='DistributionsController'>
     <div class="portlet-body form">
         <form action="#" class="form-horizontal form-bordered" name="DistributionForm">
@@ -9,41 +7,55 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">Program</label>
                     <div class="col-md-4">                  
-                        <select class="form-control input-medium select2me" data-placeholder="Select..." ng-model='dist.program' ng-options='programItem.name for programItem in programItems track by programItem.id' required></select>										
+                        <select class="form-control" data-placeholder="Select..." ng-model='distribution.program' ng-options='programItem.name for programItem in programItems track by programItem.id' required></select>										
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Donor</label>
                     <div class="col-md-4">
-                        <select class="form-control input-medium select2me" data-placeholder="Select..." ng-model='dist.donor' ng-options='donorItem.name for donorItem in donorItems track by donorItem.id' required></select>											
+                        <select class="form-control" data-placeholder="Select..." ng-model='distribution.donor' ng-options='donorItem.name for donorItem in donorItems track by donorItem.id' required></select>											
                     </div>
                 </div>               
                 <div class="form-group">
-                    <label class="control-label col-md-3">Start-End Date</label>
-                    <div class="col-md-9">
-                        <div class="input-group input-large date-picker input-daterange" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
-                            <input type="text" class="form-control" name="from"  ng-model='dist.startdate' required>
-                            <span class="input-group-addon">
-                                to </span>
-                            <input type="text" class="form-control" name="to" ng-model='dist.enddate'>
+                    <label class="control-label col-md-3">Start-End Date:</label>
+                    <div class="col-md-4">
+                        <div class="input-group" id="defaultrange">
+                            <input ng-model="distribution.date" type="text" class="form-control"  required>
+                            <span class="input-group-btn">
+                                <button class="btn default date-range-toggle" type="button"><i class="fa fa-calendar"></i></button>
+                            </span>
                         </div>
-                        <!-- /input-group -->
-                        <span class="help-block">
-                            Select date range </span>
-                    </div>        
-                </div>            
+                    </div>
+                </div>       
                 <div class="form-group">
                     <label class="control-label col-md-3">Online</label>
                     <div class="col-md-9">
-                        <input type="checkbox" class="make-switch" data-on-text="&nbsp;Online&nbsp;" data-off-text="&nbsp;Offline&nbsp;" ng-model="dist.online" ng-false-value="0" ng-true-value="1">
+                        <input ng-model="distribution.online"  type="checkbox" class="make-switch" data-on-text="&nbsp;Online&nbsp;" data-off-text="&nbsp;Offline&nbsp;" ng-false-value="0" ng-true-value="1" >
                     </div>
                 </div>         
                 <div class="form-group" style="float: right">
                     <button style="width:100px" type="button" class="btn red"><i class="fa fa-times"></i> Cancel</button>
-                    <button  style="width:100px" type="button" class="btn green" ng-click="Save(dist)"><i class="fa fa-floppy-o"></i> Save</button>
+                    <button  style="width:100px" type="button" class="btn green" ng-click="Save(distribution)"><i class="fa fa-floppy-o"></i>Save</button>
                 </div>
             </div>   
         </form>
     </div>
 </div>
 
+<!-- Datetimepickers related PLUGINS -->
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/clockface/js/clockface.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-daterangepicker/moment.min.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="include/theme/metronic/admin/pages/scripts/components-pickers.js"></script>
+<!-- END PLUGINS -->
+
+<script>
+    jQuery(document).ready(function () {    
+        Metronic.init();
+        ComponentsPickers.init();    
+    });
+</script>

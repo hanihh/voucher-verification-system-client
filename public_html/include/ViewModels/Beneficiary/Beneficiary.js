@@ -26,8 +26,8 @@ var Beneficiary = Base.extend({
         this.family_member = 0;
         this.main_income_source = "";
         this.combine_household = "";
-        this.beneficiart_status = [];
-        this.community = [];
+        //this.beneficiart_status = [];
+        //this.community = [];
     },
     parse: function (data) {
         var beneficiary = new Beneficiary();
