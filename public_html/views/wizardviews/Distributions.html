@@ -26,11 +26,12 @@
                             </span>
                         </div>
                     </div>
-                </div>       
+                </div>  
                 <div class="form-group">
                     <label class="control-label col-md-3">Online</label>
                     <div class="col-md-9">
-                        <input ng-model="distribution.online"  type="checkbox" class="make-switch" data-on-text="&nbsp;Online&nbsp;" data-off-text="&nbsp;Offline&nbsp;" ng-false-value="0" ng-true-value="1" >
+                        
+                        <input bs-switch ng-model="distribution.online" name="online-switch" type="checkbox" class="make-switch" data-on-text="&nbsp;Online&nbsp;" data-off-text="&nbsp;Offline&nbsp;" data-on="1" data-off="0" >
                     </div>
                 </div>         
                 <div class="form-group" style="float: right">
@@ -58,4 +59,5 @@
         Metronic.init();
         ComponentsPickers.init();    
     });
+   
 </script>

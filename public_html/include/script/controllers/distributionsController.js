@@ -30,7 +30,6 @@ app.controller('DistributionsController', ['$scope', '$rootScope', 'WizardViewsS
         
         
           $scope.$watch('distribution.online', function (newVal, oldVal) {
-              console.log(oldVal);
                    console.log(newVal);
                
           });

@@ -8,40 +8,41 @@
 
 app.factory('WizardViewsService', ['$http', function ($http) {
         var dataFactory = {};
+        var server_url = "http://localhost/vvs_v2/index.php/";
         dataFactory.getPrograms = function () {
-            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/program'});
+            return $http({method: 'GET', url: server_url + 'api/program'});
         };
         dataFactory.getDonors = function () {
-            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/donor'});
+            return $http({method: 'GET', url: server_url + 'api/donor'});
         };
         dataFactory.getCountries = function () {
-            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/country'});
+            return $http({method: 'GET', url: server_url + 'api/country'});
         };
         dataFactory.getGovernorates = function () {
-            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/governorate'});
+            return $http({method: 'GET', url: server_url + 'api/governorate'});
         };
         dataFactory.getDistricts = function () {
-            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/district'});
+            return $http({method: 'GET', url: server_url + 'api/district'});
         };
         dataFactory.getSubdistricts = function () {
-            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/subdistrict'});
+            return $http({method: 'GET', url: server_url + 'api/subdistrict'});
         };
         dataFactory.getCommunities = function () {
-            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/community'});
+            return $http({method: 'GET', url: server_url + 'api/community'});
         };
         dataFactory.getVoucherTypes = function () {
-            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/VoucherType'});
+            return $http({method: 'GET', url: server_url + 'api/VoucherType'});
         };
         dataFactory.getBeneficiaries = function () {
-            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/Beneficiary'});
+            return $http({method: 'GET', url: server_url + 'api/Beneficiary'});
         };
         dataFactory.getVendors = function () {
-             return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/Vendor'});
+             return $http({method: 'GET', url: server_url + 'api/Vendor'});
         };
         dataFactory.createDistribution = function (Distribution) {
             var stringify = JSON.stringify(Distribution);
             console.log(stringify);
-            return $http.post('http://localhost:8080/vvs_v2/index.php/api/distribution/', stringify);
+            //return $http.post(server_url + 'api/distribution/', stringify);
         };
         /*
          dataFactory.updateUsersFields = function (filedsObj) {
