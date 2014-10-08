@@ -32,8 +32,15 @@ app.factory('WizardViewsService', ['$http', function ($http) {
         dataFactory.getVoucherTypes = function () {
             return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/VoucherType'});
         };
-        dataFactory.getBeneficiaries = function () {
-            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/Beneficiary'});
+        dataFactory.getBeneficiaries = function (filter) {
+            /*http://localhost:8080/vvs_v2/index.php/api/Beneficiary/?filter = [
+                {"property": "registration_code", "value" : CFW0009, "operator": "in"}
+              , {"property": "en_name", "value" : "Mustafa", "operator": "in"}
+              , {"property": "birth_year", "value" : "1013-01-01", "operator": ">="}
+              , {"property": "birth_year", "value" : "2014-01-31", "operator": "<="}
+              ]*/
+            var filterString = ParseFilter(filter);                 
+            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/Beneficiary' + filterString});
         };
         dataFactory.getVendors = function () {
              return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/Vendor'});

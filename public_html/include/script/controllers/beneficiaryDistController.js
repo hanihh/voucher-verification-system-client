@@ -9,7 +9,8 @@
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
 app.controller('beneficiaryDistController', ['$scope', '$rootScope', 'WizardViewsService', function ($scope, $rootScope, WizardViewsService) {                        
         $scope.beneficiary = {};
-
+        $scope.filter = {};
+        
         $.getScript('include/ViewModels/Beneficiary/Beneficiary.js', function ()
         {
             // script is now loaded and executed.
@@ -30,5 +31,17 @@ app.controller('beneficiaryDistController', ['$scope', '$rootScope', 'WizardView
             //  alert($rootScope.treeProgress.distributionsChecked);
         }
         */
+       
+       $scope.Filter = function(filter){
+            console.log(filter);
+            /*
+             WizardViewsService.getBeneficiaries(filter).success(function (data) {
+                var data = data["data"]["beneficiary"];
+    
+                var beneficiary = new Beneficiary();
+                $scope.beneficiaries = beneficiary.parseArray(data);
+            });
+            */
+       }
     }]);
 

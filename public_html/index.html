@@ -170,10 +170,10 @@ License: You must have a valid license purchased only from themeforest(the above
                                                     <a >Subdistributions</a>
                                                     <ul  id="SubdistributionsList">                                                         
                                                         <li data-jstree='{"icon" : "fa fa-plus-circle icon-state-danger"}' class="SystemNode" >
-                                                            <a ui-sref="newsubdistribution" href="#" id="newsubdistribution">Add New</a>
+                                                            <a ui-sref="subdistribution" href="#" id="newsubdistribution">Add New</a>
                                                         </li>
                                                         <li data-jstree='{ "type" : "file" }' class="SystemNode"  >
-                                                            <a ui-sref="beneficiariesDist" href="#" id="beneficiariesDist">Beneficiaries</a>
+                                                            <a ui-sref="beneficiaryDist" href="#" id="beneficiariesDist">Beneficiaries</a>
                                                         </li>
                                                     </ul>
                                                 </li>                                        
@@ -181,7 +181,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                     <a   class="SystemNode" id="vendors" >Vendors</a>
                                                     <ul>
                                                         <li data-jstree='{"icon" : "fa fa-plus-circle icon-state-danger"}' class="SystemNode" id="NewVendor">
-                                                            <a  ui-sref="newvendor"  href="#">Add New</a>
+                                                            <a  ui-sref="vendor"  href="#">Add New</a>
                                                         </li>
                                                     </ul>
                                                 </li>                                                                                                                                                           
@@ -318,6 +318,8 @@ License: You must have a valid license purchased only from themeforest(the above
         <script src="include/theme/metronic/global/plugins/typeahead/handlebars.min.js" type="text/javascript"></script>
         <script src="include/theme/metronic/global/plugins/typeahead/typeahead.bundle.min.js" type="text/javascript"></script>
         <script type="text/javascript" src="include/theme/metronic/global/plugins/ckeditor/ckeditor.js"></script>
+        
+        <script src="include/theme/metronic/admin/pages/scripts/components-form-tools.js"></script>
         <!-- END PAGE LEVEL PLUGINS -->
 <!-- Unknown Scripts
 <script src="include/theme/metronic/global/plugins/jquery-tags-input/jquery.tagsinput.min.js" type="text/javascript"></script>
@@ -332,7 +334,35 @@ License: You must have a valid license purchased only from themeforest(the above
         QuickSidebar.init(); // init quick sidebar
         Demo.init(); // init demo features
       //  Inbox.init();
-        UITree.init();
+        //UITree.init();
+        
+      //  '<li data-jstree=\'{ "opened" : false  }\' class="SystemNode" id="Subdistributions" ><a >Subdistributions</a><ul  id="SubdistributionsList"><li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\' class="SystemNode" ><a ui-sref="subdistribution" href="#" id="newsubdistribution">Add New</a></li><li data-jstree=\'{ "type" : "file" }\' class="SystemNode"  ><a ui-sref="beneficiaryDist" href="#" id="beneficiariesDist">Beneficiaries</a></li></ul></li>'
+      // $.jstree.create($('#tree_1'), '<li data-jstree=\'{ "opened" : false  }\' class="SystemNode" id="Subdistributions" ><a >Subdistributions</a><ul  id="SubdistributionsList"><li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\' class="SystemNode" ><a ui-sref="subdistribution" href="#" id="newsubdistribution">Add New</a></li><li data-jstree=\'{ "type" : "file" }\' class="SystemNode"  ><a ui-sref="beneficiaryDist" href="#" id="beneficiariesDist">Beneficiaries</a></li></ul></li>');
+  //    $("#tree_1").create_node(["#Distributions", '<li data-jstree=\'{ "opened" : false  }\' class="SystemNode" id="Subdistributions" ><a >Subdistributions</a><ul  id="SubdistributionsList"><li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\' class="SystemNode" ><a ui-sref="subdistribution" href="#" id="newsubdistribution">Add New</a></li><li data-jstree=\'{ "type" : "file" }\' class="SystemNode"  ><a ui-sref="beneficiaryDist" href="#" id="beneficiariesDist">Beneficiaries</a></li></ul></li>', "first", function() {alert("Hello");}, ""]);
+  /* $('#tree_1').jstree(
+    "create_node", "tree_1", "first", '<li data-jstree=\'{ "opened" : false  }\' class="SystemNode" id="Subdistributions" ><a >Subdistributions</a><ul  id="SubdistributionsList"><li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\' class="SystemNode" ><a ui-sref="subdistribution" href="#" id="newsubdistribution">Add New</a></li><li data-jstree=\'{ "type" : "file" }\' class="SystemNode"  ><a ui-sref="beneficiaryDist" href="#" id="beneficiariesDist">Beneficiaries</a></li></ul></li>', true, false);
+  */
+        var $root = $("#tree_1").jstree({
+           core: {
+               check_callback: true    
+           },
+           plugins: ["dnd"]
+       });
+
+       var leafId = $root.jstree(true).create_node($root, "root1");
+        $leaf = $("#" + leafId);
+        leaf_node = $root.jstree(true).get_node("Subdistributions");
+
+       $root.jstree(true).create_node(leaf_node, "sub1");
+       $root.jstree(true).create_node($leaf, "sub2");
+
+       $root.jstree(true).create_node($root, "root2");
+
+       console.log(leaf_node);
+       console.log($leaf);
+       
+      //  console.log($.jstree.focused().select_node("#Distributions"); 
+       console.log(jQuery("#tree_1").jstree("select_node", "Distributions") );
     });
 </script>
         <!-- END JAVASCRIPTS -->

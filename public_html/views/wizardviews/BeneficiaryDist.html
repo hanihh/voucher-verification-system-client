@@ -35,23 +35,23 @@
                                 <td>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control form-filter input-sm" name="order_id">
+                                    <input type="text" class="form-control form-filter input-sm" ng-model="filter.regCode">
                                 </td>                             
                                 <td>
-                                    <input type="text" class="form-control form-filter input-sm" name="order_customer_name">
+                                    <input type="text" class="form-control form-filter input-sm" ng-model="filter.enname">
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control form-filter input-sm" name="order_ship_to">
+                                    <input type="text" class="form-control form-filter input-sm" ng-model="filter.father">
                                 </td>
                                  <td>
                                     <div class="input-group date date-picker margin-bottom-5" data-date-format="dd/mm/yyyy">
-                                        <input type="text" class="form-control form-filter input-sm" readonly name="order_date_from" placeholder="From">
+                                        <input type="text" class="form-control form-filter input-sm" readonly ng-model="filter.birthdate_from" placeholder="From">
                                         <span class="input-group-btn">
                                             <button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
                                         </span>
                                     </div>
                                     <div class="input-group date date-picker" data-date-format="dd/mm/yyyy">
-                                        <input type="text" class="form-control form-filter input-sm" readonly name="order_date_to" placeholder="To">
+                                        <input type="text" class="form-control form-filter input-sm" readonly ng-model="filter.birthdate_to" placeholder="To">
                                         <span class="input-group-btn">
                                             <button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
                                         </span>
@@ -99,6 +99,7 @@
                 <div class="form-group" style="float: right">
                     <button style="width:100px" type="button" class="btn red"><i class="fa fa-times"></i> Cancel</button>
                     <button  style="width:100px" type="button" class="btn green"><i class="fa fa-floppy-o"></i> Save</button>
+                    <button  style="width:100px" type="button" class="btn green" ng-click="Filter(filter)"><i class="fa fa-floppy-o"></i> Filter</button>
                 </div>
             </div>   
         </form>

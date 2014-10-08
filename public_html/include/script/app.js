@@ -15,13 +15,13 @@
  });
  }])
  */
- 
+
 var app = angular.module('app', ['ui.router']);
 var _BaseOutterHtmlPath = "views/wizardviews/";
 
 var _SystemNotesTemplates = {
-        distributions: '<li>Subdistribution</li>',
-        subdistributions:'<li data-jstree=\'{ "opened" : false  }\' >\
+    distributions: '<li>Subdistribution</li>',
+    subdistributions: '<li data-jstree=\'{ "opened" : false  }\' >\
                                                     <a   class="SystemNode"  SystemNodeType="Subdistributions" id="Subdistributions" >Subdistributions</a>\
                                                     <ul  id="SubdistributionsList">\
                                                         <li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\' >\
@@ -29,77 +29,103 @@ var _SystemNotesTemplates = {
                                                         </li>\
                                                     </ul>\
                                                 </li>',
-        vendors: '<li data-jstree=\'{ "opened" : false }\'>\
+    vendors: '<li data-jstree=\'{ "opened" : false }\'>\
                                                     <a   class="SystemNode"  SystemNodeType="Vendors" id="vendors" >Vendors</a>\
                                                     <ul>\
                                                         <li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\'>\
                                                             <a  ui-sref="newvouchertype" class="SystemNode" SystemNodeType="NewVendor"  id="NewVendor" href="#">Add New</a>\
                                                         </li>\
                                                     </ul>\
-                                                </li>'  
+                                                </li>'
 
-    }             
+}
 
 var SystemNode = {
-        init: function(){
-            return {
-                template: "",
-                parent: ""
-            }
+    init: function () {
+        return {
+            template: "",
+            parent: ""
         }
     }
-
-var WizardTree = {    
-    
-    TreeStructure: "",
-    
-    Init: function(){
-        
-    },
+}
+/*
+var WizardTree = {
+    rootElement:"",
     
     Distributions: SystemNode.init(_SystemNotesTemplates.distributions),
-    
-    Subdistributions: SystemNode.init(_SystemNotesTemplates.distributions),
+    Subdistributions: SystemNode.init(_SystemNotesTemplates.subdistributions),
     Newdistribution: SystemNode.init(_SystemNotesTemplates.distributions),
     VoucherTypes: SystemNode.init(_SystemNotesTemplates.distributions),
     Newvouchertype: SystemNode.init(_SystemNotesTemplates.distributions),
     beneficiariesDistribution: SystemNode.init(_SystemNotesTemplates.distributions),
-    
     Vendors: SystemNode.init(_SystemNotesTemplates.distributions),
     Newvendor: SystemNode.init(_SystemNotesTemplates.distributions),
     beneficiariesVendor: SystemNode.init(_SystemNotesTemplates.distributions),
     
-     AddDistributions: function(nodeObject){
+     InitializeTree: function() {
+          UITree.init();
+    }, 
+    
+    ClearTree: function(){
+        rootElement.html("");
+        rootElement["destroy"];
+    },
+    
+    CreateDistribution: function() {
+        ClearTree();
+        rootElement.html(Subdistributions);
+        InitializeTree();
+    },
+    
+    Init: function (el) {
+        rootElement = el;
+        CreateDistribution();
+    },
+    
+   
+    
+    BulidTree: function(){
+       // AddTree(rootElement, );
+    },
+    
+    AddTree: function(parent_el, child_el){
+        parent_el.appendChild(child_el);
+    },
+    
+    AddDistributions: function (nodeObject) {
+        CreateDistribution();
         // - Show Subdistributions
         // - Show Vendor bud disabled
         // - Update Tree
+        /*
         $("#Subdistributions").parent('li').removeClass("hidden");
         $("#Subdistributions").parent('li').addClass("visible");
         $("#vendors").parent('li').removeClass("hidden");
         $("#vendors").parent('li').addClass("visible");
+     
     },
-    AddSubdistribution: function(nodeObject, isFirstNode){
+    AddSubdistribution: function (nodeObject, isFirstNode) {
         // - Show Voucher Types
         // - Show Beneficiaries but disabled
         // - Update Tree
 
-        $("#SubdistributionsList").find(' > li:first').after('<li>'+ nodeObject.code + '</li>');
+        $("#SubdistributionsList").find(' > li:first').after('<li>' + nodeObject.code + '</li>');
     },
-    AddVoucherType: function(nodeObject, isFirstNode){
+    AddVoucherType: function (nodeObject, isFirstNode) {
         // - Enable Beneficiaries
         // - Update Tree
-    },  
-    AddBeneficiaries: function(nodeObject){
+    },
+    AddBeneficiaries: function (nodeObject) {
         // - Enable Vendors
         // - Update Tree
     },
-    AddVendor: function(nodeObject, isFirstNode){
+    AddVendor: function (nodeObject, isFirstNode) {
         // - Show Beneficiaries
         // - Update Tree
     }
-    
-}
 
+}
+*/
 
 var treeProgress = {
     distributionsChecked: false,
@@ -135,7 +161,7 @@ var treeProgress = {
 
 
 
-
+//var tree = WizardTree;
 
 function GetHTML(htmlPage) {
     var fullPath = _BaseOutterHtmlPath + htmlPage;
@@ -144,29 +170,34 @@ function GetHTML(htmlPage) {
     });
 }
 
-function replaceElement(el){
+function replaceElement(el) {
     var parent = el.parentNode;
     console.log(parent);
     parent.removeChild(el);
     parent.appendChild(el);
 }
 
-$(document).ready(function () {    
+$(document).ready(function () {
+    //tree.Init($("#tree_1"));
+    
+    //$("#Subdistributions").attr("data-jstree", '{ "disabled" : true }');
+      //$("#tree_1").jstree("refresh");
     $("#tree_1").bind("select_node.jstree", function (event, data)
     {
+         
         var breadcrumb = [];
         var id = data.event.currentTarget.id;
         //console.log(id);
         //console.log( $("#" + id).parents().find(".SystemNode"));
-           //!!!! Getting sibiling other than parents !!!!!
+        //!!!! Getting sibiling other than parents !!!!!
         $("#" + id).parents().each(function ()
         {
             //console.log($(this));
-            if($(this).hasClass("SystemNode"))
+            if ($(this).hasClass("SystemNode"))
                 breadcrumb.push($(this).attr('id'));
         });
         //breadcrumb = breadcrumb.join(" > ");
-        
+
         $("ul#breadcrumb").empty();
         //console.log($("ul#breadcrumb").html());
         //console.log(breadcrumb);
@@ -175,26 +206,26 @@ $(document).ready(function () {
     });
 
 
-function CreateBreadCrumbTree(data) {
-    if (data)
-        for (i = 0; i < data.length; i++) {
-            if (data[i] == "Distributions") {
-                //$("#breadcrumb").append('<li><i class="fa fa-home"></i><a href="#/home">Home</a><i class="fa fa-angle-right"></i></li>');
-                $("ul#breadcrumb").append('<li><i class="fa fa-home"></i><a id="page-breadcrumb-home"> Distributions</a> <i class="fa fa-angle-right"></i></li>');
+    function CreateBreadCrumbTree(data) {
+        if (data)
+            for (i = 0; i < data.length; i++) {
+                if (data[i] == "Distributions") {
+                    //$("#breadcrumb").append('<li><i class="fa fa-home"></i><a href="#/home">Home</a><i class="fa fa-angle-right"></i></li>');
+                    $("ul#breadcrumb").append('<li><i class="fa fa-home"></i><a id="page-breadcrumb-home"> Distributions</a> <i class="fa fa-angle-right"></i></li>');
 
-            }
-            else
-            {
-                var dir = data[i];
-                //$("#breadcrumb").append('<li><a href="#/' + dir + '">' + dir + '</a> <i class="fa fa-angle-right"></i>');
-                $("ul#breadcrumb").append('<li><a>' + dir + '</a> <i class="fa fa-angle-right"></i>');
+                }
+                else
+                {
+                    var dir = data[i];
+                    //$("#breadcrumb").append('<li><a href="#/' + dir + '">' + dir + '</a> <i class="fa fa-angle-right"></i>');
+                    $("ul#breadcrumb").append('<li><a>' + dir + '</a> <i class="fa fa-angle-right"></i>');
 
+                }
             }
-        }
-    else
-        // $("#breadcrumb").append('<li><i class="fa fa-home"></i><a href="#/home">Home</a><i class="fa fa-angle-right"></i></li>');
-        $("ul#breadcrumb").append('<li><i class="fa fa-home"></i><a id="page-breadcrumb-home"> Distributions</a> <i class="fa fa-angle-right"></i></li>');
-}
+        else
+            // $("#breadcrumb").append('<li><i class="fa fa-home"></i><a href="#/home">Home</a><i class="fa fa-angle-right"></i></li>');
+            $("ul#breadcrumb").append('<li><i class="fa fa-home"></i><a id="page-breadcrumb-home"> Distributions</a> <i class="fa fa-angle-right"></i></li>');
+    }
 
 
     /*
@@ -239,4 +270,13 @@ function CheckTreeProgress() {
     if (treeProgress.distributionsChecked) {
         //$("#Subdistributions").parent("li").
     }
+}
+
+
+function ParseFilter(filterObj) {
+    var filterString = "?filter=[";
+    $.each(filter, function (key, value) {
+        filterString += '{"property": "' + key + '" , "value" : "' + value.value + '" , "operator" : "' + value.operator;
+    });
+    filterString += "]";
 }
