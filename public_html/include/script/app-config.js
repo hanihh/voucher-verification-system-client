@@ -16,13 +16,16 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($
             templateUrl: 'views/wizardviews/Distributions.html'
         }).state('subdistribution', {
             url: '/subdistribution',
-            templateUrl: 'views/wizardviews/Subdistributions.html'
+            templateUrl: 'views/wizardviews/Subdistribution.html'
         }).state('subdistributionsreport', {
             url: '/subdistributionsreport',
             templateUrl: 'views/wizardviews/SubdistributionsReport.html'
         }).state('vendor', {
             url: '/vendor',
             templateUrl: 'views/wizardviews/vendor.html'
+        }).state('vendorreport', {
+            url: '/vendorreport',
+            templateUrl: 'views/wizardviews/vendorReport.html'
         }).state('vouchertype', {
             url: '/vouchertype',
             templateUrl: 'views/wizardviews/vouchertype.html'

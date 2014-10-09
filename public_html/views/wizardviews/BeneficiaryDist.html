@@ -10,7 +10,7 @@
                         <span>
                         </span>                        
                         <button class="btn btn-sm yellow table-group-action-submit"><i class="fa fa-check"></i> Submit</button>
-                    </div>
+                    </div>               
                     <table class="table table-striped table-bordered table-hover" id="datatable_ajax">
                         <thead>
                            <tr role="row" class="heading">
@@ -77,22 +77,27 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!--
                             <tr ng-repeat="beneficiary in beneficiaries">
-                                <td></td>
+                                <td>                          
+                                    <input type="checkbox" class="checkboxs-group" id="{{beneficiary.id}}" />                                     
+                                    
+                                </td>
                                 <td>{{beneficiary.registration_code}}</td>
                                 <td>{{beneficiary.en_name}}</td>
                                 <td>{{beneficiary.father_name}}</td>
                                 <td>{{beneficiary.birth_year}}</td>
-                                <td></td>
+                                <td></td>   
                             </tr>
+                            -->
                         </tbody>
                     </table>
                 </div>
 
-                <div class="form-group">
-                    <label class="control-label col-md-3">Fixed Width</label>
+                <div class="form-group" style="position: fixed; bottom: 20.00%; right: 3.22222222%;">
+                    <label class="control-label col-md-3">Chosen Beneficiaries</label>
                     <div class="col-md-6">
-                        <input id="tags_2" type="text" class="form-control tags medium" value="tag1,tag2"/>
+                        <input id="tags_2" type="text" class="form-control tags medium" value="" />
                     </div>
                 </div>
 
@@ -133,7 +138,6 @@
 <script>
     jQuery(document).ready(function () {    
         Metronic.init(); // init metronic core components
-        ComponentsFormTools.init();
-        TableAjax.init();   
+        ComponentsFormTools.init();                      
     });
 </script>

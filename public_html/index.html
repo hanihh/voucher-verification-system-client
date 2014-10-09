@@ -161,7 +161,8 @@ License: You must have a valid license purchased only from themeforest(the above
                             </div>                            
                             <div class="portlet-body" >                         
 
-                                   <div id="tree_1" class="tree-demo">         
+                                   <div id="tree_1" class="tree-demo">                                        
+                                       <!--
                                     <ul>
                                         <li  class="SystemNode" id="Distribution">
                                             <a ui-sref="distributions" href="#">Distributions</a>
@@ -188,6 +189,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                             </ul>
                                         </li>                             
                                     </ul>
+                                       -->
                                 </div>
                             </div>
                         </div>
@@ -198,7 +200,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                 <i class="fa fa-gift"></i>Portlet1
                             </div>                            
                         </div>
-                        <div class="portlet-body">
+                        <div class="portlet-body" style="height: 100%">
                             <div class="scroller" style="height:200px" data-rail-visible="1" data-rail-color="yellow" data-handle-color="#a1b2bd">
                                 <!--<div ng-include="'views/wizardviews/Distributions.html'" ></div> -->
                                 <div ui-view></div>                               
@@ -347,13 +349,8 @@ License: You must have a valid license purchased only from themeforest(the above
   /* $('#tree_1').jstree(
     "create_node", "tree_1", "first", '<li data-jstree=\'{ "opened" : false  }\' class="SystemNode" id="Subdistributions" ><a >Subdistributions</a><ul  id="SubdistributionsList"><li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\' class="SystemNode" ><a ui-sref="subdistribution" href="#" id="newsubdistribution">Add New</a></li><li data-jstree=\'{ "type" : "file" }\' class="SystemNode"  ><a ui-sref="beneficiaryDist" href="#" id="beneficiariesDist">Beneficiaries</a></li></ul></li>', true, false);
   */
-        var $root = $("#tree_1").jstree({
-           core: {
-               check_callback: true    
-           },
-           plugins: ["dnd"]
-       });
 
+/*
        var leafId = $root.jstree(true).create_node($root, "root1");
         $leaf = $("#" + leafId);
         leaf_node = $root.jstree(true).get_node("Subdistributions");
@@ -368,6 +365,7 @@ License: You must have a valid license purchased only from themeforest(the above
        
       //  console.log($.jstree.focused().select_node("#Distributions"); 
        console.log(jQuery("#tree_1").jstree("select_node", "Distributions") );
+       */
     });
 </script>
         <!-- END JAVASCRIPTS -->

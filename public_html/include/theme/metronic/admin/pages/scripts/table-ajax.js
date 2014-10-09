@@ -22,14 +22,14 @@ var TableAjax = function () {
             },
             loadingMessage: 'Loading...',
             dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+              
+              
                 "lengthMenu": [
                     [10, 20, 50, 100, 150, -1],
                     [10, 20, 50, 100, 150, "All"] // change per page values here
                 ],
                 "pageLength": 10, // default record count per page
-                "ajax": {
-                    "url": "demo/table_ajax.php", // ajax source
-                },
+              
                 "order": [
                     [1, "asc"]
                 ] // set first column as a default sort by asc

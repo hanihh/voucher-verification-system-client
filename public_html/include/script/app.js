@@ -3,165 +3,93 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/*
- var app = angular.module('app', ['ngRoute']);
- app
- .config(['$routeProvider',
- function($routeProvider) {
- $routeProvider
- .when('/distributions/', {
- templateUrl: 'views/wizardviews/distributions.html',
- controller: 'DistributionsController'
- });
- }])
- */
 
 var app = angular.module('app', ['ui.router']);
 var _BaseOutterHtmlPath = "views/wizardviews/";
 
-var _SystemNotesTemplates = {
-    distributions: '<li>Subdistribution</li>',
-    subdistributions: '<li data-jstree=\'{ "opened" : false  }\' >\
-                                                    <a   class="SystemNode"  SystemNodeType="Subdistributions" id="Subdistributions" >Subdistributions</a>\
-                                                    <ul  id="SubdistributionsList">\
-                                                        <li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\' >\
-                                                            <a ui-sref="newsubdistribution" href="#" id="newsubdistribution">Add New</a>\
-                                                        </li>\
-                                                    </ul>\
-                                                </li>',
-    vendors: '<li data-jstree=\'{ "opened" : false }\'>\
-                                                    <a   class="SystemNode"  SystemNodeType="Vendors" id="vendors" >Vendors</a>\
-                                                    <ul>\
-                                                        <li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\'>\
-                                                            <a  ui-sref="newvouchertype" class="SystemNode" SystemNodeType="NewVendor"  id="NewVendor" href="#">Add New</a>\
-                                                        </li>\
-                                                    </ul>\
-                                                </li>'
-
+function CreateNode(id, text, icon) {
+    return {
+        id: id,
+        text: text, 
+        icon: icon
+    };
 }
 
-var SystemNode = {
-    init: function () {
-        return {
-            template: "",
-            parent: ""
-        }
-    }
+function SetNodeRoute(node, url) {
+    node.a_attr["href"] = "#" + url;    
+    //node.a_attr["ui-sref"] = url;
+    
 }
-/*
+
 var WizardTree = {
-    rootElement:"",
-    
-    Distributions: SystemNode.init(_SystemNotesTemplates.distributions),
-    Subdistributions: SystemNode.init(_SystemNotesTemplates.subdistributions),
-    Newdistribution: SystemNode.init(_SystemNotesTemplates.distributions),
-    VoucherTypes: SystemNode.init(_SystemNotesTemplates.distributions),
-    Newvouchertype: SystemNode.init(_SystemNotesTemplates.distributions),
-    beneficiariesDistribution: SystemNode.init(_SystemNotesTemplates.distributions),
-    Vendors: SystemNode.init(_SystemNotesTemplates.distributions),
-    Newvendor: SystemNode.init(_SystemNotesTemplates.distributions),
-    beneficiariesVendor: SystemNode.init(_SystemNotesTemplates.distributions),
-    
-     InitializeTree: function() {
-          UITree.init();
-    }, 
-    
-    ClearTree: function(){
-        rootElement.html("");
-        rootElement["destroy"];
-    },
-    
-    CreateDistribution: function() {
-        ClearTree();
-        rootElement.html(Subdistributions);
-        InitializeTree();
-    },
-    
-    Init: function (el) {
-        rootElement = el;
-        CreateDistribution();
-    },
-    
-   
-    
-    BulidTree: function(){
-       // AddTree(rootElement, );
-    },
-    
-    AddTree: function(parent_el, child_el){
-        parent_el.appendChild(child_el);
-    },
-    
-    AddDistributions: function (nodeObject) {
-        CreateDistribution();
-        // - Show Subdistributions
-        // - Show Vendor bud disabled
-        // - Update Tree
-        /*
-        $("#Subdistributions").parent('li').removeClass("hidden");
-        $("#Subdistributions").parent('li').addClass("visible");
-        $("#vendors").parent('li').removeClass("hidden");
-        $("#vendors").parent('li').addClass("visible");
-     
-    },
-    AddSubdistribution: function (nodeObject, isFirstNode) {
-        // - Show Voucher Types
-        // - Show Beneficiaries but disabled
-        // - Update Tree
+    tree: {},
+    distributionsId: "Distributions",
+    distributionsNode: "",
+    subdistributionsId: "Subdistributions",
+    subdistributionsNode: "",
+    addNewSubdistributionsId: "AddNewSubdistributions",
+    vendorsId: "Vendors",
+    vendorsNode: "",
+    addNewVendorsId: "AddNewVendors",
 
-        $("#SubdistributionsList").find(' > li:first').after('<li>' + nodeObject.code + '</li>');
+    __Init: function (_tree) {
+        tree = _tree;
+        tree.jstree(true).create_node(tree, CreateNode("Distributions", "Distributions"));
+        distributionsNode = tree.jstree(true).get_node(this.distributionsId);
+        SetNodeRoute(distributionsNode, "distributions");
     },
-    AddVoucherType: function (nodeObject, isFirstNode) {
-        // - Enable Beneficiaries
-        // - Update Tree
+    AddDistributions: function () {
+        tree.jstree(true).create_node(distributionsNode, CreateNode(this.subdistributionsId, "Subdistributions"));
+        subdistributionsNode = tree.jstree(true).get_node(this.subdistributionsId);
+        SetNodeRoute(subdistributionsNode, "subdistributionsreport");
+  
+        tree.jstree(true).create_node(subdistributionsNode, CreateNode(this.addNewSubdistributionsId, "Add New", "fa fa-plus-circle icon-state-danger"));
+        SetNodeRoute(tree.jstree(true).get_node(this.addNewSubdistributionsId), "subdistribution");
+       
+        tree.jstree(true).create_node(distributionsNode, CreateNode(this.vendorsId, "Vendors"));
+        vendorsNode = tree.jstree(true).get_node(this.vendorsId);
+        SetNodeRoute(vendorsNode, "vendorreport");
+       
+        tree.jstree(true).create_node(vendorsNode, CreateNode(this.addNewVendorsId, "Add New", "fa fa-plus-circle icon-state-danger"));   
+        SetNodeRoute(tree.jstree(true).get_node(this.addNewVendorsId), "vendor");
     },
-    AddBeneficiaries: function (nodeObject) {
-        // - Enable Vendors
-        // - Update Tree
+    AddSubdistribution: function (nodeObject) {
+        //$("#SubdistributionsList").find(' > li:first').after('<li>' + nodeObject.code + '</li>');  
+        tree.jstree(true).create_node(subdistributionsNode, CreateNode(nodeObject.name, nodeObject.name));
+        var subdistributionNode = tree.jstree(true).get_node(nodeObject.name);
+        SetNodeRoute(subdistributionNode, "subdistribution?"+ nodeObject.id);
+        
+        tree.jstree(true).create_node(subdistributionNode, CreateNode(nodeObject.name + "Types", "Types"));
+        var subdistributionTypesNode = tree.jstree(true).get_node(nodeObject.name + "Types");
+        SetNodeRoute(subdistributionTypesNode, "");
+ 
+        tree.jstree(true).create_node(subdistributionTypesNode, CreateNode(nodeObject.name + "Types" + "AddNew", "Add New", "fa fa-plus-circle icon-state-danger"));
+        SetNodeRoute(tree.jstree(true).get_node(nodeObject.name + "Types" + "AddNew"), "");        
+        
+        //tree.jstree(true).select_node(nodeObject.name + "Types" + "AddNew");
+        
+        tree.jstree(true).create_node(subdistributionNode, CreateNode(nodeObject.name + "Benes", "Beneficiaries"));
+        SetNodeRoute(tree.jstree(true).get_node(nodeObject.name + "Benes"), "");
     },
-    AddVendor: function (nodeObject, isFirstNode) {
-        // - Show Beneficiaries
-        // - Update Tree
+    AddType: function (nodeObject) {
+        /*
+        var parentTypeNode = tree.jstree(true).get_selected(true)[0].parent;        
+        tree.jstree(true).create_node(parentTypeNode, CreateNode(nodeObject.name + "Type", nodeObject.name));
+        SetNodeRoute(tree.jstree(true).get_node(nodeObject.name + "Type"), "");
+        */
+        //var subdistributionNode = tree.jstree(true).get_node(nodeObject.name);
+
+    },
+    AddVendor: function (nodeObject) {
+        tree.jstree(true).create_node(vendorsNode, CreateNode(nodeObject.name, nodeObject.name));
+        var vendorNode = tree.jstree(true).get_node(nodeObject.name);
+        SetNodeRoute(vendorNode, "");
+        
+        tree.jstree(true).create_node(vendorNode, CreateNode(nodeObject.name + "Benes", "Beneficiaries"));
+        SetNodeRoute(tree.jstree(true).get_node(nodeObject.name + "Benes"),"");
     }
 
 }
-*/
-
-var treeProgress = {
-    distributionsChecked: false,
-    subdistributionsChecked: false,
-    voucherTypeChecked: false
-
-}
-
-
-/*
- app.config(['$routeProvider', function($routeProvider){
- routeProvider.when('home/distributions', {templateUrl: 'views/wizardviews/Distributions.html', controller: DistributionsController}).otherwise({redirectTo: '/'});
- }]);
- */
-
-/*
- app.factory('WizardViewsService', ['ApplicationManagerDataProvider', function (ApplicationManagerDataProvider) {
- var dataFactory = {};
- dataFactory.getPrograms = function () {
- ApplicationManagerDataProvider.getPrograms().success(function (data) {
- var data = data["data"]["program"];
- $.getScript('include/ViewModels/Core/Program.js', function ()
- {
- var program = new Program();
- var programs = program.parseArray(data);  
- return programs; 
- });
- });
- };
- return dataFactory;
- }]);
- */
-
-
-
-//var tree = WizardTree;
 
 function GetHTML(htmlPage) {
     var fullPath = _BaseOutterHtmlPath + htmlPage;
@@ -178,13 +106,36 @@ function replaceElement(el) {
 }
 
 $(document).ready(function () {
-    //tree.Init($("#tree_1"));
+/*
+    var $root = $("#tree_1").jstree({
+        core: {
+            check_callback: true,
+            multiple : false
+        },
+        plugins: ["dnd"]
+    });
+
+    var tree = WizardTree;
+    tree.__Init($root);
+    tree.AddDistributions();
+    tree.AddSubdistribution({name: "Distribution1"});
+      tree.AddVendor({name: "Vendor1"});
+      tree.AddType({name: "Type1"});
+      
+      
+      
+        setTimeout( function(){ 
+    angular.bootstrap(document, ['app']);
+    alert("Done");
+  }
+ , 5000 );
+    */
     
     //$("#Subdistributions").attr("data-jstree", '{ "disabled" : true }');
-      //$("#tree_1").jstree("refresh");
+    //$("#tree_1").jstree("refresh");
     $("#tree_1").bind("select_node.jstree", function (event, data)
     {
-         
+
         var breadcrumb = [];
         var id = data.event.currentTarget.id;
         //console.log(id);
