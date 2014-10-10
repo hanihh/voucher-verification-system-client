@@ -18,7 +18,7 @@ function SetNodeRoute(node, url) {
 
 }
 
-app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', function ($scope, $state, WizardViewsService) {
+app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', 'SharedPropertiesService', function ($scope, $state, WizardViewsService, SharedPropertiesService) {
 
         var $WizardTree = {
             $tree: {},
@@ -45,6 +45,7 @@ app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', f
                 tree.jstree(true).create_node(subdistributionsNode, CreateNode(this.addNewSubdistributionsId, "Add New", "fa fa-plus-circle icon-state-danger"));
                 //SetNodeRoute(tree.jstree(true).get_node(this.addNewSubdistributionsId), "subdistribution");
 
+                //this.LoadSubdistributions();
 
                 tree.jstree(true).create_node(distributionsNode, CreateNode(this.vendorsId, "Vendors"));
                 vendorsNode = tree.jstree(true).get_node(this.vendorsId);
@@ -89,18 +90,16 @@ app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', f
                 //SetNodeRoute(tree.jstree(true).get_node(nodeObject.name + "Benes"), "");
             },
             LoadSubdistributions: function () {
-//                WizardViewsService.getSubdistributions().success(function (data) {
-//                    var data = data["data"]["subdistribution"];
-//                    var subdistribution = new Subdistribution();
-//                    var subdistributions = subdistribution.parseArray(data);
-//
-//
-//                    for (i = 0; i < subdistributions["length"]; i++) {
-//
-//                        tree.jstree(true).create_node(subdistributionsNode, CreateNode("Subdistribution" + subdistributions[i].id, subdistributions[i].code));
-//                        //SetNodeRoute(tree.jstree(true).get_node("Subdistribution" + subdistributions[i].id), "subdistribution/" + subdistributions[i].id);
-//                    }
-//                });
+                WizardViewsService.getSubdistributions().success(function (data) {
+                    var data = data["data"]["subdistribution"];
+                    console.log(data);
+
+                    for (i = 0; i < data["length"]; i++) {
+
+                        tree.jstree(true).create_node(subdistributionsNode, CreateNode("Subdistribution" + data[i].id, data[i].code));
+                        //SetNodeRoute(tree.jstree(true).get_node("Subdistribution" + subdistributions[i].id), "subdistribution/" + subdistributions[i].id);
+                    }
+                });
             }
         }
 
@@ -120,10 +119,6 @@ app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', f
         });
 
         var $tree = $WizardTree;
-        $tree.__Init($root);
-        $tree.AddDistributions();
-        $tree.AddSubdistribution({name: "Distribution1"});
-        $tree.AddVendor({name: "Vendor1"});
-        $tree.AddType({name: "Type1"});
-
+        $tree.__Init($root);        
+        SharedPropertiesService.setTree($tree);          
     }]);

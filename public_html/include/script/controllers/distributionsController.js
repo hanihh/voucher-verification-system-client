@@ -11,7 +11,7 @@ $.getScript('include/ViewModels/Core/Donor.js', function () {
 });
 
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
-app.controller('DistributionsController', ['$scope', '$rootScope', 'WizardViewsService', function ($scope, $rootScope, WizardViewsService) {                        
+app.controller('DistributionsController', ['$scope', '$rootScope', 'WizardViewsService', 'SharedPropertiesService', function ($scope, $rootScope, WizardViewsService, SharedPropertiesService) {                        
         //$scope.distribution = new Distribution();
   
   //Programs
@@ -36,7 +36,7 @@ app.controller('DistributionsController', ['$scope', '$rootScope', 'WizardViewsS
           
         $scope.Save = function (distribution) {                         
             console.log(distribution);
-             tree.AddDistributions();
+            SharedPropertiesService.getTree().AddDistributions();
            // WizardViewsService.createDistribution(distribution.parse($scope));
             
             //sharedProperties.setProperty('Checked');
