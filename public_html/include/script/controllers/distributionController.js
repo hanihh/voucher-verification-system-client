@@ -11,7 +11,7 @@ $.getScript('include/ViewModels/Core/Donor.js', function () {
 });
 
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
-app.controller('DistributionsController', ['$scope', '$rootScope', 'WizardViewsService', 'SharedPropertiesService', function ($scope, $rootScope, WizardViewsService, SharedPropertiesService) {                        
+app.controller('DistributionController', ['$scope', '$rootScope', 'WizardViewsService', 'SharedPropertiesService', function ($scope, $rootScope, WizardViewsService, SharedPropertiesService) {                        
         //$scope.distribution = new Distribution();
   
   //Programs

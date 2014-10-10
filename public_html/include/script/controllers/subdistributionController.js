@@ -5,7 +5,7 @@
  */
 
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
-app.controller('subdistributionsController', ['$scope', '$stateParams', 'WizardViewsService', function ($scope, $stateParams, WizardViewsService) {
+app.controller('subdistributionController', ['$scope', '$stateParams', 'WizardViewsService', function ($scope, $stateParams, WizardViewsService) {
         //Initializing Models for cascade select lists
 
         $.getScript('include/ViewModels/Core/Subdistribution.js', function () {
