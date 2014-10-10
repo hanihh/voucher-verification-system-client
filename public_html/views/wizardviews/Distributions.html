@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<div ng-controller='DistributionsController'>
+<div ng-controller='DistributionController'>
     <div class="portlet-body form">
         <form action="#" class="form-horizontal form-bordered" name="DistributionForm">
             <div class="form-body">             
@@ -20,7 +20,7 @@
                     <label class="control-label col-md-3">Start-End Date:</label>
                     <div class="col-md-4">
                         <div class="input-group" id="defaultrange">
-                            <input ng-model="distribution.date" type="text" class="form-control"  required>
+                            <input ng-model="distribution.dates" type="daterange" class="form-control"  required>
                             <span class="input-group-btn">
                                 <button class="btn default date-range-toggle" type="button"><i class="fa fa-calendar"></i></button>
                             </span>
@@ -57,7 +57,7 @@
 <script>
     jQuery(document).ready(function () {    
         Metronic.init();
-        ComponentsPickers.init();    
+        //ComponentsPickers.init();    
     });
    
 </script>
