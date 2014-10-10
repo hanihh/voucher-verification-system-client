@@ -28,20 +28,14 @@ app.controller('beneficiaryDistController', ['$scope', '$rootScope', 'WizardView
                 
                 
          var checkedBenesIds = [];            
-       $(".ChooseCheckBox").click(function(){
+       $(".ChooseCheckBox").live("click", function(){
            if ($(this).is(':checked'))
            {
-             checkedBenesIds.push($(this).attr("value"));
-             if ($("#tags_2").attr("value") == "")
-             {
-                    $("#tags_2").attr("value", $(this).attr("valueName"));
-             }
-             else{
-                    $("#tags_2").attr("value",  $("#tags_2").attr("value") + "," + $(this).attr("valueName"));
-             }
-           } else
-           {
-           alert($("#tags_2").attr("value"));
+                $('#tags_2').addTag($(this).attr("value"));
+                alert(1);
+                
+           } else {
+                $('#tags_2').removeTag($(this).attr("value"));
            }
         
        });
@@ -123,7 +117,7 @@ app.controller('beneficiaryDistController', ['$scope', '$rootScope', 'WizardView
       for(i=0; i<data.length; i++){
           var rowData = data[i];
           var rowRecord =[
-            '<input type="checkbox" class="ChooseCheckBox" name="'+ rowData['id'] +'" value="'+ rowData['id'] +'"valueName="' + rowData['en_name'] + '">',
+            '<input type="checkbox" class="ChooseCheckBox" name="'+ rowData['id'] +'" value="'+ rowData['registration_code'] +'"valueName="' + rowData['registration_code'] + '">',
             rowData.registration_code,
             rowData.en_name,
             rowData.father_name,
