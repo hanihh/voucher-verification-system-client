@@ -5,7 +5,7 @@
  */
 
 
-$.getScript("../Base.js", function () {
+$.getScript("include/ViewModels/Base.js", function () {
 });
 
 
@@ -19,37 +19,24 @@ var Subdistribution = Base.extend({
         this.create_date = "";
         this.delete_at = "";
         this.note = ""
-        this.community = "";
-        this.distribution_status = "";   
-        this.distribution_vouchers = [];
-        this.vendor_mobiles = [];
+        this.communityId = 0;
+         this.community = "";
     },
     
      parse: function(data){
             var subdistribution = new Subdistribution();
+           
+            var jsonObj = data; 
             
-            var jsonObj = JSON.parse(data);    
-            subdistribution.id = jsonObj.id;
-            subdistribution.code = jsonObj.code;
-            subdistribution.start_date = jsonObj.start_date;
-            subdistribution.end_date = jsonObj.end_date;
-            subdistribution.create_date = jsonObj.create_date;
-            subdistribution.delete_at = jsonObj.delete_at;
-            subdistribution.note = jsonObj.note;
-            subdistribution.community = jsonObj.community;
-            subdistribution.distribution_status = jsonObj.distribution_status;   
-                       
-            for (x in jsonObj.distribution_vouchers)
-            {
-                var distribution_voucher = new Distribution_voucher();           
-                subdistribution.distribution_vouchers.append(distribution_voucher.parse(x));
-            }
-          
-            for (x in jsonObj.vendor_mobiles)
-            {
-                var vendor_mobile = new Vendor_mobile();           
-                subdistribution.vendor_mobiles.append(vendor_mobile.parse(x));
-            }
+            subdistribution.id = jsonObj['id'];
+            subdistribution.code = jsonObj['code'];
+            subdistribution.start_date = jsonObj['start_date'];
+            subdistribution.end_date = jsonObj['end_date'];
+            subdistribution.create_date = jsonObj['create_date'];
+            subdistribution.delete_at = jsonObj['delete_at'];
+            subdistribution.note = jsonObj['note'];         
+            subdistribution.community = jsonObj['community']
+            subdistribution.communityId = jsonObj['community']['id'];
             
             return subdistribution;
         }

@@ -9,43 +9,53 @@
 app.factory('WizardViewsService', ['$http', function ($http) {
         var dataFactory = {};
         var server_url = "http://localhost:8080/vvs_v2/index.php/";
+
+        dataFactory.getSubdistributions = function (id) {
+            var _id = (id) ? id : "";
+            return $http({method: 'GET', url: server_url + 'api/subdistribution/' + _id});
+        };
         dataFactory.getPrograms = function () {
             return $http({method: 'GET', url: server_url + 'api/program'});
         };
         dataFactory.getDonors = function () {
             return $http({method: 'GET', url: server_url + 'api/donor'});
         };
-        dataFactory.getCountries = function () {
-            return $http({method: 'GET', url: server_url + 'api/country'});
+        dataFactory.getCountries = function (id) {
+            var _id = (id) ? id : "";
+            return $http({method: 'GET', url: server_url + 'api/country/' + _id});
         };
-        dataFactory.getGovernorates = function () {
-            return $http({method: 'GET', url: server_url + 'api/governorate'});
+        dataFactory.getGovernorates = function (id) {
+            var _id = (id) ? id : "";
+            return $http({method: 'GET', url: server_url + 'api/governorate/' + _id});
         };
-        dataFactory.getDistricts = function () {
-            return $http({method: 'GET', url: server_url + 'api/district'});
+        dataFactory.getDistricts = function (id) {
+            var _id = (id) ? id : "";
+            return $http({method: 'GET', url: server_url + 'api/district/' + _id});
         };
-        dataFactory.getSubdistricts = function () {
-            return $http({method: 'GET', url: server_url + 'api/subdistrict'});
+        dataFactory.getSubdistricts = function (id) {
+            var _id = (id) ? id : "";
+            return $http({method: 'GET', url: server_url + 'api/subdistrict/' + _id});
         };
-        dataFactory.getCommunities = function () {
-            return $http({method: 'GET', url: server_url + 'api/community'});
+        dataFactory.getCommunities = function (id) {
+            var _id = (id) ? id : "";
+            return $http({method: 'GET', url: server_url + 'api/community/' + _id});
         };
         dataFactory.getVoucherTypes = function () {
             return $http({method: 'GET', url: server_url + 'api/VoucherType'});
         };
         dataFactory.getBeneficiaries = function (filter) {
             /*http://localhost:8080/vvs_v2/index.php/api/Beneficiary/?filter = [
-                {"property": "registration_code", "value" : CFW0009, "operator": "in"}
-              , {"property": "en_name", "value" : "Mustafa", "operator": "in"}
-              , {"property": "birth_year", "value" : "1013-01-01", "operator": ">="}
-              , {"property": "birth_year", "value" : "2014-01-31", "operator": "<="}
-              ]*/
-          //  var filterString = ParseFilter(filter);       
-           var filterString = "";
+             {"property": "registration_code", "value" : CFW0009, "operator": "in"}
+             , {"property": "en_name", "value" : "Mustafa", "operator": "in"}
+             , {"property": "birth_year", "value" : "1013-01-01", "operator": ">="}
+             , {"property": "birth_year", "value" : "2014-01-31", "operator": "<="}
+             ]*/
+            //  var filterString = ParseFilter(filter);       
+            var filterString = "";
             return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/Beneficiary' + filterString});
         };
         dataFactory.getVendors = function () {
-             return $http({method: 'GET', url: server_url + 'api/Vendor'});
+            return $http({method: 'GET', url: server_url + 'api/Vendor'});
         };
         dataFactory.createDistribution = function (Distribution) {
             var stringify = JSON.stringify(Distribution);
