@@ -23,6 +23,7 @@ var ComponentsFormTools = function () {
         if (Metronic.isRTL()) {
           $('#typeahead_example_1').attr("dir", "rtl");  
         }
+        
         $('#typeahead_example_1').typeahead(null, {
           displayKey: 'num',
           hint: (Metronic.isRTL() ? false : true),
@@ -47,6 +48,7 @@ var ComponentsFormTools = function () {
         if (Metronic.isRTL()) {
           $('#typeahead_example_2').attr("dir", "rtl");  
         } 
+                
         $('#typeahead_example_2').typeahead(null, {
           name: 'typeahead_example_2',
           displayKey: 'name',

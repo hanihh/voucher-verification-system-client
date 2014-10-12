@@ -5,7 +5,7 @@
  */
 
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
-app.controller('subdistributionController', ['$scope', '$stateParams', 'WizardViewsService', function ($scope, $stateParams, WizardViewsService) {
+app.controller('subdistributionController', ['$scope', '$stateParams', 'WizardViewsService', 'SharedPropertiesService', function ($scope, $stateParams, WizardViewsService, SharedPropertiesService) {
         //Initializing Models for cascade select lists
 
         $.getScript('include/ViewModels/Core/Subdistribution.js', function () {
@@ -150,16 +150,12 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'WizardVi
                 $scope.subdist = subdistribution.parse(data);
                 var community = $scope.subdist.community;
 
-
-
                 // Subdistricts
                 WizardViewsService.getSubdistricts(community["subdistrict_id"]).success(function (data) {
                     var data = data["data"]["subdistrict"];
 
-
                     var subdistrict = new Subdistrict();
                     var subdistrict = subdistrict.parse(data);
-
 
                     // Districts
                     WizardViewsService.getDistricts(subdistrict["district_id"]).success(function (data) {
@@ -184,6 +180,14 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'WizardVi
                                 $scope.district = district;
                                 $scope.subdistrict = subdistrict;
                                 $scope.community = community;
+                                
+                                console.log($scope.country );
+                                console.log($scope.governorate) ;
+                                console.log($scope.district );
+                                console.log($scope.subdistrict) ;
+                                console.log($scope.community );
+                                
+                                
                             });
                         });
                     });
@@ -202,9 +206,9 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'WizardVi
         }
 
 
-        $scope.Save = function (subdist) {
-            //sharedProperties.setProperty('Checked');
-            TreeProgress.AddSubdistribution(subdist, true);
+        $scope.Save = function (subdistribution) {
+           //console.log(subdistribution);
+           SharedPropertiesService.getTree().AddSubdistribution(subdistribution);
         }
     }]);
 

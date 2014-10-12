@@ -7,7 +7,7 @@
 
 
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
-app.controller('VoucherTypeController', ['$scope', '$rootScope', 'WizardViewsService', function ($scope, $rootScope, WizardViewsService) {                        
+app.controller('VoucherTypeController', ['$scope', '$rootScope', 'WizardViewsService','SharedPropertiesService', function ($scope, $rootScope, WizardViewsService, SharedPropertiesService) {                        
         $scope.vouchType = {};
 
         $.getScript('include/ViewModels/Core/Voucher_type.js', function ()
@@ -24,10 +24,8 @@ app.controller('VoucherTypeController', ['$scope', '$rootScope', 'WizardViewsSer
      
         
         $scope.Save = function (vouchType) {
-            //sharedProperties.setProperty('Checked');
-            WizardViewsService.createDistribution(vouchType);
-            treeProgress.distributionsChecked = true;
-            //  alert($rootScope.treeProgress.distributionsChecked);
+                  //console.log(subdistribution);
+           SharedPropertiesService.getTree().AddType(vouchType);
         }
     }]);
 

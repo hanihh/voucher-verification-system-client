@@ -19,14 +19,11 @@ var Vendor = Base.extend({
         this.status = "";
         this.type = "";
         this.delete_at = "";
-        this.vouchers = [];
-        this.vendor_notes = [];
-        this.vendor_mobiles = [];
     },
     
      parse: function(data){
             var vendor = new Vendor();
-                    var jsonObj = data; 
+            var jsonObj = data; 
                               
             vendor.id = jsonObj['id'];
             vendor.en_name = jsonObj['en_name'];
@@ -36,25 +33,7 @@ var Vendor = Base.extend({
             vendor.status = jsonObj['status'];
             vendor.type = jsonObj['type'];
             vendor.delete_at = jsonObj['delete_at'];
-                /*       
-            for (x in jsonObj.vouchers)
-            {
-                var voucher = new Voucher();           
-                vendor.vouchers.append(voucher.parse(x));
-            }
-            
-            for (x in jsonObj.vendor_notes)
-            {
-                var vendor_note = new Vendor_note();
-                vendor.vendor_notes.append(vendor_note.parse(x));
-            }
-            
-             for (x in jsonObj.vendor_mobiles)
-            {
-                var vendor_mobile = new Vendor_mobile();
-                vendor.vendor_mobiles.append(vendor_mobile.parse(x));
-            }
-            */
+           
             return vendor;
         },
         

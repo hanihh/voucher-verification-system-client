@@ -5,7 +5,7 @@
  */
 
 
-$.getScript("../Base.js", function () {
+$.getScript("include/ViewModels/Base.js", function () {
 });
 
 
@@ -17,27 +17,33 @@ var Phone = Base.extend({
         this.imei = "";
         this.create_date = "";
         this.delete_at = "";
-        this.available = "";
-        this.vendor_mobiles = [];        
+        this.available = "";             
     },
     
      parse: function(data){
             var phone = new Phone();
             
-            var jsonObj = JSON.parse(data);    
-            phone.id = jsonObj.id;
-            phone.model = jsonObj.model;
-            phone.imei = jsonObj.imei;
-            phone.create_date = jsonObj/create_date;
-            phone.delete_at = jsonObj.delete_at;
-            phone.available = jsonObj.type;
-                       
-            for (x in jsonObj.vendor_mobiles)
-            {
-                var vendor_mobile = new Vendor_mobile();           
-                phone.vendor_mobiles.append(vendor_mobile.parse(x));
-            }
+            var jsonObj = data;    
+            phone.id = jsonObj['id'];
+            phone.model = jsonObj['model'];
+            phone.imei = jsonObj['imei'];
+            phone.create_date = jsonObj['create_date'];
+            phone.delete_at = jsonObj['delete_at'];
+            phone.available = jsonObj['type'];
             
             return phone;
+        },
+        
+    parseArray: function(array){
+        var parsedArray = [];  
+        var phone = new Phone();
+                 
+
+        for (i = 0; i < array["length"]; i++) {             
+            parsedArray.push(phone.parse(array[i]));
         }
+        
+           
+        return parsedArray;
+    }
 });

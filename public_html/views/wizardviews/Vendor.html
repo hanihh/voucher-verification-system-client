@@ -14,24 +14,25 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">IMEI</label>
+                    <label class="col-sm-3 control-label">Phones</label>
                     <div class="col-sm-4">
                         <div class="input-group">
                             <span class="input-group-addon">
                                 <i class="fa fa-search"></i>
                             </span>
-                            <input type="text" id="typeahead_example_2" name="typeahead_example_2" class="form-control" ng-model='vendor.imei' />
+                            <input type="text" id="typeahead_imei" class="form-control" />        
                         </div>
                         <p class="help-block">
-                            <code>E.g: 05675464</code>
+                            <code>E.g:</code>
                         </p>
                     </div>
                 </div>
 
-               <div class="form-group">
-                    <label class="control-label col-md-3">Phones</label>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">Chosen Phones</label>
                     <div class="col-md-6">
-                        <input id="tags_2" type="text" class="form-control tags medium" value="tag1,tag2"/>
+                        <input id="tags_2" type="text" class="form-control tags medium" ng-model='vendor.chosenPhones' value=""/>
                     </div>
                 </div>
 
@@ -45,12 +46,52 @@
 </div>
 
 <!-- Tags related PLUGINS -->
+<script src="include/theme/metronic/admin/pages/scripts/components-form-tools.js"></script>
 <script src="include/theme/metronic/global/plugins/jquery-tags-input/jquery.tagsinput.min.js" type="text/javascript"></script>
 <!-- END PLUGINS -->   
 
 <script>
-    jQuery(document).ready(function () {    
+    jQuery(document).ready(function () {
         Metronic.init(); // init metronic core components
-        ComponentsFormTools.init();        
+        ComponentsFormTools.init();
     });
+
+
+
+    function InitImeiTypeahead(phones) {
+        console.log(phones);
+        // constructs the suggestion engine
+        var phones = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            // `phones` is an array of phone names defined in "The Basics"
+            local: $.map(phones, function (phone) {
+                return {value: phone.imei};
+            })
+        });
+
+        // kicks off the loading/processing of `local` and `prefetch`
+        phones.initialize();
+
+        $('#typeahead_imei').typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 1
+
+        },
+        {
+            name: 'phones',
+            displayKey: 'value',
+            // `ttAdapter` wraps the suggestion engine in an adapter that
+            // is compatible with the typeahead jQuery plugin
+            source: phones.ttAdapter()
+        });
+
+        $('#typeahead_imei').on('typeahead:selected', function (e, data) {
+            $('#tags_2').addTag(data.value);
+            phones = "";
+        });
+        
+         $('#tags_2'),on()
+    }
 </script>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<!--<div ng-controller='subdistributionsController'>-->
+<!--<div ng-controller='subdistributionributionsController'>-->
 <div>
     <div class="portlet-body form">
         <form action="#" class="form-horizontal form-bordered">
@@ -9,13 +9,13 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">Code</label>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" ng-model="subdist.code" placeholder="Code...">
+                        <input type="text" class="form-control" ng-model="subdistribution.code" placeholder="Code...">
                     </div>
                 </div>  
                 <div class="form-group">
                     <label class="control-label col-md-3">Status</label>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" ng-model="subdist.status" placeholder="Pending" disabled >
+                        <input type="text" class="form-control" ng-model="subdistribution.status" placeholder="Pending" disabled >
                     </div>
                 </div> 
 
@@ -51,24 +51,24 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">Subdistrict</label>
                     <div class="col-md-4">
-                        <select class="form-control" data-placeholder="Select..." ng-model='subdistrict' ng-options='subdistrictItem.en_name for subdistrictItem in subdistrictItems| filter:{districtId: district.id}' required></select>										
+                        <select class="form-control" data-placeholder="Select..." ng-model='subdistributionrict' ng-options='subdistributionrictItem.en_name for subdistributionrictItem in subdistributionrictItems| filter:{districtId: district.id}' required></select>										
                     </div>
                 </div> 
                 <div class="form-group">
                     <label class="control-label col-md-3">Community</label>
                     <div class="col-md-4">
-                        <select class="form-control" data-placeholder="Select..." ng-model='community' ng-options='communityItem.en_name for communityItem in communityItems | filter:{subdistrictId: subdistrict.id}' required></select>										
+                        <select class="form-control" data-placeholder="Select..." ng-model='community' ng-options='communityItem.en_name for communityItem in communityItems | filter:{subdistributionrictId: subdistributionrict.id}' required></select>										
                     </div>
                 </div> 
                 <div class="form-group">
                     <label class="control-label col-md-3">Note</label>
                     <div class="col-md-4">
-                        <textarea class="form-control" rows="3" ng-model='subdist.note'></textarea>
+                        <textarea class="form-control" rows="3" ng-model='subdistribution.note'></textarea>
                     </div>
                 </div> 
                 <div class="form-group" style="float: right">
                     <button style="width:100px" type="button" class="btn red"><i class="fa fa-times"></i> Cancel</button>
-                    <button  style="width:100px" type="button" class="btn green" ng-click="Save(subdist)"><i class="fa fa-floppy-o"></i> Save</button>
+                    <button  style="width:100px" type="button" class="btn green" ng-click="Save(subdistribution)"><i class="fa fa-floppy-o"></i> Save</button>
                 </div>
             </div>   
         </form>

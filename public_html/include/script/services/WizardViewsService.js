@@ -57,6 +57,19 @@ app.factory('WizardViewsService', ['$http', function ($http) {
         dataFactory.getVendors = function () {
             return $http({method: 'GET', url: server_url + 'api/Vendor'});
         };
+         dataFactory.getPhones = function () {
+            return $http({method: 'GET', url: server_url + 'api/phone'});
+        };
+        dataFactory.createDistribution = function (Distribution) {
+            var stringify = JSON.stringify(Distribution);
+            console.log(stringify);
+            //return $http.post(server_url + 'api/distribution/', stringify);
+        };
+        dataFactory.createSubDistribution = function (Subdistribution) {
+            var stringify = JSON.stringify(Subdistribution);
+            console.log(stringify);
+            //return $http.post(server_url + 'api/distribution/', stringify);
+        };
         dataFactory.createDistribution = function (Distribution) {
             var stringify = JSON.stringify(Distribution);
             console.log(stringify);
