@@ -38,7 +38,7 @@
 
                 <div class="form-group" style="float: right">
                     <button style="width:100px" type="button" class="btn red"><i class="fa fa-times"></i> Cancel</button>
-                    <button  style="width:100px" type="button" class="btn green" ng-click="Save(vouchType)"><i class="fa fa-floppy-o"></i> Save</button>
+                    <button  style="width:100px" type="button" class="btn green" ng-click="Save(vendor)"><i class="fa fa-floppy-o"></i> Save</button>
                 </div>
             </div>   
         </form>
@@ -59,7 +59,6 @@
 
 
     function InitImeiTypeahead(phones) {
-        console.log(phones);
         // constructs the suggestion engine
         var phones = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
@@ -89,9 +88,7 @@
 
         $('#typeahead_imei').on('typeahead:selected', function (e, data) {
             $('#tags_2').addTag(data.value);
-            phones = "";
+
         });
-        
-         $('#tags_2'),on()
     }
 </script>

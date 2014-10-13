@@ -31,9 +31,7 @@ app.controller('beneficiaryDistController', ['$scope', '$rootScope', 'WizardView
        $(".ChooseCheckBox").live("click", function(){
            if ($(this).is(':checked'))
            {
-                $('#tags_2').addTag($(this).attr("value"));
-                alert(1);
-                
+                $('#tags_2').addTag($(this).attr("value"));               
            } else {
                 $('#tags_2').removeTag($(this).attr("value"));
            }

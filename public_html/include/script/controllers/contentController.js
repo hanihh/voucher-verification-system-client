@@ -35,7 +35,13 @@ app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', '
                 tree = _tree;
                 tree.jstree(true).create_node(tree, CreateNode(this.distributionsId, "Distributions"));
                 distributionsNode = tree.jstree(true).get_node(this.distributionsId);
-
+                console.log(distributionsNode );                                
+                
+   distributionsNode.data['class'] = 'tooltips';
+   distributionsNode.data['data-container'] = "body";
+distributionsNode.data['data-placement'] = "right";
+distributionsNode.data['data-html'] = "true";
+distributionsNode.data['data-original-title'] ="YOU SHOULD ADD VOUCHER TYPE FIRST";
                 SetNodeRoute(distributionsNode, "distributions");
             },
             AddDistributions: function () {
@@ -71,7 +77,9 @@ app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', '
                 //tree.jstree(true).select_node(nodeObject.name + "Types" + "AddNew");
 
                 tree.jstree(true).create_node(subdistributionNode, CreateNode(subdistribution.code + "Benes", "Beneficiaries"));
-                SetNodeRoute(tree.jstree(true).get_node(subdistribution.code + "Benes"), "BeneficiaryDist");
+                var subdistributionBeneficiary = tree.jstree(true).get_node(subdistribution.code + "Benes");
+                subdistributionBeneficiary.state.disabled = true;
+                SetNodeRoute(tree.jstree(true).get_node(subdistribution.code + "Benes"), "beneficiaryDist");
             },
             AddType: function (vouchType) {
                 
@@ -84,12 +92,12 @@ app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', '
                 //var subdistributionNode = tree.jstree(true).get_node(nodeObject.name);
 
             },
-            AddVendor: function (nodeObject) {
-                tree.jstree(true).create_node(vendorsNode, CreateNode(nodeObject.name, nodeObject.name));
-                var vendorNode = tree.jstree(true).get_node(nodeObject.name);
-                //SetNodeRoute(vendorNode, "");
+            AddVendor: function (vendor) {
+                tree.jstree(true).create_node(vendorsNode, CreateNode(vendor.name, vendor.name));
+                var vendorNode = tree.jstree(true).get_node(vendor.name);
+                SetNodeRoute(vendorNode, "vendor/" + vendor.id);
 
-                tree.jstree(true).create_node(vendorNode, CreateNode(nodeObject.name + "Benes", "Beneficiaries"));
+                tree.jstree(true).create_node(vendorNode, CreateNode(vendor.name + "Benes", "Beneficiaries"));
                 //SetNodeRoute(tree.jstree(true).get_node(nodeObject.name + "Benes"), "");
             },
             LoadSubdistributions: function () {
@@ -109,7 +117,7 @@ app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', '
 
         $("#tree_1").bind("select_node.jstree", function (event, data)
         {       
-            console.log(data.node);
+            //console.log(data.node);
             $state.go(data.node.a_attr['ui-sref']);
         });
 

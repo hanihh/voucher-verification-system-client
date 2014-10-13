@@ -1,7 +1,7 @@
 var ComponentsFormTools = function () {
 
     var handleTwitterTypeahead = function() {
-
+/*
         // Example #1
         // instantiate the bloodhound suggestion engine
         var numbers = new Bloodhound({
@@ -130,11 +130,11 @@ var ComponentsFormTools = function () {
                 header: '<h3>NHL Teams</h3>'
           }
         });
-
+*/
     }
 
     var handleTwitterTypeaheadModal = function() {
-
+/*
         // Example #1
         // instantiate the bloodhound suggestion engine
         var numbers = new Bloodhound({
@@ -260,7 +260,7 @@ var ComponentsFormTools = function () {
                 header: '<h3>NHL Teams</h3>'
           }
         });
-
+*/
     }
 
     var handleBootstrapSwitch = function() {

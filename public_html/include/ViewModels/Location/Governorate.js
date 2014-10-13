@@ -19,7 +19,7 @@ var Governorate = Base.extend({
     parse: function(data){
             var governorate = new Governorate();
             
-             var jsonObj = data;
+             var jsonObj = data;             
             governorate.id = jsonObj['id'];
             governorate.en_name = jsonObj['en_name'];
             governorate.ar_name = jsonObj['ar_name'];

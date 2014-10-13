@@ -32,11 +32,9 @@ app.controller('VendorController', ['$scope', '$rootScope', 'WizardViewsService'
            InitImeiTypeahead($scope.phones);
         });
 
-        $scope.Save = function (dist) {
-            //sharedProperties.setProperty('Checked');
-            WizardViewsService.createDistribution(dist);
-            treeProgress.distributionsChecked = true;
-            //  alert($rootScope.treeProgress.distributionsChecked);
+        $scope.Save = function (vendor) {
+         //console.log(subdistribution);
+           SharedPropertiesService.getTree().AddVendor(vendor);
         }
     }]);
 
