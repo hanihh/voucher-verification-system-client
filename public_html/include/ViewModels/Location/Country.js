@@ -8,10 +8,10 @@ $.getScript("include/ViewModels/Base.js", function () {
 });
 
 var Country = Base.extend({       
-    init: function(id, name, code) {
-        this.id = id;
-        this.name = name;
-        this.code = code;    
+    init: function() {
+        this.id = 0;
+        this.name = "";
+        this.code = "";    
         //this.governorates = [];
     }, 
     

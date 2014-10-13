@@ -16,11 +16,8 @@ var Subdistribution = Base.extend({
         this.code = "";
         this.start_date = "";
         this.end_date = "";
-        this.create_date = "";
-        this.delete_at = "";
         this.note = ""
-        this.communityId = 0;
-         this.community = "";
+        this.communityId = 0;         
     },
     
      parse: function(data){
@@ -32,10 +29,7 @@ var Subdistribution = Base.extend({
             subdistribution.code = jsonObj['code'];
             subdistribution.start_date = jsonObj['start_date'];
             subdistribution.end_date = jsonObj['end_date'];
-            subdistribution.create_date = jsonObj['create_date'];
-            subdistribution.delete_at = jsonObj['delete_at'];
-            subdistribution.note = jsonObj['note'];         
-            subdistribution.community = jsonObj['community']
+            subdistribution.note = jsonObj['note'];                     
             subdistribution.communityId = jsonObj['community']['id'];
             
             return subdistribution;

@@ -13,25 +13,38 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($
             templateUrl: 'views/home.html'
         }).state('distributions', {
             url: '/distributions',
+            controller: 'DistributionController',
             templateUrl: 'views/wizardviews/Distributions.html'
         }).state('subdistribution', {
-            url: '/subdistribution/:id',
+            url: '/subdistribution/',
+            params: [
+                {param1: {default: "", type:'integer'}}
+            ],
             controller: 'subdistributionController',
             templateUrl: 'views/wizardviews/Subdistribution.html'
         }).state('subdistributionsreport', {
             url: '/subdistributionsreport',
             templateUrl: 'views/wizardviews/SubdistributionsReport.html'
         }).state('vendor', {
-            url: '/vendor/:id',
+            url: '/vendor',
+            params: [
+                {param1: {default: "", type:'integer'}}
+            ],
+            controller: 'VendorController',
             templateUrl: 'views/wizardviews/vendor.html'
         }).state('vendorreport', {
             url: '/vendorreport',
-            templateUrl: 'views/wizardviews/vendorReport.html'
+            templateUrl: 'views/wizardviews/vendorsReport.html'
         }).state('vouchertype', {
-            url: '/vouchertype/:id',
-            templateUrl: 'views/wizardviews/vouchertype.html'
+            url: '/vouchertype',
+            params: [
+                {param1: {default: "", type:'integer'}}
+            ],
+            controller: 'VoucherTypeController',
+            templateUrl: 'views/wizardviews/vouchertype.html'            
         }).state('beneficiaryDist', {
             url: '/beneficiaryDist',
+            controller:'beneficiaryDistController',
             templateUrl: 'views/wizardviews/BeneficiaryDist.html'
         }).state('beneficiaryVendor', {
             url: '/beneficiaryVendor',

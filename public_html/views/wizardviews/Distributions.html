@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<div ng-controller='DistributionController'>
+
     <div class="portlet-body form">
         <form action="#" class="form-horizontal form-bordered" name="DistributionForm">
             <div class="form-body">             
@@ -29,19 +29,19 @@
                 </div>  
                 <div class="form-group">
                     <label class="control-label col-md-3">Online</label>
-                    <div class="col-md-9">
+                    <div class="col-md-4">
 
                         <input bs-switch ng-model="distribution.online" name="online-switch" type="checkbox" class="make-switch" data-on-text="&nbsp;Online&nbsp;" data-off-text="&nbsp;Offline&nbsp;" data-on="1" data-off="0" >
                     </div>
                 </div>         
-                <div class="form-group" style="float: right">
+                <div class="form-group" style="float:right">
                     <button style="width:100px" type="button" class="btn red"><i class="fa fa-times"></i> Cancel</button>
                     <button  style="width:100px" type="button" class="btn green" ng-click="Save(distribution)"><i class="fa fa-floppy-o"></i> Save</button>
                 </div>
             </div>   
         </form>
     </div>
-</div>
+
 
 <!-- Datetimepickers related PLUGINS -->
 <script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>

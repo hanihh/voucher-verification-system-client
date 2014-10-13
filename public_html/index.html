@@ -27,7 +27,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
         <link rel="stylesheet" type="text/css" href="include/css/app.css"/>
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
-     
+
         <link href="include/theme/metronic/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
         <link href="include/theme/metronic/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
 
@@ -98,7 +98,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- END HEADER -->
         <div class="clearfix">
         </div>
-       
+
         <!-- BEGIN CONTAINER -->
         <div class="page-container">
             <!-- BEGIN SIDEBAR -->
@@ -111,10 +111,10 @@ License: You must have a valid license purchased only from themeforest(the above
             </div>
             <!-- END SIDEBAR -->
             <!-- BEGIN CONTENT -->
-            
+
             <div class="page-content-wrapper">   
 
-                <div class="page-content" ng-controller="ContentController">    
+                <div class="page-content" ng-controller="ContentController" >    
                     <!-- Testing reloading Tree dynamically -->
                     <!--
                     <input type="button" id="btntreetest" value="testTree" />                    
@@ -147,63 +147,35 @@ License: You must have a valid license purchased only from themeforest(the above
                         <div class="portlet yellow-lemon box">
                             <div class="portlet-title">
                                 <div class="caption">
-                                    <i class="fa fa-cogs"></i>Wizard Tree
+                                    <i class="fa fa-cogs"></i>Distribution Tree
                                 </div>
-                                <div class="tools">
-                                    <a href="javascript:;" class="collapse">
-                                    </a>
-                                    <a href="#portlet-config" data-toggle="modal" class="config">
-                                    </a>
-                                    <a href="javascript:;" class="reload">
-                                    </a>
-                                    <a href="javascript:;" class="remove">
-                                    </a>
-                                </div>
+                                <!--                                <div class="tools">
+                                                                    <a href="javascript:;" class="collapse">
+                                                                    </a>
+                                                                    <a href="#portlet-config" data-toggle="modal" class="config">
+                                                                    </a>
+                                                                    <a href="javascript:;" class="reload">
+                                                                    </a>
+                                                                    <a href="javascript:;" class="remove">
+                                                                    </a>
+                                                                </div>-->
                             </div>                            
                             <div class="portlet-body" >                         
- 
-                                   <div id="tree_1" class="tree-demo">                                        
-                                       <!--
-                                    <ul>
-                                        <li  class="SystemNode" id="Distribution">
-                                            <a ui-sref="distributions" href="#">Distributions</a>
-                                            <ul>
-                                                <li data-jstree='{ "opened" : false  }' class="SystemNode" id="Subdistributions" >
-                                                    <a >Subdistributions</a>
-                                                    <ul  id="SubdistributionsList">                                                         
-                                                        <li data-jstree='{"icon" : "fa fa-plus-circle icon-state-danger"}' class="SystemNode" >
-                                                            <a ui-sref="subdistribution" href="#" id="newsubdistribution">Add New</a>
-                                                        </li>
-                                                        <li data-jstree='{ "type" : "file" }' class="SystemNode"  >
-                                                            <a ui-sref="beneficiaryDist" href="#" id="beneficiariesDist">Beneficiaries</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>                                        
-                                                <li data-jstree='{ "opened" : false }'>
-                                                    <a   class="SystemNode" id="vendors" >Vendors</a>
-                                                    <ul>
-                                                        <li data-jstree='{"icon" : "fa fa-plus-circle icon-state-danger"}' class="SystemNode" id="NewVendor">
-                                                            <a  ui-sref="vendor"  href="#">Add New</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>                                                                                                                                                           
-                                            </ul>
-                                        </li>                             
-                                    </ul>
-                                       -->
+
+                                <div id="tree_1" class="tree-demo">                                                                            
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="portlet box yellow-lemon col-md-9">
+                    <div class="portlet box yellow-lemon col-md-9" style="height:100%">
                         <div class="portlet-title">
                             <div class="caption">
                                 <i class="fa fa-gift"></i>Contents
                             </div>                            
                         </div>
-                        <div class="portlet-body" style="height: 100%">
-                            <div class="scroller" style="height:200px" data-rail-visible="1" data-rail-color="yellow" data-handle-color="#a1b2bd">
-                               
+                        <div class="portlet-body"  >
+                            <div class="scroller" style="min-height:450px;" data-rail-visible="1" data-rail-color="yellow" data-handle-color="#a1b2bd">
+
                                 <!--<div ng-include="'views/wizardviews/Distributions.html'" ></div> -->
                                 <div ui-view></div>                               
                             </div>
@@ -230,34 +202,34 @@ License: You must have a valid license purchased only from themeforest(the above
         <script src="include/theme/metronic/global/plugins/respond.min.js"></script>
         <script src="include/theme/metronic/global/plugins/excanvas.min.js"></script> 
         <![endif]-->
-       <script src="include/theme/metronic/global/plugins/jquery-1.11.0.min.js" type="text/javascript"></script>
+        <script src="include/theme/metronic/global/plugins/jquery-1.11.0.min.js" type="text/javascript"></script>
         <script src="include/theme/metronic/global/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script> 
-        
-       <script src="include/core/angular.js" type="text/javascript"></script>
-            <script src="include/core/angular-ui-router.js" type="text/javascript"></script>
-          
+
+        <script src="include/core/angular.js" type="text/javascript"></script>
+        <script src="include/core/angular-ui-router.js" type="text/javascript"></script>
+
         <!-- Importing Angular JS Scripts -->
         <script src="include/script/app.js" type="text/javascript"></script>
         <script src="include/script/app-config.js" type="text/javascript"></script>
         <!-- Controllers -->
-            <script src="include/script/controllers/contentController.js" type="text/javascript"></script>
-            <script src="include/script/controllers/distributionController.js" type="text/javascript"></script>
-            <script src="include/script/controllers/subdistributionController.js" type="text/javascript"></script>
-            <script src="include/script/controllers/vouchertypeController.js" type="text/javascript"></script>
-            <script src="include/script/controllers/beneficiaryDistController.js" type="text/javascript"></script>
-            <script src="include/script/controllers/vendorController.js" type="text/javascript"></script>
+        <script src="include/script/controllers/contentController.js" type="text/javascript"></script>
+        <script src="include/script/controllers/distributionController.js" type="text/javascript"></script>
+        <script src="include/script/controllers/subdistributionController.js" type="text/javascript"></script>
+        <script src="include/script/controllers/vouchertypeController.js" type="text/javascript"></script>
+        <script src="include/script/controllers/beneficiaryDistController.js" type="text/javascript"></script>
+        <script src="include/script/controllers/vendorController.js" type="text/javascript"></script>
         <!----------------->
-        
+
         <!-- Services -->
-            <script src="include/script/services/WizardViewsService.js" type="text/javascript"></script>
-            <script src="include/script/services/SharedPropertiesService.js" type="text/javascript"></script>
+        <script src="include/script/services/WizardViewsService.js" type="text/javascript"></script>
+        <script src="include/script/services/SharedPropertiesService.js" type="text/javascript"></script>
         <!----------------->
-        
+
         <!-- Directives -->
-            <script src="include/script/directives/bsSwitch.js" type="text/javascript"></script>
+        <script src="include/script/directives/bsSwitch.js" type="text/javascript"></script>
         <!----------------->
         <!----------------->
-                 
+
         <!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
         <script src="include/theme/metronic/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
         <script src="include/theme/metronic/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
@@ -328,50 +300,50 @@ License: You must have a valid license purchased only from themeforest(the above
         <script src="include/theme/metronic/global/plugins/typeahead/handlebars.min.js" type="text/javascript"></script>
         <script src="include/theme/metronic/global/plugins/typeahead/typeahead.bundle.min.js" type="text/javascript"></script>
         <script type="text/javascript" src="include/theme/metronic/global/plugins/ckeditor/ckeditor.js"></script>
-        
+
         <script src="include/theme/metronic/admin/pages/scripts/components-form-tools.js"></script>
         <!-- END PAGE LEVEL PLUGINS -->
-<!-- Unknown Scripts
-<script src="include/theme/metronic/global/plugins/jquery-tags-input/jquery.tagsinput.min.js" type="text/javascript"></script>
-<script src="include/theme/metronic/global/plugins/select2/select2.min.js" type="text/javascript"></script>
--->
+        <!-- Unknown Scripts
+        <script src="include/theme/metronic/global/plugins/jquery-tags-input/jquery.tagsinput.min.js" type="text/javascript"></script>
+        <script src="include/theme/metronic/global/plugins/select2/select2.min.js" type="text/javascript"></script>
+        -->
 
-<script>
-    jQuery(document).ready(function () {
-        // initiate layout and plugins
-        Metronic.init(); // init metronic core components
-        Layout.init(); // init current layout
-        QuickSidebar.init(); // init quick sidebar
-        Demo.init(); // init demo features
-      
-        Inbox.init();
-        //UITree.init();
-        
-      //  '<li data-jstree=\'{ "opened" : false  }\' class="SystemNode" id="Subdistributions" ><a >Subdistributions</a><ul  id="SubdistributionsList"><li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\' class="SystemNode" ><a ui-sref="subdistribution" href="#" id="newsubdistribution">Add New</a></li><li data-jstree=\'{ "type" : "file" }\' class="SystemNode"  ><a ui-sref="beneficiaryDist" href="#" id="beneficiariesDist">Beneficiaries</a></li></ul></li>'
-      // $.jstree.create($('#tree_1'), '<li data-jstree=\'{ "opened" : false  }\' class="SystemNode" id="Subdistributions" ><a >Subdistributions</a><ul  id="SubdistributionsList"><li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\' class="SystemNode" ><a ui-sref="subdistribution" href="#" id="newsubdistribution">Add New</a></li><li data-jstree=\'{ "type" : "file" }\' class="SystemNode"  ><a ui-sref="beneficiaryDist" href="#" id="beneficiariesDist">Beneficiaries</a></li></ul></li>');
-  //    $("#tree_1").create_node(["#Distributions", '<li data-jstree=\'{ "opened" : false  }\' class="SystemNode" id="Subdistributions" ><a >Subdistributions</a><ul  id="SubdistributionsList"><li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\' class="SystemNode" ><a ui-sref="subdistribution" href="#" id="newsubdistribution">Add New</a></li><li data-jstree=\'{ "type" : "file" }\' class="SystemNode"  ><a ui-sref="beneficiaryDist" href="#" id="beneficiariesDist">Beneficiaries</a></li></ul></li>', "first", function() {alert("Hello");}, ""]);
-  /* $('#tree_1').jstree(
-    "create_node", "tree_1", "first", '<li data-jstree=\'{ "opened" : false  }\' class="SystemNode" id="Subdistributions" ><a >Subdistributions</a><ul  id="SubdistributionsList"><li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\' class="SystemNode" ><a ui-sref="subdistribution" href="#" id="newsubdistribution">Add New</a></li><li data-jstree=\'{ "type" : "file" }\' class="SystemNode"  ><a ui-sref="beneficiaryDist" href="#" id="beneficiariesDist">Beneficiaries</a></li></ul></li>', true, false);
-  */
+        <script>
+                            jQuery(document).ready(function () {
+                                // initiate layout and plugins
+                                Metronic.init(); // init metronic core components
+                                Layout.init(); // init current layout
+                                QuickSidebar.init(); // init quick sidebar
+                                Demo.init(); // init demo features
 
-/*
-       var leafId = $root.jstree(true).create_node($root, "root1");
-        $leaf = $("#" + leafId);
-        leaf_node = $root.jstree(true).get_node("Subdistributions");
+                                Inbox.init();
+                                //UITree.init();
 
-       $root.jstree(true).create_node(leaf_node, "sub1");
-       $root.jstree(true).create_node($leaf, "sub2");
+                                //  '<li data-jstree=\'{ "opened" : false  }\' class="SystemNode" id="Subdistributions" ><a >Subdistributions</a><ul  id="SubdistributionsList"><li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\' class="SystemNode" ><a ui-sref="subdistribution" href="#" id="newsubdistribution">Add New</a></li><li data-jstree=\'{ "type" : "file" }\' class="SystemNode"  ><a ui-sref="beneficiaryDist" href="#" id="beneficiariesDist">Beneficiaries</a></li></ul></li>'
+                                // $.jstree.create($('#tree_1'), '<li data-jstree=\'{ "opened" : false  }\' class="SystemNode" id="Subdistributions" ><a >Subdistributions</a><ul  id="SubdistributionsList"><li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\' class="SystemNode" ><a ui-sref="subdistribution" href="#" id="newsubdistribution">Add New</a></li><li data-jstree=\'{ "type" : "file" }\' class="SystemNode"  ><a ui-sref="beneficiaryDist" href="#" id="beneficiariesDist">Beneficiaries</a></li></ul></li>');
+                                //    $("#tree_1").create_node(["#Distributions", '<li data-jstree=\'{ "opened" : false  }\' class="SystemNode" id="Subdistributions" ><a >Subdistributions</a><ul  id="SubdistributionsList"><li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\' class="SystemNode" ><a ui-sref="subdistribution" href="#" id="newsubdistribution">Add New</a></li><li data-jstree=\'{ "type" : "file" }\' class="SystemNode"  ><a ui-sref="beneficiaryDist" href="#" id="beneficiariesDist">Beneficiaries</a></li></ul></li>', "first", function() {alert("Hello");}, ""]);
+                                /* $('#tree_1').jstree(
+                                 "create_node", "tree_1", "first", '<li data-jstree=\'{ "opened" : false  }\' class="SystemNode" id="Subdistributions" ><a >Subdistributions</a><ul  id="SubdistributionsList"><li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\' class="SystemNode" ><a ui-sref="subdistribution" href="#" id="newsubdistribution">Add New</a></li><li data-jstree=\'{ "type" : "file" }\' class="SystemNode"  ><a ui-sref="beneficiaryDist" href="#" id="beneficiariesDist">Beneficiaries</a></li></ul></li>', true, false);
+                                 */
 
-       $root.jstree(true).create_node($root, "root2");
-
-       console.log(leaf_node);
-       console.log($leaf);
-       
-      //  console.log($.jstree.focused().select_node("#Distributions"); 
-       console.log(jQuery("#tree_1").jstree("select_node", "Distributions") );
-       */
-    });
-</script>
+                                /*
+                                 var leafId = $root.jstree(true).create_node($root, "root1");
+                                 $leaf = $("#" + leafId);
+                                 leaf_node = $root.jstree(true).get_node("Subdistributions");
+                         
+                                 $root.jstree(true).create_node(leaf_node, "sub1");
+                                 $root.jstree(true).create_node($leaf, "sub2");
+                         
+                                 $root.jstree(true).create_node($root, "root2");
+                         
+                                 console.log(leaf_node);
+                                 console.log($leaf);
+                         
+                                 //  console.log($.jstree.focused().select_node("#Distributions"); 
+                                 console.log(jQuery("#tree_1").jstree("select_node", "Distributions") );
+                                 */
+                            });
+        </script>
         <!-- END JAVASCRIPTS -->
     </body>
     <!-- END BODY -->

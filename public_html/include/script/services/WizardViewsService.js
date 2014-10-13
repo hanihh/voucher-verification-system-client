@@ -65,15 +65,22 @@ app.factory('WizardViewsService', ['$http', function ($http) {
             console.log(stringify);
             //return $http.post(server_url + 'api/distribution/', stringify);
         };
-        dataFactory.createSubDistribution = function (Subdistribution) {
-            var stringify = JSON.stringify(Subdistribution);
-            console.log(stringify);
-            //return $http.post(server_url + 'api/distribution/', stringify);
-        };
         dataFactory.createDistribution = function (Distribution) {
             var stringify = JSON.stringify(Distribution);
             console.log(stringify);
             //return $http.post(server_url + 'api/distribution/', stringify);
+        };
+        dataFactory.createSubDistribution = function (Subdistribution) {
+            //var stringify = JSON.stringify(Subdistribution);
+            //console.log(stringify);
+            $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+              return $http({method: 'POST', url: server_url + 'api/subdistribution', data: Subdistribution});
+        };
+     dataFactory.createSubdistributionVoucher = function (voucherType) {
+            //var stringify = JSON.stringify(Subdistribution);
+            //console.log(stringify);      
+             $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+                  return $http({method: 'POST', url: server_url + 'api/distributionvoucher', data: voucherType});
         };
         /*
          dataFactory.updateUsersFields = function (filedsObj) {

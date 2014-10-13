@@ -21,29 +21,21 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'WizardVi
         $.getScript('include/ViewModels/Location/Community.js', function () {
         });
 
-        var id = ($stateParams) ? $stateParams.id : null;
-        $scope.subdistribution = {};
-
-        $scope.subdistribution.country = {
-            id: 0
-        };
-        $scope.subdistribution.governorate = {
-            id: 0
-        };
-        $scope.subdistribution.district = {
-            id: 0
-        };
-        $scope.subdistribution.subdistrict = {
-            id: 0
-        };
-        $scope.subdistribution.community = {
-            id: 0
+        //var id = ($stateParams) ? $stateParams.id : null;
+        $scope.subdistribution = {
+            code:"",
+            date:"",           
+            country: {id: 0},
+            governorate: {id: 0},
+            district: {id: 0},
+            subdistrict: {id: 0},
+            community: {id: 0}
         };
 
         //--- Watching cascade select lists models ---//
         $scope.$watch('subdistribution.country', function (newVal, oldVal) {
             if (newVal != oldVal)
-            {        
+            {
                 $scope.subdistribution.governorate = {};
                 $scope.subdistribution.district = {};
                 $scope.subdistribution.subdistrict = {};
@@ -143,74 +135,91 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'WizardVi
             $scope.communityItems = community.parseArray(data);
         });
 
+        /*
+         if (id)
+         {
+         WizardViewsService.getSubdistributions(id).success(function (data) {
+         var data = data["data"]["subdistribution"];
+         var subdistribution = new Subdistribution();
+         $scope.subdistribution = subdistribution.parse(data);
+         var community = $scope.subdistribution.community;
+         
+         // Subdistricts
+         WizardViewsService.getSubdistricts(community["subdistrict_id"]).success(function (data) {
+         var data = data["data"]["subdistrict"];
+         
+         var subdistrict = new Subdistrict();
+         var subdistrict = subdistrict.parse(data);
+         
+         // Districts
+         WizardViewsService.getDistricts(subdistrict["district_id"]).success(function (data) {
+         var data = data["data"]["district"];
+         var district = new District();
+         var district = district.parse(data);
+         
+         // Governorates
+         WizardViewsService.getGovernorates(district["governorate_id"]).success(function (data) {
+         var data = data["data"]["governorate"];
+         var governorate = new Governorate();
+         var governorate = governorate.parse(data);
+         
+         
+         WizardViewsService.getCountries(governorate["country_id"]).success(function (data) {
+         var data = data["data"]["country"];
+         var country = new Country();
+         var country = country.parse(data);
+         
+         $scope.subdistribution.country = country;
+         $scope.subdistribution.governorate = governorate;
+         $scope.subdistribution.district = district;
+         $scope.subdistribution.subdistrict = subdistrict;
+         $scope.subdistribution.community = community;
+         
+         //                                console.log($scope.country );
+         //                                console.log($scope.governorate) ;
+         //                                console.log($scope.district );
+         //                                console.log($scope.subdistrict) ;
+         //                                console.log($scope.community );
+         
+         
+         });
+         });
+         });
+         });
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         });
+         }
+         */
 
-        if (id)
-        {
-            WizardViewsService.getSubdistributions(id).success(function (data) {
-                var data = data["data"]["subdistribution"];
-                var subdistribution = new Subdistribution();
-                $scope.subdistribution = subdistribution.parse(data);
-                var community = $scope.subdistribution.community;
-
-                // Subdistricts
-                WizardViewsService.getSubdistricts(community["subdistrict_id"]).success(function (data) {
-                    var data = data["data"]["subdistrict"];
-
-                    var subdistrict = new Subdistrict();
-                    var subdistrict = subdistrict.parse(data);
-
-                    // Districts
-                    WizardViewsService.getDistricts(subdistrict["district_id"]).success(function (data) {
-                        var data = data["data"]["district"];
-                        var district = new District();
-                        var district = district.parse(data);
-
-                        // Governorates
-                        WizardViewsService.getGovernorates(district["governorate_id"]).success(function (data) {
-                            var data = data["data"]["governorate"];
-                            var governorate = new Governorate();
-                            var governorate = governorate.parse(data);
-
-
-                            WizardViewsService.getCountries(governorate["country_id"]).success(function (data) {
-                                var data = data["data"]["country"];
-                                var country = new Country();
-                                var country = country.parse(data);
-
-                                $scope.subdistribution.country = country;
-                                $scope.subdistribution.governorate = governorate;
-                                $scope.subdistribution.district = district;
-                                $scope.subdistribution.subdistrict = subdistrict;
-                                $scope.subdistribution.community = community;
-                                
-//                                console.log($scope.country );
-//                                console.log($scope.governorate) ;
-//                                console.log($scope.district );
-//                                console.log($scope.subdistrict) ;
-//                                console.log($scope.community );
-                                
-                                
-                            });
-                        });
-                    });
-                });
-
-
-
-
-
-
-                // Countries
-
-
-
+        $scope.Save = function (subdistribution) {
+            var model = {         
+                code: subdistribution.code,
+                note: subdistribution.note,
+                //start_date: subdistribution.start_date,
+                //end_date: subdistribution.end_date,
+                start_date: "2014",
+                end_date: "2015",
+                status_id: "4", //Pending
+                community_id: subdistribution.community.id,
+                distribution_id: SharedPropertiesService.getDistributionId()
+            }
+           
+            WizardViewsService.createSubDistribution(model).success(function (data) {
+                  var id = data["data"]["subdistribution"]["id"];
+                  model.id = id;
+                  SharedPropertiesService.getTree().AddSubdistribution(model);
             });
-        }
-
-
-        $scope.Save = function (subdistribution) {            
-           console.log(subdistribution);
-           SharedPropertiesService.getTree().AddSubdistribution(subdistribution);
+                           
+         
         }
     }]);
 

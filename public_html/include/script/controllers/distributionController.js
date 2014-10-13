@@ -37,7 +37,9 @@ app.controller('DistributionController', ['$scope', '$rootScope', 'WizardViewsSe
         $scope.Save = function (distribution) {
             //console.log(distribution);
             SharedPropertiesService.getTree().AddDistributions();
-
+            //Id should be from the post's returning value
+            var id = 1;
+            SharedPropertiesService.setDistributionId(id);
         }
     }]);
 

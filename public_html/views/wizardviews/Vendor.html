@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<div ng-controller='VendorController'>
+
     <div class="portlet-body form">
         <form action="#" class="form-horizontal form-bordered">
             <div class="form-body">  
@@ -43,7 +43,7 @@
             </div>   
         </form>
     </div>
-</div>
+
 
 <!-- Tags related PLUGINS -->
 <script src="include/theme/metronic/admin/pages/scripts/components-form-tools.js"></script>
@@ -86,9 +86,8 @@
             source: phones.ttAdapter()
         });
 
-        $('#typeahead_imei').on('typeahead:selected', function (e, data) {
-            $('#tags_2').addTag(data.value);
-
+        $('#typeahead_imei').on('typeahead:selected', function (e, data) {        
+            $('#tags_2').addTag(data.value);            
         });
     }
 </script>

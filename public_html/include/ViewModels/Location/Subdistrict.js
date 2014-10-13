@@ -8,11 +8,11 @@ $.getScript("include/ViewModels/Base.js", function () {
 });
 
 var Subdistrict = Base.extend({
-    init: function(id, code, ar_name, en_name) {
-        this.id = id;
-        this.code = code;
-        this.ar_name = ar_name;
-        this.en_name = en_name;
+    init: function() {
+        this.id = 0;
+        this.code = "";
+        this.ar_name = "";
+        this.en_name = "";
         this.districtId = 0;                           
         //this.communities = [];       
     },

@@ -9,11 +9,11 @@ $.getScript("include/ViewModels/Base.js", function () {
 
 var Community = Base.extend({
 
-    init: function(id, code, ar_name, en_name) {
-        this.id = id;
-        this.code = code;   
-        this.en_name = en_name;
-        this.ar_name = ar_name;
+    init: function() {
+        this.id = 0;
+        this.code = "";   
+        this.en_name = "";
+        this.ar_name = "";
         this.subdistrictId = 0;
         //this.beneficiaries = [];       
         //this.subdistributions = [];

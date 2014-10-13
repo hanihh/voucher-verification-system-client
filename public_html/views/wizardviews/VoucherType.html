@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 
-<div ng-controller='VoucherTypeController'>
+
     <div class="portlet-body form">
         <form action="#" class="form-horizontal form-bordered">
             <div class="form-body">  
-
-
                 <div class="form-group">
                     <label class="control-label col-md-3">Type</label>
                     <div class="col-md-4">
-                        <select class="form-control input-medium select2me" data-placeholder="Select..." ng-model='vouchType.type' ng-options='voucherTypeItem.name for voucherTypeItem in voucherTypeItems'></select><!--track by voucherTypeItem.id-->
+                            <select class="form-control input-medium select2me" data-placeholder="Select..." ng-model='vouchType.type' ng-options='voucherTypeItem as voucherTypeItem.name for voucherTypeItem in voucherTypeItems'></select><!--track by voucherTypeItem.id-->
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label col-md-3">Expiration Date</label>
                     <div class="col-md-3">
-                        <input class="form-control form-control-inline input-medium date-picker" size="16" type="text" value="" ng-model='vouchType.expireData'/>
+                        <input class="form-control form-control-inline input-medium date-picker" size="16" type="text" value="" ng-model='vouchType.expireDate'/>
                         <span class="help-block">
                             Select date </span>
                     </div>
@@ -24,24 +22,38 @@
 
                 <div class="form-group">
                     <label class="control-label col-md-3">Value</label>
-                    <div class="col-md-9">
+                    <div class="col-md-3">
                         <div class="input-inline input-medium">
                             <input id="touchspin" type="text" name="touchspin" class="form-control" ng-model='vouchType.value'>
                         </div>                     
                     </div>
                 </div>
 
-                <div class="form-group" style="float: right">
+                <div class="form-group" style="float:right;" >
                     <button style="width:100px" type="button" class="btn red"><i class="fa fa-times"></i> Cancel</button>
                     <button  style="width:100px" type="button" class="btn green" ng-click="Save(vouchType)"><i class="fa fa-floppy-o"></i> Save</button>
                 </div>
             </div>   
         </form>
     </div>
-</div>
 
+<!-- Datetimepickers related PLUGINS -->
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/clockface/js/clockface.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-daterangepicker/moment.min.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="include/theme/metronic/admin/pages/scripts/components-pickers.js"></script>
+<!-- END PLUGINS -->
 
 <script>
+     jQuery(document).ready(function () {
+                            Metronic.init();
+                            ComponentsPickers.init();    
+                        });
+                        
      $("input[name='touchspin']").TouchSpin({
                 min: 0,
                 max: 10000000000,
