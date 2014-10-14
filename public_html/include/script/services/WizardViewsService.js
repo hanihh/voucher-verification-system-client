@@ -8,7 +8,7 @@
 
 app.factory('WizardViewsService', ['$http', function ($http) {
         var dataFactory = {};
-        var server_url = "http://localhost:8080/vvs_v2/index.php/";
+        var server_url = "http://localhost/vvs_v2/index.php/";
 
         dataFactory.getSubdistributions = function (id) {
             var _id = (id) ? id : "";
@@ -52,7 +52,7 @@ app.factory('WizardViewsService', ['$http', function ($http) {
              ]*/
             //  var filterString = ParseFilter(filter);       
             var filterString = "";
-            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/Beneficiary' + filterString});
+            return $http({method: 'GET', url: server_url + 'api/Beneficiary' + filterString});
         };
         dataFactory.getVendors = function () {
             return $http({method: 'GET', url: server_url + 'api/Vendor'});
