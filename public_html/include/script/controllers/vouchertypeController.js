@@ -7,11 +7,11 @@
 
 
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
-app.controller('VoucherTypeController', ['$scope', '$rootScope', 'WizardViewsService','SharedPropertiesService', function ($scope, $rootScope, WizardViewsService, SharedPropertiesService) {                        
+app.controller('VoucherTypeController', ['$scope', '$rootScope', 'WizardViewsService', 'SharedPropertiesService', function ($scope, $rootScope, WizardViewsService, SharedPropertiesService) {
         $scope.vouchType = {
-            type:"",
-            expireDate:"",
-            value:""
+            type: "",
+            expireDate: SharedPropertiesService.getDistributionEndDate(),
+            value: ""
         };
 
         $.getScript('include/ViewModels/Core/Voucher_type.js', function ()
@@ -25,23 +25,23 @@ app.controller('VoucherTypeController', ['$scope', '$rootScope', 'WizardViewsSer
             });
         });
 
-     
-        
+
+
         $scope.Save = function (vouchType) {
             var model = {
                 type_id: vouchType.type.id,
                 expiration_date: vouchType.expireDate,
-                value: vouchType.value,                              
+                value: vouchType.value,
                 subdistribution_id: SharedPropertiesService.getSubdistributionIdForNewVoucherValue()
             }
-                              
-                 WizardViewsService.createSubdistributionVoucher(model).success(function (data) {
-                     console.log(data);
-                        var id = data["data"]["distributionvoucher"]["id"];
-                        model.id = id;
-                        model.type=vouchType.type;
-                    SharedPropertiesService.getTree().AddType(model);
-                  }); 
+
+            WizardViewsService.createSubdistributionVoucher(model).success(function (data) {
+                console.log(data);
+                var id = data["data"]["distributionVoucher"]["id"];
+                model.id = id;
+                model.type = vouchType.type;
+                SharedPropertiesService.getTree().AddType(model);
+            });
         }
     }]);
 

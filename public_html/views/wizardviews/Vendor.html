@@ -9,7 +9,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">Vendor</label>
                     <div class="col-md-4">
-                        <select class="form-control input-medium select2me" data-placeholder="Select..." ng-model='vendor.vendor' ng-options='vendorItem.name for vendorItem in vendorItems track by vendorItem.id' required></select>
+                        <select class="form-control input-medium select2me" data-placeholder="Select..." ng-model='vendor.vendor' ng-options='vendorItem as vendorItem.en_name for vendorItem in vendorItems' required></select>
                     </div>
                 </div>
 
@@ -32,7 +32,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">Chosen Phones</label>
                     <div class="col-md-6">
-                        <input id="tags_2" type="text" class="form-control tags medium" ng-model='vendor.chosenPhones' value=""/>
+                        <input id="tagsChosen" type="text" class="form-control tags medium" ng-model='vendor.chosenPhones' value=""/>
                     </div>
                 </div>
 
@@ -54,6 +54,12 @@
     jQuery(document).ready(function () {
         Metronic.init(); // init metronic core components
         ComponentsFormTools.init();
+                
+        $("#tagsChosen").tagsInput({   
+            'minChars' : 0,
+            'onRemoveTag':function(data){console.log(data);},
+            'onAddTag':function(data){console.log(data);}
+        });
     });
 
 
@@ -76,7 +82,6 @@
             hint: true,
             highlight: true,
             minLength: 1
-
         },
         {
             name: 'phones',
@@ -86,8 +91,9 @@
             source: phones.ttAdapter()
         });
 
-        $('#typeahead_imei').on('typeahead:selected', function (e, data) {        
-            $('#tags_2').addTag(data.value);            
+        $('#typeahead_imei').on('typeahead:selected', function (e, data) {    
+            if ($('#tagsChosen').attr('value').indexOf(data.value ) < 0)            
+                $('#tagsChosen').addTag(data.value);            
         });
     }
 </script>

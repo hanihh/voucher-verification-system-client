@@ -12,14 +12,11 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($
             url: "/home",
             templateUrl: 'views/home.html'
         }).state('distributions', {
-            url: '/distributions',
+            url: '/distributions/:id',                
             controller: 'DistributionController',
             templateUrl: 'views/wizardviews/Distributions.html'
         }).state('subdistribution', {
-            url: '/subdistribution/',
-            params: [
-                {param1: {default: "", type:'integer'}}
-            ],
+            url: '/subdistribution/:id',           
             controller: 'subdistributionController',
             templateUrl: 'views/wizardviews/Subdistribution.html'
         }).state('subdistributionsreport', {
@@ -28,7 +25,7 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($
         }).state('vendor', {
             url: '/vendor',
             params: [
-                {param1: {default: "", type:'integer'}}
+                {id: {default: "", type:'integer'}}
             ],
             controller: 'VendorController',
             templateUrl: 'views/wizardviews/vendor.html'
@@ -38,7 +35,7 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($
         }).state('vouchertype', {
             url: '/vouchertype',
             params: [
-                {param1: {default: "", type:'integer'}}
+                {id: {default: "", type:'integer'}}
             ],
             controller: 'VoucherTypeController',
             templateUrl: 'views/wizardviews/vouchertype.html'            

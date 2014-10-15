@@ -3,17 +3,39 @@
 
     <div class="portlet-body form">
         <form action="#" class="form-horizontal form-bordered" name="DistributionForm">
-            <div class="form-body">             
+            <div class="form-body">  
+                <div class="form-group">
+                    <label class="control-label col-md-3">Name</label>
+                    <div class="col-md-4">                  
+                       <input type="text" class="form-control" ng-model="distribution.name" placeholder="Name...">
+                    </div>
+                </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3">Title in English</label>
+                    <div class="col-md-4">                  
+                       <input type="text" class="form-control" ng-model="distribution.title_en" placeholder="Title...">
+                    </div>
+                </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3">Title in Arabic</label>
+                    <div class="col-md-4">                  
+                       <input type="text" class="form-control" ng-model="distribution.title_ar" placeholder="Title...">
+                    </div>
+                </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Program</label>
                     <div class="col-md-4">                  
-                        <select class="form-control" data-placeholder="Select..." ng-model='distribution.program' ng-options='programItem.name for programItem in programItems track by programItem.id' required></select>										
+                        <select class="form-control" data-placeholder="Select..." ng-model='distribution.program_id' ng-options='programItem.id as programItem.name for programItem in programItems' required>
+                              <option value="">Select...</option>
+                        </select>										
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Donor</label>
                     <div class="col-md-4">
-                        <select class="form-control" data-placeholder="Select..." ng-model='distribution.donor' ng-options='donorItem.name for donorItem in donorItems track by donorItem.id' required></select>											
+                        <select class="form-control" data-placeholder="Select..." ng-model='distribution.donor_id' ng-options='donorItem.id as donorItem.name for donorItem in donorItems' required>
+                                      <option value="">Select...</option>
+                        </select>											
                     </div>
                 </div>               
                 <div class="form-group">
@@ -31,7 +53,7 @@
                     <label class="control-label col-md-3">Online</label>
                     <div class="col-md-4">
 
-                        <input bs-switch ng-model="distribution.online" name="online-switch" type="checkbox" class="make-switch" data-on-text="&nbsp;Online&nbsp;" data-off-text="&nbsp;Offline&nbsp;" data-on="1" data-off="0" >
+                        <input ng-model="distribution.online" id="online-switch" name="online-switch" type="checkbox" data-on-text="&nbsp;Online&nbsp;" data-off-text="&nbsp;Offline&nbsp;" checked>
                     </div>
                 </div>         
                 <div class="form-group" style="float:right">
@@ -57,7 +79,8 @@
 <script>
                         jQuery(document).ready(function () {
                             Metronic.init();
-                            //ComponentsPickers.init();    
+                            ComponentsPickers.init();   
+                             $('#online-switch').bootstrapSwitch();
                         });
 
 </script>

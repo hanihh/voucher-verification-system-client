@@ -97,7 +97,7 @@
                 <div class="form-group" style="position: fixed; bottom: 20.00%; right: 3.22222222%;">
                     <label class="control-label col-md-3">Chosen Beneficiaries</label>
                     <div class="col-md-6">
-                        <input id="tags_2" type="text" class="form-control tags medium" value="" />
+                        <input id="tagsChosen" type="text" class="form-control tags medium" value="" />
                     </div>
                 </div>
 
@@ -139,5 +139,10 @@
     jQuery(document).ready(function () {    
         Metronic.init(); // init metronic core components
         ComponentsFormTools.init();                      
+        
+         $("#tagsChosen").tagsInput({
+              'height':'100px',
+                'width':'300px'   
+        });
     });
 </script>

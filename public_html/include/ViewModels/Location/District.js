@@ -24,7 +24,7 @@ var District = Base.extend({
         district.en_name = jsonObj['en_name'];
         district.ar_name = jsonObj['ar_name'];
         district.code = jsonObj['code'];
-        district.governorateId = jsonObj['governerate_id'];
+        district.governorateId = jsonObj['governorate_id'];
         /*
         for(x in jsonObj.subdistricts)
         {

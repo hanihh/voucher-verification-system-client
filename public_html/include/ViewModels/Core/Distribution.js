@@ -13,31 +13,30 @@ var Distribution = Base.extend({
 
     init: function() {
         this.id = "";
+        this.name = "";
+        this.en_title = "";
+        this.ar_title = "";
         this.start_date = "";
         this.end_date = "";
         this.online = "";
-        this.program = 0;
-        this.donor = 0;
+        this.program_id = 0;
+        this.donor_id = 0;
         //this.subdistributions = [];
     },
     
      parse: function(data){
             var distribution = new Distribution();
             
-            var jsonObj = JSON.parse(data);    
-            distribution.id = jsonObj['id'];          
+            var jsonObj = data;    
+            distribution.id = jsonObj['id'];   
+                  distribution.name = jsonObj['name'];  
+            distribution.title_en = jsonObj['title_en'];   
+            distribution.title_ar = jsonObj['title_ar'];        
             distribution.start_date = jsonObj['start_date'];
             distribution.end_date = jsonObj['end_date'];
             distribution.online = jsonObj['online'];
-            distribution.program = jsonObj['program']['id'];
-            distribution.donor = jsonObj['donor']['id'];
-        /*
-            for (x in jsonObj.subdistributions)
-            {
-                var subdistribution = new Subdistribution();           
-                distribution.subdistributions.append(subdistribution.parse(x));
-            }
-          */
+            distribution.program_id = jsonObj['program']["id"];
+            distribution.donor_id = jsonObj['donor']["id"];
         
             return distribution;
         }

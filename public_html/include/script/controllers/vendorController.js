@@ -7,8 +7,11 @@
 
 
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
-app.controller('VendorController', ['$scope', '$rootScope', 'WizardViewsService', function ($scope, $rootScope, WizardViewsService) {
-        $scope.dist = {};
+app.controller('VendorController', ['$scope', 'WizardViewsService', 'SharedPropertiesService', function ($scope, WizardViewsService, SharedPropertiesService) {
+        $scope.vendor = {
+            vendor:"",
+            chosenPhones: ""
+        };
 
         $.getScript('include/ViewModels/Vendor/Vendor.js', function () {
         });
@@ -19,7 +22,7 @@ app.controller('VendorController', ['$scope', '$rootScope', 'WizardViewsService'
         WizardViewsService.getVendors().success(function (data) {
             var data = data["data"]["vendor"];
             var vendor = new Vendor();
-            $scope.vendorItems = vendor.parseArray(data);
+            $scope.vendorItems = vendor.parseArray(data);         
         });
 
         // Phones
@@ -29,12 +32,22 @@ app.controller('VendorController', ['$scope', '$rootScope', 'WizardViewsService'
             $scope.phones = phone.parseArray(data);         
             
             //Function exists in the view file (html file)
-           InitImeiTypeahead($scope.phones);
+            InitImeiTypeahead($scope.phones);
         });
 
         $scope.Save = function (vendor) {
-         //console.log(subdistribution);
-           SharedPropertiesService.getTree().AddVendor(vendor);
+            var model = {
+                vendor_id: vendor.id,
+                phones: vendor.chosenPhones,                      
+                subdistribution_id: SharedPropertiesService.getDistributionId()
+            }
+            console.log(vendor);
+            WizardViewsService.createVendorMobile(model).success(function (data) {
+                   var id = data["data"]["vendormobile"]["id"];
+                   model.id = id;        
+                  SharedPropertiesService.getTree().AddVendor(model);
+            }); 
+                  
         }
     }]);
 

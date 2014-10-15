@@ -32,19 +32,17 @@ app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', '
             addNewVendorsId: "vendor",
             __Init: function (_tree) {
                 tree = _tree;
-                tree.jstree(true).create_node(tree, CreateNode(this.distributionsId, "Distributions", "fa fa-cube"));
-                distributionsNode = tree.jstree(true).get_node(this.distributionsId);
-                console.log(distributionsNode);
-/*
-                distributionsNode.data['class'] = 'tooltips';
-                distributionsNode.data['data-container'] = "body";
-                distributionsNode.data['data-placement'] = "right";
-                distributionsNode.data['data-html'] = "true";
-                distributionsNode.data['data-original-title'] = "YOU SHOULD ADD VOUCHER TYPE FIRST";
-*/
+                tree.jstree(true).create_node(tree, CreateNode(this.distributionsId, "Add Distribution", "fa fa-plus-circle icon-state-danger"));
+                distributionsNode = tree.jstree(true).get_node(this.distributionsId);                
                 SetNodeRoute(distributionsNode, "distributions");
             },
-            AddDistributions: function () {
+            AddDistribution: function (distribution) {
+                tree.jstree(true).delete_node(distributionsNode);
+                this.distributionsId = distribution.id + "dist";
+                tree.jstree(true).create_node(tree, CreateNode(this.distributionsId, distribution.name, "fa fa-cube"));
+                distributionsNode = tree.jstree(true).get_node(this.distributionsId);                  
+                SetNodeRoute(distributionsNode, "distributions/" +  distribution.id);
+                
                 tree.jstree(true).create_node(distributionsNode, CreateNode(this.subdistributionsId, "Subdistributions", "fa fa-cubes icon-state-warning" ));
                 subdistributionsNode = tree.jstree(true).get_node(this.subdistributionsId);
                 SetNodeRoute(subdistributionsNode, "subdistributionsreport");
@@ -84,11 +82,14 @@ app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', '
                 var subdistributionBeneficiary = tree.jstree(true).get_node(subdistribution.id + "Benes");
                 SetNodeRoute(tree.jstree(true).get_node(subdistribution.id + "Benes"), "beneficiaryDist");
                 subdistributionBeneficiary.state.disabled = true;
+                console.log(subdistributionBeneficiary);
+                //*** Defining ToolTip ***
                 subdistributionBeneficiary.a_attr['class'] = 'tooltips';
                 subdistributionBeneficiary.a_attr['data-container'] = "body";
                 subdistributionBeneficiary.a_attr['data-placement'] = "right";
                 subdistributionBeneficiary.a_attr['data-html'] = "true";
                 subdistributionBeneficiary.a_attr['data-original-title'] = "YOU SHOULD ADD VOUCHER TYPE FIRST";
+                //************************
                 
                 tree.jstree(true).open_node(subdistributionNode, false); 
                 tree.jstree(true).open_node(subdistributionTypesNode, false); 
@@ -102,10 +103,10 @@ app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', '
             AddType: function (vouchType) {
                 tree.jstree(true).create_node(vouchType.subdistribution_id + "Types", CreateNode(vouchType.id + "vouchertype", vouchType.type.name));
                 SetNodeRoute(tree.jstree(true).get_node(vouchType.id + "vouchertype"), "vouchertype/" + vouchType.id);
-                
+                    
                        var subdistributionBeneficiary = tree.jstree(true).get_node(vouchType.subdistribution_id + "Benes");
-       
-                subdistributionBeneficiary.state.disabled = false;
+       console.log(subdistributionBeneficiary);
+                subdistributionBeneficiary.state.enabled = true;
                 subdistributionBeneficiary.a_attr['class'] = '';
           
                 //subdistributionBeneficiary.li_attr['rel'] = "";

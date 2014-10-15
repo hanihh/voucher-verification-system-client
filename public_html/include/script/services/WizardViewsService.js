@@ -10,6 +10,11 @@ app.factory('WizardViewsService', ['$http', function ($http) {
         var dataFactory = {};
         var server_url = "http://localhost:8080/vvs_v2/index.php/";
 
+        //*** Gets Methods ***//
+        dataFactory.getDistributions = function (id) {
+            var _id = (id) ? id : "";
+            return $http({method: 'GET', url: server_url + 'api/distribution/' + _id});
+        };
         dataFactory.getSubdistributions = function (id) {
             var _id = (id) ? id : "";
             return $http({method: 'GET', url: server_url + 'api/subdistribution/' + _id});
@@ -25,7 +30,7 @@ app.factory('WizardViewsService', ['$http', function ($http) {
             return $http({method: 'GET', url: server_url + 'api/country/' + _id});
         };
         dataFactory.getGovernorates = function (id) {
-            var _id = (id) ? id : "";
+            var _id = (id) ? id : "";           
             return $http({method: 'GET', url: server_url + 'api/governorate/' + _id});
         };
         dataFactory.getDistricts = function (id) {
@@ -57,31 +62,29 @@ app.factory('WizardViewsService', ['$http', function ($http) {
         dataFactory.getVendors = function () {
             return $http({method: 'GET', url: server_url + 'api/Vendor'});
         };
-         dataFactory.getPhones = function () {
+        dataFactory.getPhones = function () {
             return $http({method: 'GET', url: server_url + 'api/phone'});
         };
-        dataFactory.createDistribution = function (Distribution) {
-            var stringify = JSON.stringify(Distribution);
-            console.log(stringify);
-            //return $http.post(server_url + 'api/distribution/', stringify);
-        };
-        dataFactory.createDistribution = function (Distribution) {
-            var stringify = JSON.stringify(Distribution);
-            console.log(stringify);
-            //return $http.post(server_url + 'api/distribution/', stringify);
-        };
-        dataFactory.createSubDistribution = function (Subdistribution) {
-            //var stringify = JSON.stringify(Subdistribution);
-            //console.log(stringify);
+        //*********************//
+        //*** Posts Methods ***//
+        dataFactory.createDistribution = function (distribution) {
             $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-              return $http({method: 'POST', url: server_url + 'api/subdistribution', data: Subdistribution});
+               return $http({method: 'POST', url: server_url + 'api/distribution', data: distribution});
         };
-     dataFactory.createSubdistributionVoucher = function (voucherType) {
-            //var stringify = JSON.stringify(Subdistribution);
-            //console.log(stringify);      
+        dataFactory.createSubDistribution = function (subdistribution) {
+            $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+              return $http({method: 'POST', url: server_url + 'api/subdistribution', data: subdistribution});
+        };
+        dataFactory.createSubdistributionVoucher = function (voucherType) {    
              $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
                   return $http({method: 'POST', url: server_url + 'api/distributionvoucher', data: voucherType});
         };
+        dataFactory.createVendorMobile = function (vendor) {    
+             $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+                  return $http({method: 'POST', url: server_url + 'api/vendormobile', data: vendor});
+        };
+        //*********************//
+        
         /*
          dataFactory.updateUsersFields = function (filedsObj) {
          return $http.put('/Membership/UpdateUsersFields', filedsObj);
