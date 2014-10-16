@@ -26,7 +26,7 @@
                     <label class="control-label col-md-3">Program</label>
                     <div class="col-md-4">                  
                         <select class="form-control" data-placeholder="Select..." ng-model='distribution.program_id' ng-options='programItem.id as programItem.name for programItem in programItems' required>
-                              <option value="">Select...</option>
+                              <option value=""  ng-hide="distribution.program_id">Select...</option>
                         </select>										
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                     <label class="control-label col-md-3">Donor</label>
                     <div class="col-md-4">
                         <select class="form-control" data-placeholder="Select..." ng-model='distribution.donor_id' ng-options='donorItem.id as donorItem.name for donorItem in donorItems' required>
-                                      <option value="">Select...</option>
+                                      <option value="" ng-hide="distribution.donor_id">Select...</option>
                         </select>											
                     </div>
                 </div>               
@@ -42,7 +42,7 @@
                     <label class="control-label col-md-3">Start-End Date:</label>
                     <div class="col-md-4">
                         <div class="input-group" id="defaultrange">
-                            <input ng-model="distribution.dates" type="daterange" class="form-control"  required>
+                            <input ng-model="dateRange" type="daterange" class="form-control"  required>
                             <span class="input-group-btn">
                                 <button class="btn default date-range-toggle" type="button"><i class="fa fa-calendar"></i></button>
                             </span>
@@ -68,6 +68,7 @@
 <!-- Datetimepickers related PLUGINS -->
 <script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 <script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-daterangepicker/date.js"></script>
 <script type="text/javascript" src="include/theme/metronic/global/plugins/clockface/js/clockface.js"></script>
 <script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-daterangepicker/moment.min.js"></script>
 <script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>

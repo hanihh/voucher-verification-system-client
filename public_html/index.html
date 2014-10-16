@@ -39,19 +39,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <link rel="stylesheet" type="text/css" href="include/theme/metronic/global/plugins/jquery-tags-input/jquery.tagsinput.css"/>
         <link rel="stylesheet" type="text/css" href="include/theme/metronic/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css" />
 
-
-
-        <!-- END GLOBAL MANDATORY STYLES -->
-
-        <link href="include/theme/metronic/global/css/components.css" rel="stylesheet" type="text/css"/>
-        <link href="include/theme/metronic/global/css/plugins.css" rel="stylesheet" type="text/css"/>
-
-        <link href="include/theme/metronic/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
-
-        <link id="style_color" href="include/theme/metronic/admin/layout/css/themes/default.css" rel="stylesheet" type="text/css"/>
-        <link href="include/theme/metronic/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
-
-        <!-- BEGIN PAGE LEVEL STYLES -->
+<!-- BEGIN PAGE LEVEL STYLES -->
         <link href="include/theme/metronic/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css" rel="stylesheet" type="text/css"/>
         <link href="include/theme/metronic/global/plugins/fancybox/source/jquery.fancybox.css" rel="stylesheet"/>
         <link rel="stylesheet" type="text/css" href="include/theme/metronic/global/plugins/typeahead/typeahead.css">
@@ -60,23 +48,31 @@ License: You must have a valid license purchased only from themeforest(the above
         <link href="include/theme/metronic/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet"/>
         <link href="include/theme/metronic/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet"/>
 
+        <link rel="stylesheet" type="text/css" href="include/theme/metronic/global/plugins/select2/select2.css"/>
+        <link rel="stylesheet" type="text/css" href="include/theme/metronic/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
+        
         <link rel="stylesheet" type="text/css" href="include/theme/metronic/global/plugins/jquery-tags-input/jquery.tagsinput.css"/>
         <!-- END:File Upload Plugin CSS files-->
         <!-- END PAGE LEVEL STYLES -->
-        <!-- BEGIN PAGE LEVEL STYLES -->
-        <!--
-        <link href="include/theme/metronic/global/plugins/select2/select2-rtl.css" rel="stylesheet" type="text/css"/>
-        <link href="include/theme/metronic/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap-rtl.css" rel="stylesheet" type="text/css"/>
-        -->
-        <link href="include/theme/metronic/global/plugins/bootstrap-daterangepicker/daterangepicker-bs2.css" rel="stylesheet" type="text/css" />
+     
         <link href="include/theme/metronic/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
 
 
         <link href="include/theme/metronic/global/plugins/jstree/dist/themes/default/style.min.css" rel="stylesheet" type="text/css"/>
-        <!-- END PAGE LEVEL STYLES -->
+
 
         <!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
         <!-- END PAGE LEVEL SCRIPTS -->
+
+        <!-- END GLOBAL MANDATORY STYLES -->
+
+        <link href="include/theme/metronic/global/css/components.css" rel="stylesheet" type="text/css"/>
+        <link href="include/theme/metronic/global/css/plugins.css" rel="stylesheet" type="text/css"/>
+        <link href="include/theme/metronic/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
+        <link id="style_color" href="include/theme/metronic/admin/layout/css/themes/default.css" rel="stylesheet" type="text/css"/>
+        <link href="include/theme/metronic/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+
+        
 
         <link rel="shortcut icon" href="favicon.ico"/>
     </head>
@@ -314,33 +310,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                 Layout.init(); // init current layout
                                 QuickSidebar.init(); // init quick sidebar
                                 Demo.init(); // init demo features
-
-                                Inbox.init();
-                                //UITree.init();
-
-                                //  '<li data-jstree=\'{ "opened" : false  }\' class="SystemNode" id="Subdistributions" ><a >Subdistributions</a><ul  id="SubdistributionsList"><li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\' class="SystemNode" ><a ui-sref="subdistribution" href="#" id="newsubdistribution">Add New</a></li><li data-jstree=\'{ "type" : "file" }\' class="SystemNode"  ><a ui-sref="beneficiaryDist" href="#" id="beneficiariesDist">Beneficiaries</a></li></ul></li>'
-                                // $.jstree.create($('#tree_1'), '<li data-jstree=\'{ "opened" : false  }\' class="SystemNode" id="Subdistributions" ><a >Subdistributions</a><ul  id="SubdistributionsList"><li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\' class="SystemNode" ><a ui-sref="subdistribution" href="#" id="newsubdistribution">Add New</a></li><li data-jstree=\'{ "type" : "file" }\' class="SystemNode"  ><a ui-sref="beneficiaryDist" href="#" id="beneficiariesDist">Beneficiaries</a></li></ul></li>');
-                                //    $("#tree_1").create_node(["#Distributions", '<li data-jstree=\'{ "opened" : false  }\' class="SystemNode" id="Subdistributions" ><a >Subdistributions</a><ul  id="SubdistributionsList"><li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\' class="SystemNode" ><a ui-sref="subdistribution" href="#" id="newsubdistribution">Add New</a></li><li data-jstree=\'{ "type" : "file" }\' class="SystemNode"  ><a ui-sref="beneficiaryDist" href="#" id="beneficiariesDist">Beneficiaries</a></li></ul></li>', "first", function() {alert("Hello");}, ""]);
-                                /* $('#tree_1').jstree(
-                                 "create_node", "tree_1", "first", '<li data-jstree=\'{ "opened" : false  }\' class="SystemNode" id="Subdistributions" ><a >Subdistributions</a><ul  id="SubdistributionsList"><li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\' class="SystemNode" ><a ui-sref="subdistribution" href="#" id="newsubdistribution">Add New</a></li><li data-jstree=\'{ "type" : "file" }\' class="SystemNode"  ><a ui-sref="beneficiaryDist" href="#" id="beneficiariesDist">Beneficiaries</a></li></ul></li>', true, false);
-                                 */
-
-                                /*
-                                 var leafId = $root.jstree(true).create_node($root, "root1");
-                                 $leaf = $("#" + leafId);
-                                 leaf_node = $root.jstree(true).get_node("Subdistributions");
-                         
-                                 $root.jstree(true).create_node(leaf_node, "sub1");
-                                 $root.jstree(true).create_node($leaf, "sub2");
-                         
-                                 $root.jstree(true).create_node($root, "root2");
-                         
-                                 console.log(leaf_node);
-                                 console.log($leaf);
-                         
-                                 //  console.log($.jstree.focused().select_node("#Distributions"); 
-                                 console.log(jQuery("#tree_1").jstree("select_node", "Distributions") );
-                                 */
+                                Inbox.init();                             
                             });
         </script>
         <!-- END JAVASCRIPTS -->

@@ -9,7 +9,9 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">Vendor</label>
                     <div class="col-md-4">
-                        <select class="form-control input-medium select2me" data-placeholder="Select..." ng-model='vendor.vendor' ng-options='vendorItem as vendorItem.en_name for vendorItem in vendorItems' required></select>
+                        <select class="form-control input-medium select2me" data-placeholder="Select..." ng-model='vendor.vendor' ng-options='vendorItem as vendorItem.en_name for vendorItem in vendorItems' required>
+                            <option value=""  ng-hide="vendor.vendor">Select...</option>
+                        </select>
                     </div>
                 </div>
 

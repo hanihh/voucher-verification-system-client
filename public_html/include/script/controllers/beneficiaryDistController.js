@@ -21,8 +21,39 @@ app.controller('beneficiaryDistController', ['$scope', '$rootScope', 'WizardView
     
                 var beneficiary = new Beneficiary();
                 $scope.beneficiaries = beneficiary.parseArray(data);
-                $('#datatable_ajax').dataTable( {
-                    "aaData": BulidTable($scope.beneficiaries)
+                
+                
+                  $('.date-picker').datepicker({
+                    rtl: Metronic.isRTL(),
+                    autoclose: true
+                });
+        
+                $('#de_ajax').dataTable( {
+            
+                    "pageLength": 10, // default record count per page
+                    "bProcessing": true,
+                    "bServerSide": true,
+                    "aoColumns": [
+                        {"mData":"registration_code", 
+                            "mRender": function(data, type, full) {
+                            return "<input type='checkbox' class='ChooseCheckBox' value=" + data + " >";
+                          }},
+                        { "mData": "registration_code" },
+                        { "mData": "en_name" },
+                        { "mData": "father_name" },
+                        { "mData": "birth_year" },
+                        { "mRender": function(data, type, full) {
+                            return "";
+                          }}
+                    ],                    
+                    "sAjaxSource": "http://localhost:8080/vvs_v2/index.php/api/Beneficiary",
+                    "sServerMethod": "GET",
+                    "sAjaxDataProp": "data.beneficiary",
+                    "contentType": "application/json; charset=utf-8",
+                    "dataType": "json",
+                    "order": [
+                          [1, "asc"]
+                      ] // set first column as a default s
                 });
                 
                 

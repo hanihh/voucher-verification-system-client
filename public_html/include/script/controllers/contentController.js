@@ -12,9 +12,16 @@ function CreateNode(id, text, icon) {
     };
 }
 
-function SetNodeRoute(node, url) {
-    //node.a_attr["href"] = "#/" + url;
-    node.a_attr["ui-sref"] = url;   
+function SetNodeRoute(node, url, param) {
+    if (param)
+    {
+        //In the ui-sref dynamic situation, we should add the parameter to the ui-sref like that: 
+        //node.a_attr["ui-sref"]= url + ({ key:value })
+        node.a_attr["ui-sref"] = url;
+        node.a_attr["ui-sref-param"] = param;
+    }
+    else
+        node.a_attr["ui-sref"] = url;
 }
 
 app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', 'SharedPropertiesService', function ($scope, $state, WizardViewsService, SharedPropertiesService) {
@@ -33,17 +40,20 @@ app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', '
             __Init: function (_tree) {
                 tree = _tree;
                 tree.jstree(true).create_node(tree, CreateNode(this.distributionsId, "Add Distribution", "fa fa-plus-circle icon-state-danger"));
-                distributionsNode = tree.jstree(true).get_node(this.distributionsId);                
+                distributionsNode = tree.jstree(true).get_node(this.distributionsId);
                 SetNodeRoute(distributionsNode, "distributions");
+            },
+            __Clear: function() {
+                  tree.jstree(true).delete_node(distributionsNode);
             },
             AddDistribution: function (distribution) {
                 tree.jstree(true).delete_node(distributionsNode);
                 this.distributionsId = distribution.id + "dist";
                 tree.jstree(true).create_node(tree, CreateNode(this.distributionsId, distribution.name, "fa fa-cube"));
-                distributionsNode = tree.jstree(true).get_node(this.distributionsId);                  
-                SetNodeRoute(distributionsNode, "distributions/" +  distribution.id);
-                
-                tree.jstree(true).create_node(distributionsNode, CreateNode(this.subdistributionsId, "Subdistributions", "fa fa-cubes icon-state-warning" ));
+                distributionsNode = tree.jstree(true).get_node(this.distributionsId);
+                SetNodeRoute(distributionsNode, "distributions", {id: distribution.id});
+
+                tree.jstree(true).create_node(distributionsNode, CreateNode(this.subdistributionsId, "Subdistributions", "fa fa-cubes icon-state-warning"));
                 subdistributionsNode = tree.jstree(true).get_node(this.subdistributionsId);
                 SetNodeRoute(subdistributionsNode, "subdistributionsreport");
 
@@ -58,25 +68,27 @@ app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', '
 
                 tree.jstree(true).create_node(vendorsNode, CreateNode(this.addNewVendorsId, "Add New", "fa fa-plus-circle icon-state-danger"));
                 SetNodeRoute(tree.jstree(true).get_node(this.addNewVendorsId), "vendor");
-                
-                tree.jstree(true).open_node(distributionsNode, false);       
-                tree.jstree(true).open_node(subdistributionsNode, false);       
-                tree.jstree(true).open_node(vendorsNode, false);       
+
+                tree.jstree(true).open_node(distributionsNode, false);
+                tree.jstree(true).open_node(subdistributionsNode, false);
+                tree.jstree(true).open_node(vendorsNode, false);
+
+                tree.jstree(true).deselect_node(tree.jstree(true).get_selected(true)[0]);
+                tree.jstree(true).select_node(this.distributionsId);
+//                tree.jstree(true).select_node(nodeObject.name + "Types" + "AddNew");
             },
             AddSubdistribution: function (subdistribution) {
                 //$("#SubdistributionsList").find(' > li:first').after('<li>' + nodeObject.code + '</li>');  
                 tree.jstree(true).create_node(subdistributionsNode, CreateNode(subdistribution.id, subdistribution.code, "fa fa-cubes icon-state-success"));
                 var subdistributionNode = tree.jstree(true).get_node(subdistribution.id);
-                SetNodeRoute(subdistributionNode, "subdistribution/" + subdistribution.id);
-   
+                SetNodeRoute(subdistributionNode, "subdistribution", {id: subdistribution.id});
+
                 tree.jstree(true).create_node(subdistributionNode, CreateNode(subdistribution.id + "Types", "Voucher Types", "fa fa-money icon-state-success"));
                 var subdistributionTypesNode = tree.jstree(true).get_node(subdistribution.id + "Types");
                 SetNodeRoute(subdistributionTypesNode, "typereport");
 
                 tree.jstree(true).create_node(subdistributionTypesNode, CreateNode(subdistribution.id + "Types" + "AddNew", "Add New", "fa fa-plus-circle icon-state-danger"));
                 SetNodeRoute(tree.jstree(true).get_node(subdistribution.id + "Types" + "AddNew"), "vouchertype");
-
-                //tree.jstree(true).select_node(nodeObject.name + "Types" + "AddNew");
 
                 tree.jstree(true).create_node(subdistributionNode, CreateNode(subdistribution.id + "Benes", "Beneficiaries", "fa fa-group icon-state-success"));
                 var subdistributionBeneficiary = tree.jstree(true).get_node(subdistribution.id + "Benes");
@@ -90,38 +102,52 @@ app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', '
                 subdistributionBeneficiary.a_attr['data-html'] = "true";
                 subdistributionBeneficiary.a_attr['data-original-title'] = "YOU SHOULD ADD VOUCHER TYPE FIRST";
                 //************************
-                
-                tree.jstree(true).open_node(subdistributionNode, false); 
-                tree.jstree(true).open_node(subdistributionTypesNode, false); 
 
+                tree.jstree(true).open_node(subdistributionNode, false);
+                tree.jstree(true).open_node(subdistributionTypesNode, false);
+
+        tree.jstree(true).deselect_node(tree.jstree(true).get_selected(true)[0]);
+                tree.jstree(true).select_node(subdistribution.id);
             },
-            getAddTypeSubdistributionId: function (){
-                 var parentTypeNodeId = tree.jstree(true).get_selected(true)[0].parent;
-                 parentTypeNodeId = parentTypeNodeId.replace("Types", "");                 
-                 return parentTypeNodeId;
+            getAddTypeSubdistributionId: function () {
+                var parentTypeNodeId = tree.jstree(true).get_selected(true)[0].parent;
+                parentTypeNodeId = parentTypeNodeId.replace("Types", "");
+                return parentTypeNodeId;
             },
             AddType: function (vouchType) {
-                tree.jstree(true).create_node(vouchType.subdistribution_id + "Types", CreateNode(vouchType.id + "vouchertype", vouchType.type.name));
-                SetNodeRoute(tree.jstree(true).get_node(vouchType.id + "vouchertype"), "vouchertype/" + vouchType.id);
-                    
-                       var subdistributionBeneficiary = tree.jstree(true).get_node(vouchType.subdistribution_id + "Benes");
-       console.log(subdistributionBeneficiary);
+                tree.jstree(true).create_node(vouchType.subdistribution_id + "Types", CreateNode(vouchType.id + "vouchertype", vouchTypes.value));
+                SetNodeRoute(tree.jstree(true).get_node(vouchType.id + "vouchertype"), "vouchertype", {id: vouchType.id});
+
+                var subdistributionBeneficiary = tree.jstree(true).get_node(vouchType.subdistribution_id + "Benes");
                 subdistributionBeneficiary.state.enabled = true;
                 subdistributionBeneficiary.a_attr['class'] = '';
-          
+
+        tree.jstree(true).deselect_node(tree.jstree(true).get_selected(true)[0]);
+                tree.jstree(true).select_node(vouchType.id + "vouchertype");
                 //subdistributionBeneficiary.li_attr['rel'] = "";
                 //subdistributionBeneficiary.icon = "fa fa-group icon-state-success";
                 //console.log( tree.jstree(true).get_node(vouchType.subdistribution_id));
                 //tree.jstree(true).get_node(vouchType.subdistribution_id).state.opened = false;
             },
             AddVendor: function (vendor) {
-                tree.jstree(true).create_node(vendorsNode, CreateNode(vendor.name, vendor.name));
-                var vendorNode = tree.jstree(true).get_node(vendor.name);
-                SetNodeRoute(vendorNode, "vendor/" + vendor.id);
+                tree.jstree(true).create_node(vendorsNode, CreateNode(vendor.name + "vendor", vendor.name));
+                var vendorNode = tree.jstree(true).get_node(vendor.name + "vendor");
+                SetNodeRoute(vendorNode, "vendor", {id: vendor.id});
 
                 tree.jstree(true).create_node(vendorNode, CreateNode(vendor.name + "Benes", "Beneficiaries", "fa fa-group"));
                 //SetNodeRoute(tree.jstree(true).get_node(nodeObject.name + "Benes"), "");
+
+        tree.jstree(true).deselect_node(tree.jstree(true).get_selected(true)[0]);
+                ree.jstree(true).select_node(vendor.name + "vendor");
             },
+            BulidTreeByDistribution: function(distribution){
+                this.__Clear();
+                this.AddDistribution(distribution);
+            },
+             BulidTreeBySubdistributionId: function(){
+                
+            },
+      
             LoadSubdistributions: function () {
                 WizardViewsService.getSubdistributions().success(function (data) {
                     var data = data["data"]["subdistribution"];
@@ -136,9 +162,6 @@ app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', '
             }
         }
 
-
-       
-
         var $root = $("#tree_1").jstree({
             core: {
                 check_callback: true,
@@ -147,12 +170,18 @@ app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', '
             plugins: ["dnd"]
         });
 
- $("#tree_1").bind("select_node.jstree", function (event, data)
-        {     
+        $("#tree_1").bind("select_node.jstree", function (event, data)
+        {
             //console.log(data.node);
-            $state.go(data.node.a_attr['ui-sref']);
+            //$state.go(data.node.a_attr['ui-sref'], {id : '1'});
+            console.log(data.node.a_attr['ui-sref-param']);
+            if (data.node.a_attr['ui-sref-param'])
+                $state.go(data.node.a_attr['ui-sref'], data.node.a_attr['ui-sref-param']);
+            else
+                $state.go(data.node.a_attr['ui-sref']);
+
         });
-        
+
         var $tree = $WizardTree;
         $tree.__Init($root);
         SharedPropertiesService.setTree($tree);
