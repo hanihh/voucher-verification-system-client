@@ -7,7 +7,7 @@
 
 
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
-app.controller('beneficiaryDistController', ['$scope' ,'WizardViewsService', function ($scope, WizardViewsService) {
+app.controller('beneficiaryDistController', ['$scope' ,'DataProviderService', function ($scope, DataProviderService) {
         $scope.beneficiary = {};
         $scope.filter = {};
 
@@ -16,7 +16,7 @@ app.controller('beneficiaryDistController', ['$scope' ,'WizardViewsService', fun
         {
             // script is now loaded and executed.
             // put your dependent JS here.
-            WizardViewsService.getBeneficiaries().success(function (data) {
+            DataProviderService.getBeneficiaries().success(function (data) {
                 var data = data["data"]["beneficiary"];
 
                 var beneficiary = new Beneficiary();
@@ -79,7 +79,7 @@ app.controller('beneficiaryDistController', ['$scope' ,'WizardViewsService', fun
         $scope.Filter = function (filter) {
             console.log(filter);
             /*
-             WizardViewsService.getBeneficiaries(filter).success(function (data) {
+             DataProviderService.getBeneficiaries(filter).success(function (data) {
              var data = data["data"]["beneficiary"];
              
              var beneficiary = new Beneficiary();

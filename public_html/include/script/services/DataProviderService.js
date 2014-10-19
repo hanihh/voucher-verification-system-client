@@ -6,7 +6,7 @@
 
 
 
-app.factory('WizardViewsService', ['$http', function ($http) {
+app.factory('DataProviderService', ['$http', function ($http) {
         var dataFactory = {};
         var server_url = "http://localhost/vvs_v2/index.php/";
 

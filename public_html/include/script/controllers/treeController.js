@@ -24,7 +24,7 @@ function SetNodeRoute(node, url, param) {
         node.a_attr["ui-sref"] = url;
 }
 
-app.controller("TreeController", ['$scope', '$state', 'WizardViewsService', 'SharedPropertiesService', function ($scope, $state, WizardViewsService, SharedPropertiesService) {
+app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'SharedPropertiesService', function ($scope, $state, DataProviderService, SharedPropertiesService) {
 
         var $WizardTree = {
             $tree: {},
@@ -149,13 +149,13 @@ app.controller("TreeController", ['$scope', '$state', 'WizardViewsService', 'Sha
                 this.AddDistribution(distribution, false);
                 var currentThis = this;
 
-                WizardViewsService.getSubdistributionsByFilter([["distribution_id", distribution.id, "="]]).success(function (data) {
+                DataProviderService.getSubdistributionsByFilter([["distribution_id", distribution.id, "="]]).success(function (data) {
                     var relatedSubdistributions = data["data"]["subdistribution"];
 
                     var responses = [];
                     for (i = 0; i < relatedSubdistributions.length; i++) {
                         var funcStruct = {
-                            func: WizardViewsService.getSubdistributionVoucherByFilter,
+                            func: DataProviderService.getSubdistributionVoucherByFilter,
                             subdistribution: relatedSubdistributions[i]
                         }
                         responses.push(funcStruct);
@@ -170,7 +170,7 @@ app.controller("TreeController", ['$scope', '$state', 'WizardViewsService', 'Sha
                 this.AddSubdistribution(subdistribution, false);
                 var currentThis = this;
 
-                WizardViewsService.getSubdistributionVoucherByFilter([["subdistribution_id", subdistribution.id, "="]]).success(function (data) {
+                DataProviderService.getSubdistributionVoucherByFilter([["subdistribution_id", subdistribution.id, "="]]).success(function (data) {
                     var relatedVoucherTypes = data["data"]["distributionVoucher"];
                     for (j = 0; j < relatedVoucherTypes.length; j++) {
                         currentThis.BulidTreeByVoucherType(relatedVoucherTypes[j]);
@@ -193,7 +193,7 @@ app.controller("TreeController", ['$scope', '$state', 'WizardViewsService', 'Sha
                 this.AddType(voucherType, false);
             },
             LoadSubdistributions: function () {
-                WizardViewsService.getSubdistributions().success(function (data) {
+                DataProviderService.getSubdistributions().success(function (data) {
                     var data = data["data"]["subdistribution"];
                     console.log(data);
 

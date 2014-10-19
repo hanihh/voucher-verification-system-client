@@ -7,14 +7,14 @@
 
 
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
-app.controller('VoucherTypeController', ['$scope', '$rootScope', 'WizardViewsService', 'SharedPropertiesService', function ($scope, $rootScope, WizardViewsService, SharedPropertiesService) {
+app.controller('VoucherTypeController', ['$scope', '$rootScope', 'DataProviderService', 'SharedPropertiesService', function ($scope, $rootScope, DataProviderService, SharedPropertiesService) {
   
 
         $.getScript('include/ViewModels/Core/Voucher_type.js', function ()
         {
             // script is now loaded and executed.
             // put your dependent JS here.
-            WizardViewsService.getVoucherTypes().success(function (data) {
+            DataProviderService.getVoucherTypes().success(function (data) {
                 var data = data["data"]["voucherType"];
                 var voucher_type = new Voucher_type();
                 $scope.voucherTypeItems = voucher_type.parseArray(data);
@@ -35,7 +35,7 @@ app.controller('VoucherTypeController', ['$scope', '$rootScope', 'WizardViewsSer
                 subdistribution_id: SharedPropertiesService.getSubdistributionIdForNewVoucherValue()
             }
 
-            WizardViewsService.createSubdistributionVoucher(model).success(function (data) {
+            DataProviderService.createSubdistributionVoucher(model).success(function (data) {
                 console.log(data);
                 var id = data["data"]["distributionVoucher"]["id"];
                 model.id = id;

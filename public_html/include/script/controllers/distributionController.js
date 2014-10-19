@@ -5,7 +5,7 @@
  */
 
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
-app.controller('DistributionController', ['$scope', '$stateParams', 'WizardViewsService', 'SharedPropertiesService',  function ($scope, $stateParams, WizardViewsService, SharedPropertiesService) {                
+app.controller('DistributionController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService',  function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {                
 
         //$scope.distribution = new Distribution();
         $.getScript('include/ViewModels/Core/Distribution.js', function () {    
@@ -20,14 +20,14 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'WizardViews
         });
         
         //Programs
-        WizardViewsService.getPrograms().success(function (data) {
+        DataProviderService.getPrograms().success(function (data) {
             var data = data["data"]["program"];
             var program = new Program();
             $scope.programItems = program.parseArray(data);
         });
 
         //Donors            
-        WizardViewsService.getDonors().success(function (data) {
+        DataProviderService.getDonors().success(function (data) {
             var data = data["data"]["donor"];
             var donor = new Donor();
             $scope.donorItems = donor.parseArray(data);
@@ -44,7 +44,7 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'WizardViews
         
          var id = ($stateParams) ? $stateParams.id : null;        
          if(id){
-                 WizardViewsService.getDistributions(id).success(function (data) {
+                 DataProviderService.getDistributions(id).success(function (data) {
                     var data = data["data"]["distribution"];
                     var distribution = new Distribution();   
                     $scope.distribution = distribution.parse(data);
@@ -63,7 +63,7 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'WizardViews
           $scope.Save = function (distribution) {                                 
             distribution.online= $('#online-switch').bootstrapSwitch("state") == "true" ? 1 : 0;
             
-            WizardViewsService.createDistribution(distribution).success(function (data) {
+            DataProviderService.createDistribution(distribution).success(function (data) {
                   var id = data["data"]["distribution"]["id"];
                   distribution.id = id;                   
                   SharedPropertiesService.setDistributionId(id);

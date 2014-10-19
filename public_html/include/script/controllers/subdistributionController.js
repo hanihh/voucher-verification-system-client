@@ -5,7 +5,7 @@
  */
 
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
-app.controller('subdistributionController', ['$scope', '$stateParams', '$compile', 'WizardViewsService', 'SharedPropertiesService', function ($scope, $stateParams, $compile, WizardViewsService, SharedPropertiesService) {
+app.controller('subdistributionController', ['$scope', '$stateParams', '$compile', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, $compile, DataProviderService, SharedPropertiesService) {
         //Initializing Models for cascade select lists
 
 
@@ -114,42 +114,42 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                 // ------------------------------------------------ //
 
 
-                                WizardViewsService.getCountries().success(function (data) {
+                                DataProviderService.getCountries().success(function (data) {
                                     var data = data["data"]["country"];
                                     var country = new Country();
                                     $scope.countryItems = country.parseArray(data);
                                 });
 
                                 // Governorates
-                                WizardViewsService.getGovernorates().success(function (data) {
+                                DataProviderService.getGovernorates().success(function (data) {
                                     var data = data["data"]["governorate"];
                                     var governorate = new Governorate();
                                     $scope.governorateItems = governorate.parseArray(data);
                                 });
 
                                 // Districts
-                                WizardViewsService.getDistricts().success(function (data) {
+                                DataProviderService.getDistricts().success(function (data) {
                                     var data = data["data"]["district"];
                                     var district = new District();
                                     $scope.districtItems = district.parseArray(data);
                                 });
 
                                 // Subdistricts
-                                WizardViewsService.getSubdistricts().success(function (data) {
+                                DataProviderService.getSubdistricts().success(function (data) {
                                     var data = data["data"]["subdistrict"];
                                     var subdistrict = new Subdistrict();
                                     $scope.subdistrictItems = subdistrict.parseArray(data);
                                 });
 
                                 // Communities
-                                WizardViewsService.getCommunities().success(function (data) {
+                                DataProviderService.getCommunities().success(function (data) {
                                     var data = data["data"]["community"];
                                     var community = new Community();
                                     $scope.communityItems = community.parseArray(data);
                                 });
                                 
                                   // Status
-                                WizardViewsService.getStatus().success(function (data) {
+                                DataProviderService.getStatus().success(function (data) {
                                     var data = data["data"]["distributionStatus"];
                                     var distribution_status = new Distribution_status();
                                     $scope.statusItems = distribution_status.parseArray(data);
@@ -159,23 +159,23 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
 
                                 if (id)
                                 {
-                                    WizardViewsService.getSubdistributions(id).success(function (data) {
+                                    DataProviderService.getSubdistributions(id).success(function (data) {
                                         var data = data["data"]["subdistribution"];
                                         var subdistribution = new Subdistribution();
                                         $scope.subdistribution = subdistribution.parse(data);
                                         var community = data["community"];
                                         // Subdistricts
 
-                                        WizardViewsService.getSubdistricts(community["subdistrict_id"]).success(function (data) {
+                                        DataProviderService.getSubdistricts(community["subdistrict_id"]).success(function (data) {
                                             var subdistrict = data["data"]["subdistrict"];
                                             // Districts
-                                            WizardViewsService.getDistricts(subdistrict["district_id"]).success(function (data) {
+                                            DataProviderService.getDistricts(subdistrict["district_id"]).success(function (data) {
                                                 var district = data["data"]["district"];
                                                 // Governorates
-                                                WizardViewsService.getGovernorates(district["governorate_id"]).success(function (data) {
+                                                DataProviderService.getGovernorates(district["governorate_id"]).success(function (data) {
                                                     var governorate = data["data"]["governorate"];
                                                     // Country
-                                                    WizardViewsService.getCountries(governorate["country_id"]).success(function (data) {
+                                                    DataProviderService.getCountries(governorate["country_id"]).success(function (data) {
                                                         var country = data["data"]["country"];
 
                                                         var countryModel = new Country();
@@ -219,7 +219,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                             community_id: subdistribution.community.id,
                                             distribution_id: SharedPropertiesService.getDistributionId()
                                         }
-                                        WizardViewsService.createSubDistribution(model).success(function (data) {
+                                        DataProviderService.createSubDistribution(model).success(function (data) {
                                             var id = data["data"]["subdistribution"]["id"];
                                             model.id = id;
                                             SharedPropertiesService.getTree().AddSubdistribution(model);

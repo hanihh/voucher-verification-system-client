@@ -7,7 +7,7 @@
 
 
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
-app.controller('VendorController', ['$scope', 'WizardViewsService', 'SharedPropertiesService', function ($scope, WizardViewsService, SharedPropertiesService) {
+app.controller('VendorController', ['$scope', 'DataProviderService', 'SharedPropertiesService', function ($scope, DataProviderService, SharedPropertiesService) {
  
 
         $.getScript('include/ViewModels/Vendor/Vendor.js', function () {
@@ -21,14 +21,14 @@ app.controller('VendorController', ['$scope', 'WizardViewsService', 'SharedPrope
         };
         
         //Vendor
-        WizardViewsService.getVendors().success(function (data) {
+        DataProviderService.getVendors().success(function (data) {
             var data = data["data"]["vendor"];
             var vendor = new Vendor();
             $scope.vendorItems = vendor.parseArray(data);         
         });
 
         // Phones
-        WizardViewsService.getPhones().success(function (data) {
+        DataProviderService.getPhones().success(function (data) {
             var data = data["data"]["phone"];
             var phone = new Phone();
             $scope.phones = phone.parseArray(data);         
@@ -44,7 +44,7 @@ app.controller('VendorController', ['$scope', 'WizardViewsService', 'SharedPrope
                 subdistribution_id: SharedPropertiesService.getDistributionId()
             }
             console.log(vendor);
-            WizardViewsService.createVendorMobile(model).success(function (data) {
+            DataProviderService.createVendorMobile(model).success(function (data) {
                    var id = data["data"]["vendormobile"]["id"];
                    model.id = id;        
                   SharedPropertiesService.getTree().AddVendor(model);
