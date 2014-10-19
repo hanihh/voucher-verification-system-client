@@ -24,7 +24,7 @@ function SetNodeRoute(node, url, param) {
         node.a_attr["ui-sref"] = url;
 }
 
-app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', 'SharedPropertiesService', function ($scope, $state, WizardViewsService, SharedPropertiesService) {
+app.controller("TreeController", ['$scope', '$state', 'WizardViewsService', 'SharedPropertiesService', function ($scope, $state, WizardViewsService, SharedPropertiesService) {
 
         var $WizardTree = {
             $tree: {},
@@ -43,10 +43,10 @@ app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', '
                 distributionsNode = tree.jstree(true).get_node(this.distributionsId);
                 SetNodeRoute(distributionsNode, "distributions");
             },
-            __Clear: function() {
-                  tree.jstree(true).delete_node(distributionsNode);
+            __Clear: function () {
+                tree.jstree(true).delete_node(distributionsNode);
             },
-            AddDistribution: function (distribution) {
+            AddDistribution: function (distribution, WithSelectMethodology) {
                 tree.jstree(true).delete_node(distributionsNode);
                 this.distributionsId = distribution.id + "dist";
                 tree.jstree(true).create_node(tree, CreateNode(this.distributionsId, distribution.name, "fa fa-cube"));
@@ -72,12 +72,13 @@ app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', '
                 tree.jstree(true).open_node(distributionsNode, false);
                 tree.jstree(true).open_node(subdistributionsNode, false);
                 tree.jstree(true).open_node(vendorsNode, false);
-
-                tree.jstree(true).deselect_node(tree.jstree(true).get_selected(true)[0]);
-                tree.jstree(true).select_node(this.distributionsId);
+                if (WithSelectMethodology) {
+                    tree.jstree(true).deselect_node(tree.jstree(true).get_selected(true)[0]);
+                    tree.jstree(true).select_node(this.distributionsId);
+                }
 //                tree.jstree(true).select_node(nodeObject.name + "Types" + "AddNew");
             },
-            AddSubdistribution: function (subdistribution) {
+            AddSubdistribution: function (subdistribution, WithSelectMethodology) {
                 //$("#SubdistributionsList").find(' > li:first').after('<li>' + nodeObject.code + '</li>');  
                 tree.jstree(true).create_node(subdistributionsNode, CreateNode(subdistribution.id, subdistribution.code, "fa fa-cubes icon-state-success"));
                 var subdistributionNode = tree.jstree(true).get_node(subdistribution.id);
@@ -94,7 +95,6 @@ app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', '
                 var subdistributionBeneficiary = tree.jstree(true).get_node(subdistribution.id + "Benes");
                 SetNodeRoute(tree.jstree(true).get_node(subdistribution.id + "Benes"), "beneficiaryDist");
                 subdistributionBeneficiary.state.disabled = true;
-                console.log(subdistributionBeneficiary);
                 //*** Defining ToolTip ***
                 subdistributionBeneficiary.a_attr['class'] = 'tooltips';
                 subdistributionBeneficiary.a_attr['data-container'] = "body";
@@ -106,24 +106,28 @@ app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', '
                 tree.jstree(true).open_node(subdistributionNode, false);
                 tree.jstree(true).open_node(subdistributionTypesNode, false);
 
-        tree.jstree(true).deselect_node(tree.jstree(true).get_selected(true)[0]);
-                tree.jstree(true).select_node(subdistribution.id);
+                if (WithSelectMethodology) {
+                    tree.jstree(true).deselect_node(tree.jstree(true).get_selected(true)[0]);
+                    tree.jstree(true).select_node(subdistribution.id);
+                }
             },
             getAddTypeSubdistributionId: function () {
                 var parentTypeNodeId = tree.jstree(true).get_selected(true)[0].parent;
                 parentTypeNodeId = parentTypeNodeId.replace("Types", "");
                 return parentTypeNodeId;
             },
-            AddType: function (vouchType) {
-                tree.jstree(true).create_node(vouchType.subdistribution_id + "Types", CreateNode(vouchType.id + "vouchertype", vouchTypes.value));
+            AddType: function (vouchType, WithSelectMethodology) {
+                tree.jstree(true).create_node(vouchType.subdistribution_id + "Types", CreateNode(vouchType.id + "vouchertype", vouchType.value));
                 SetNodeRoute(tree.jstree(true).get_node(vouchType.id + "vouchertype"), "vouchertype", {id: vouchType.id});
 
                 var subdistributionBeneficiary = tree.jstree(true).get_node(vouchType.subdistribution_id + "Benes");
                 subdistributionBeneficiary.state.enabled = true;
                 subdistributionBeneficiary.a_attr['class'] = '';
 
-        tree.jstree(true).deselect_node(tree.jstree(true).get_selected(true)[0]);
-                tree.jstree(true).select_node(vouchType.id + "vouchertype");
+                if (WithSelectMethodology) {
+                    tree.jstree(true).deselect_node(tree.jstree(true).get_selected(true)[0]);
+                    tree.jstree(true).select_node(vouchType.id + "vouchertype");
+                }
                 //subdistributionBeneficiary.li_attr['rel'] = "";
                 //subdistributionBeneficiary.icon = "fa fa-group icon-state-success";
                 //console.log( tree.jstree(true).get_node(vouchType.subdistribution_id));
@@ -137,17 +141,57 @@ app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', '
                 tree.jstree(true).create_node(vendorNode, CreateNode(vendor.name + "Benes", "Beneficiaries", "fa fa-group"));
                 //SetNodeRoute(tree.jstree(true).get_node(nodeObject.name + "Benes"), "");
 
-        tree.jstree(true).deselect_node(tree.jstree(true).get_selected(true)[0]);
+                tree.jstree(true).deselect_node(tree.jstree(true).get_selected(true)[0]);
                 ree.jstree(true).select_node(vendor.name + "vendor");
             },
-            BulidTreeByDistribution: function(distribution){
+            BulidTreeByDistribution: function (distribution) {
                 this.__Clear();
-                this.AddDistribution(distribution);
+                this.AddDistribution(distribution, false);
+                var currentThis = this;
+
+                WizardViewsService.getSubdistributionsByFilter([["distribution_id", distribution.id, "="]]).success(function (data) {
+                    var relatedSubdistributions = data["data"]["subdistribution"];
+
+                    var responses = [];
+                    for (i = 0; i < relatedSubdistributions.length; i++) {
+                        var funcStruct = {
+                            func: WizardViewsService.getSubdistributionVoucherByFilter,
+                            subdistribution: relatedSubdistributions[i]
+                        }
+                        responses.push(funcStruct);
+                    }
+
+                    for (j = 0; j < responses.length; j++) {
+                        currentThis.BulidTreeBySubdistributionWithFunc(responses[j]);
+                    }
+                });
             },
-             BulidTreeBySubdistributionId: function(){
-                
+            BulidTreeBySubdistribution: function (subdistribution) {
+                this.AddSubdistribution(subdistribution, false);
+                var currentThis = this;
+
+                WizardViewsService.getSubdistributionVoucherByFilter([["subdistribution_id", subdistribution.id, "="]]).success(function (data) {
+                    var relatedVoucherTypes = data["data"]["distributionVoucher"];
+                    for (j = 0; j < relatedVoucherTypes.length; j++) {
+                        currentThis.BulidTreeByVoucherType(relatedVoucherTypes[j]);
+                    }
+                });
             },
-      
+            BulidTreeBySubdistributionWithFunc: function (response) {
+
+                this.AddSubdistribution(response.subdistribution, false);
+                var currentThis = this;
+
+                response.func([["subdistribution_id", response.subdistribution.id, "="]]).success(function (data) {
+                    var relatedVoucherTypes = data["data"]["distributionVoucher"];
+                    for (j = 0; j < relatedVoucherTypes.length; j++) {
+                        currentThis.BulidTreeByVoucherType(relatedVoucherTypes[j]);
+                    }
+                });
+            },
+            BulidTreeByVoucherType: function (voucherType) {
+                this.AddType(voucherType, false);
+            },
             LoadSubdistributions: function () {
                 WizardViewsService.getSubdistributions().success(function (data) {
                     var data = data["data"]["subdistribution"];
@@ -172,9 +216,6 @@ app.controller("ContentController", ['$scope', '$state', 'WizardViewsService', '
 
         $("#tree_1").bind("select_node.jstree", function (event, data)
         {
-            //console.log(data.node);
-            //$state.go(data.node.a_attr['ui-sref'], {id : '1'});
-            console.log(data.node.a_attr['ui-sref-param']);
             if (data.node.a_attr['ui-sref-param'])
                 $state.go(data.node.a_attr['ui-sref'], data.node.a_attr['ui-sref-param']);
             else

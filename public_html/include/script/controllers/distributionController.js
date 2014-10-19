@@ -8,10 +8,8 @@
 app.controller('DistributionController', ['$scope', '$stateParams', 'WizardViewsService', 'SharedPropertiesService',  function ($scope, $stateParams, WizardViewsService, SharedPropertiesService) {                
 
         //$scope.distribution = new Distribution();
-        $.getScript('include/ViewModels/Core/Distribution.js', function () {
-    
-        $.getScript('include/ViewModels/Core/Program.js', function () {
-     
+        $.getScript('include/ViewModels/Core/Distribution.js', function () {    
+        $.getScript('include/ViewModels/Core/Program.js', function () {     
         $.getScript('include/ViewModels/Core/Donor.js', function () {
    
         $scope.distribution = new Distribution();
@@ -58,7 +56,6 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'WizardViews
                     $('#defaultrange').data('daterangepicker').setEndDate( endDate);
                     
                     $scope.dateRange = startDate.toDateString() + " - " + endDate.toDateString();
-                    
                     SharedPropertiesService.getTree().BulidTreeByDistribution($scope.distribution);
                  }); 
          }

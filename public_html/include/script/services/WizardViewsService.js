@@ -19,6 +19,9 @@ app.factory('WizardViewsService', ['$http', function ($http) {
             var _id = (id) ? id : "";
             return $http({method: 'GET', url: server_url + 'api/subdistribution/' + _id});
         };
+        dataFactory.getSubdistributionsByFilter = function (params){
+            return $http({method: 'GET', url: server_url + 'api/subdistribution/?filter='+ JSON.stringify(GetFilter(params))});
+        };
         dataFactory.getPrograms = function () {
             return $http({method: 'GET', url: server_url + 'api/program'});
         };
@@ -48,22 +51,25 @@ app.factory('WizardViewsService', ['$http', function ($http) {
         dataFactory.getVoucherTypes = function () {
             return $http({method: 'GET', url: server_url + 'api/VoucherType'});
         };
-        dataFactory.getBeneficiaries = function (filter) {
-            /*http://localhost:8080/vvs_v2/index.php/api/Beneficiary/?filter = [
-             {"property": "registration_code", "value" : CFW0009, "operator": "in"}
-             , {"property": "en_name", "value" : "Mustafa", "operator": "in"}
-             , {"property": "birth_year", "value" : "1013-01-01", "operator": ">="}
-             , {"property": "birth_year", "value" : "2014-01-31", "operator": "<="}
-             ]*/
-            //  var filterString = ParseFilter(filter);       
+         dataFactory.getSubdistributionVoucherByFilter = function (params){
+             //console.log(JSON.stringify(GetFilter(params)));
+            return $http({method: 'GET', url: server_url + 'api/distributionvoucher/?filter='+ JSON.stringify(GetFilter(params))});
+        };
+        dataFactory.getBeneficiaries = function (filter) {    
             var filterString = "";
-            return $http({method: 'GET', url: 'http://localhost:8080/vvs_v2/index.php/api/Beneficiary' + filterString});
+            return $http({method: 'GET', url: server_url + 'api/Beneficiary'});
+        };        
+         dataFactory.getBeneficiariesByFilter = function (params) {                
+             return $http({method: 'GET', url: server_url + 'api/Beneficiary/?filter='+ JSON.stringify(GetFilter(params))});
         };
         dataFactory.getVendors = function () {
             return $http({method: 'GET', url: server_url + 'api/Vendor'});
         };
         dataFactory.getPhones = function () {
             return $http({method: 'GET', url: server_url + 'api/phone'});
+        };
+         dataFactory.getStatus = function () {
+            return $http({method: 'GET', url: server_url + 'api/distributionstatus'});
         };
         //*********************//
         //*** Posts Methods ***//

@@ -8,11 +8,7 @@
 
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
 app.controller('VoucherTypeController', ['$scope', '$rootScope', 'WizardViewsService', 'SharedPropertiesService', function ($scope, $rootScope, WizardViewsService, SharedPropertiesService) {
-        $scope.vouchType = {
-            type: "",
-            expireDate: SharedPropertiesService.getDistributionEndDate(),
-            value: ""
-        };
+  
 
         $.getScript('include/ViewModels/Core/Voucher_type.js', function ()
         {
@@ -23,9 +19,13 @@ app.controller('VoucherTypeController', ['$scope', '$rootScope', 'WizardViewsSer
                 var voucher_type = new Voucher_type();
                 $scope.voucherTypeItems = voucher_type.parseArray(data);
             });
-        });
+      
 
-
+      $scope.vouchType = {
+            type: "",
+            expireDate: SharedPropertiesService.getDistributionEndDate(),
+            value: ""
+        };
 
         $scope.Save = function (vouchType) {
             var model = {
@@ -43,5 +43,6 @@ app.controller('VoucherTypeController', ['$scope', '$rootScope', 'WizardViewsSer
                 SharedPropertiesService.getTree().AddType(model);
             });
         }
+          });
     }]);
 

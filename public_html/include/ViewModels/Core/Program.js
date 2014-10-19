@@ -33,31 +33,7 @@ var Program = Base.extend({
             program.code = jsonObj["code"];
             program.create_date = jsonObj["create_date"];
             program.delete_at = jsonObj["delete_at"];      
-            /*           
-            for (x in jsonObj.codes)
-            {
-                var code = new Code();           
-                program.codes.append(code.parse(x));
-            }
           
-            for (x in jsonObj.voucher_types)
-            {
-                var voucher_type = new Voucher_type();           
-                program.voucher_types.append(voucher_type.parse(x));
-            }
-          
-            for (x in jsonObj.vendor_types)
-            {
-                var vendor_type = new Vendor_type();           
-                program.Vendor_types.append(vendor_type.parse(x));
-            }
-          
-            for (x in jsonObj.distributions)
-            {
-                var distribution = new Distribution();           
-                program.Distributions.append(distribution.parse(x));
-            }
-          */               
             return program;
         },
         

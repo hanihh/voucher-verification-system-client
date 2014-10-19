@@ -5,33 +5,33 @@
  */
 
 
-$.getScript("../Base.js", function () {
+$.getScript("include/ViewModels/Base.js", function () {
 });
 
 
 var Distribution_status = Base.extend({
     init: function () {
         this.id = "";
-        this.name = "";
-        this.create_date = "";
-        this.delete_at = "";
-        this.subdistributions = [];
+        this.name = "";   
     },
     parse: function (data) {
         var distribution_status = new Distribution_status();
 
-        var jsonObj = JSON.parse(data);
-        distribution_status.id = jsonObj.id;
-        distribution_status.name = jsonObj.name;
-        distribution_status.create_date = jsonObj.create_date;
-        distribution_status.delete_at = jsonObj.delete_at;
-
-        for (x in jsonObj.subdistributions)
-        {
-            var subdistribution = new Subdistribution();
-            distribution_voucher.subdistributions.append(subdistribution.parse(x));
-        }
+        var jsonObj = data;
+        distribution_status.id = jsonObj["id"];
+        distribution_status.name = jsonObj["name"];
 
         return distribution_status;
+    },
+        
+    parseArray: function(array){
+        var parsedArray = [];  
+        var distribution_status = new Distribution_status();
+                 
+        for (i = 0; i < array["length"]; i++) {             
+            parsedArray.push(distribution_status.parse(array[i]));
+        }
+                   
+        return parsedArray;
     }
 });

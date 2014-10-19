@@ -10,6 +10,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
 
 
         $.getScript('include/ViewModels/Core/Subdistribution.js', function () {
+                 $.getScript('include/ViewModels/Core/Distribution_status.js', function () {
             $.getScript('include/ViewModels/Location/Country.js', function () {
                 $.getScript('include/ViewModels/Location/Governorate.js', function () {
                     $.getScript('include/ViewModels/Location/District.js', function () {
@@ -21,12 +22,27 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                 $scope.district = {id: 0}
                                 $scope.subdistrict = {id: 0}
                                 $scope.subdistribution = new Subdistribution();
+                                $scope.subdistribution.init();
 
-                                $('#defaultrange').on('apply.daterangepicker', function(ev, picker) {
-                                  $scope.subdistribtion.start_date = picker.startDate.format('YYYY-MM-DD');
-                                  $scope.subdistribtion.end_date =  picker.endDate.format('YYYY-MM-DD');
-                            });
-                            
+                                $('#defaultrange').on('apply.daterangepicker', function (ev, picker) {
+                                    $scope.subdistribution.start_date = picker.startDate.format('YYYY-MM-DD');                                    
+                                    var today = new Date(); 
+                                                      
+                                    sub_startdate = dates.convert(picker.startDate);
+                                    switch (dates.compare(picker.startDate,today)){
+                                        case 0:
+                                            alert("Active...");
+                                            $scope.subdistribution.status_id = "Active...";
+                                            break;
+                                        case 1:
+                                            alert("Pending...");
+                                             $scope.subdistribution.status_id = "Pending...";
+                                             break;                                     ;
+                                    }
+                                                                          
+                                    $scope.subdistribution.end_date = picker.endDate.format('YYYY-MM-DD');
+                                });
+
                                 //--- Watching cascade select lists models ---//
                                 $scope.$watch('country', function (newVal, oldVal) {
                                     if (newVal != oldVal)
@@ -131,6 +147,13 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                     var community = new Community();
                                     $scope.communityItems = community.parseArray(data);
                                 });
+                                
+                                  // Status
+                                WizardViewsService.getStatus().success(function (data) {
+                                    var data = data["data"]["distributionStatus"];
+                                    var distribution_status = new Distribution_status();
+                                    $scope.statusItems = distribution_status.parseArray(data);
+                                });
 
                                 var id = ($stateParams) ? $stateParams.id : null;
 
@@ -139,9 +162,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                     WizardViewsService.getSubdistributions(id).success(function (data) {
                                         var data = data["data"]["subdistribution"];
                                         var subdistribution = new Subdistribution();
-
                                         $scope.subdistribution = subdistribution.parse(data);
-                                    console.log($scope.subdistribution);
                                         var community = data["community"];
                                         // Subdistricts
 
@@ -172,25 +193,19 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                                 });
                                             });
                                         });
-                                    });
-                                    
-                                    
-                                               var startDate = new Date($scope.subdistribution.start_date);
-               var endDate = new Date($scope.subdistribution.end_date);
+                                        var startDate = new Date($scope.subdistribution.start_date);
+                                        var endDate = new Date($scope.subdistribution.end_date);
 
-                    $('#defaultrange').data('daterangepicker').setStartDate(startDate);
-                    $('#defaultrange').data('daterangepicker').setEndDate( endDate);
-                    
-                    $scope.dateRange = startDate.toDateString() + " - " + endDate.toDateString();
+                                        $('#defaultrange').data('daterangepicker').setStartDate(startDate);
+                                        $('#defaultrange').data('daterangepicker').setEndDate(endDate);
+
+                                        $scope.dateRange = startDate.toDateString() + " - " + endDate.toDateString();
+                                    });
                                 }
 
-                
-        
-    
-
                                 $scope.Save = function (subdistributionForm, subdistribution) {
-                                   console.log($('#defaultrange'));
-                                 
+                                    console.log($('#defaultrange'));
+
                                     if (subdistributionForm.$valid) {
                                         //subdistributionForm.$setPristine(true);
 
@@ -214,7 +229,8 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                         alert("not valid");
                                 }
 
-                            });
+                              });
+                           });
                         });
                     });
                 });

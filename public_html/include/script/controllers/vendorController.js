@@ -8,16 +8,18 @@
 
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
 app.controller('VendorController', ['$scope', 'WizardViewsService', 'SharedPropertiesService', function ($scope, WizardViewsService, SharedPropertiesService) {
-        $scope.vendor = {
+ 
+
+        $.getScript('include/ViewModels/Vendor/Vendor.js', function () {
+  
+        $.getScript('include/ViewModels/Vendor/Phone.js', function () {
+     
+
+       $scope.vendor = {
             vendor:"",
             chosenPhones: ""
         };
-
-        $.getScript('include/ViewModels/Vendor/Vendor.js', function () {
-        });
-        $.getScript('include/ViewModels/Vendor/Phone.js', function () {
-        });
-
+        
         //Vendor
         WizardViewsService.getVendors().success(function (data) {
             var data = data["data"]["vendor"];
@@ -49,6 +51,7 @@ app.controller('VendorController', ['$scope', 'WizardViewsService', 'SharedPrope
             }); 
                   
         }
+           });      });
     }]);
 
 
