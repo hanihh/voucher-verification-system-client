@@ -1,43 +1,48 @@
 <!DOCTYPE html>
 
 
-    <div class="portlet-body form">
-        <form action="#" class="form-horizontal form-bordered">
-            <div class="form-body">  
-                <div class="form-group">
-                    <label class="control-label col-md-3">Type</label>
-                    <div class="col-md-4">
-                        <select class="form-control input-medium select2me" data-placeholder="Select..." ng-model='vouchType.type' ng-options='voucherTypeItem as voucherTypeItem.name for voucherTypeItem in voucherTypeItems'>
-                            <option value="" ng-hide="vouchType.type">Select...</option>
-                        </select><!--track by voucherTypeItem.id-->
-                    </div>
+<div class="portlet-body form">
+    <form action="#" class="form-horizontal form-bordered">
+        <div class="form-body">  
+            <div class="form-group">
+                <label class="control-label col-md-3">Type</label>
+                <div class="col-md-4">
+                    <select class="form-control input-medium select2me" data-placeholder="Select..." ng-model='distributionVoucherType.type_id' ng-options='voucherTypeItem.id as voucherTypeItem.name for voucherTypeItem in voucherTypeItems'>
+                        <option value="" ng-hide="distributionVoucherType.type">Select...</option>
+                    </select><!--track by voucherTypeItem.id-->
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label class="control-label col-md-3">Expiration Date</label>
-                    <div class="col-md-3">
-                        <input class="form-control form-control-inline input-medium date-picker" size="16" type="text" value="" ng-model='vouchType.expireDate'/>
-                        <span class="help-block">
-                            Select date </span>
+            <div class="form-group">
+                <label class="control-label col-md-3">Disable Past Dates</label>
+                <div class="col-md-3">
+                    <div id="expiredate" class="input-group input-medium date date-picker" data-date-format="dd-mm-yyyy" data-date-start-date="+0d">
+                        <input type="text" class="form-control" readonly  ng-model='expireDate'>
+                        <span class="input-group-btn">
+                            <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+                        </span>
                     </div>
+                    <!-- /input-group -->
+                    <span class="help-block">
+                        Select date </span>
                 </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">Value</label>
+                <div class="col-md-3">
+                    <div class="input-inline input-medium">
+                        <input id="touchspin" type="text" name="touchspin" class="form-control" ng-model='distributionVoucherType.value'>
+                    </div>                     
+                </div>
+            </div>
 
-                <div class="form-group">
-                    <label class="control-label col-md-3">Value</label>
-                    <div class="col-md-3">
-                        <div class="input-inline input-medium">
-                            <input id="touchspin" type="text" name="touchspin" class="form-control" ng-model='vouchType.value'>
-                        </div>                     
-                    </div>
-                </div>
-
-                <div class="form-group" style="float:right;" >
-                    <button style="width:100px" type="button" class="btn red"><i class="fa fa-times"></i> Cancel</button>
-                    <button  style="width:100px" type="button" class="btn green" ng-click="Save(vouchType)"><i class="fa fa-floppy-o"></i> Save</button>
-                </div>
-            </div>   
-        </form>
-    </div>
+            <div class="form-group" style="float:right;" >
+                <button style="width:100px" type="button" class="btn red"><i class="fa fa-times"></i> Cancel</button>
+                <button  style="width:100px" type="button" class="btn green" ng-click="Save(distributionVoucherType)"><i class="fa fa-floppy-o"></i> Save</button>
+            </div>
+        </div>   
+    </form>
+</div>
 
 <!-- Datetimepickers related PLUGINS -->
 <script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
@@ -51,18 +56,18 @@
 <!-- END PLUGINS -->
 
 <script>
-     jQuery(document).ready(function () {
-                            Metronic.init();
-                            ComponentsPickers.init();    
-                        });
-                        
-     $("input[name='touchspin']").TouchSpin({
-                min: 0,
-                max: 10000000000,
-                step: 1,
-                decimals: 2,
-                boostat: 5,
-                maxboostedstep: 10,
-                prefix: '$'
-            });
+                    jQuery(document).ready(function () {
+                        Metronic.init();
+                        ComponentsPickers.init();
+                    });
+
+                    $("input[name='touchspin']").TouchSpin({
+                        min: 0,
+                        max: 10000000000,
+                        step: 1,
+                        decimals: 2,
+                        boostat: 5,
+                        maxboostedstep: 10,
+                        prefix: '$'
+                    });
 </script>

@@ -8,7 +8,7 @@
 
 app.factory('DataProviderService', ['$http', function ($http) {
         var dataFactory = {};
-        var server_url = "http://localhost/vvs_v2/index.php/";
+        var server_url = "http://localhost:8080/vvs_v2/index.php/";
 
         //*** Gets Methods ***//
         dataFactory.getDistributions = function (id) {
@@ -36,34 +36,58 @@ app.factory('DataProviderService', ['$http', function ($http) {
             var _id = (id) ? id : "";           
             return $http({method: 'GET', url: server_url + 'api/governorate/' + _id});
         };
+          dataFactory.getGovernoratesByFilter = function (params){
+             //console.log(JSON.stringify(GetFilter(params)));
+            return $http({method: 'GET', url: server_url + 'api/governorate/?filter='+ JSON.stringify(GetFilter(params))});
+        };
         dataFactory.getDistricts = function (id) {
             var _id = (id) ? id : "";
             return $http({method: 'GET', url: server_url + 'api/district/' + _id});
+        };
+          dataFactory.getDistrictsByFilter = function (params){
+             //console.log(JSON.stringify(GetFilter(params)));
+            return $http({method: 'GET', url: server_url + 'api/district/?filter='+ JSON.stringify(GetFilter(params))});
         };
         dataFactory.getSubdistricts = function (id) {
             var _id = (id) ? id : "";
             return $http({method: 'GET', url: server_url + 'api/subdistrict/' + _id});
         };
+          dataFactory.getSubdistrictsByFilter = function (params){
+             //console.log(JSON.stringify(GetFilter(params)));
+            return $http({method: 'GET', url: server_url + 'api/subdistrict/?filter='+ JSON.stringify(GetFilter(params))});
+        };
         dataFactory.getCommunities = function (id) {
             var _id = (id) ? id : "";
             return $http({method: 'GET', url: server_url + 'api/community/' + _id});
         };
+          dataFactory.getCommunitiesByFilter = function (params){
+             //console.log(JSON.stringify(GetFilter(params)));
+            return $http({method: 'GET', url: server_url + 'api/community/?filter='+ JSON.stringify(GetFilter(params))});
+        };
         dataFactory.getVoucherTypes = function () {
             return $http({method: 'GET', url: server_url + 'api/VoucherType'});
+        };
+        dataFactory.getSubdistributionVoucher = function(id) {
+            var _id = (id) ? id : "";
+            return $http({method: 'GET', url: server_url + 'api/distributionvoucher/' + _id});
         };
          dataFactory.getSubdistributionVoucherByFilter = function (params){
              //console.log(JSON.stringify(GetFilter(params)));
             return $http({method: 'GET', url: server_url + 'api/distributionvoucher/?filter='+ JSON.stringify(GetFilter(params))});
         };
         dataFactory.getBeneficiaries = function (filter) {    
-            var filterString = "";
             return $http({method: 'GET', url: server_url + 'api/Beneficiary'});
         };        
          dataFactory.getBeneficiariesByFilter = function (params) {                
              return $http({method: 'GET', url: server_url + 'api/Beneficiary/?filter='+ JSON.stringify(GetFilter(params))});
         };
-        dataFactory.getVendors = function () {
-            return $http({method: 'GET', url: server_url + 'api/Vendor'});
+        dataFactory.getVendors = function (id) {
+                      var _id = (id) ? id : "";
+            return $http({method: 'GET', url: server_url + 'api/Vendor/' + _id});
+        };
+        dataFactory.getVendorMobiles = function (id) {
+                      var _id = (id) ? id : "";
+            return $http({method: 'GET', url: server_url + 'api/vendormobile/' + _id});
         };
         dataFactory.getPhones = function () {
             return $http({method: 'GET', url: server_url + 'api/phone'});
@@ -88,6 +112,10 @@ app.factory('DataProviderService', ['$http', function ($http) {
         dataFactory.createVendorMobile = function (vendor) {    
              $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
                   return $http({method: 'POST', url: server_url + 'api/vendormobile', data: vendor});
+        };
+         dataFactory.createVoucher = function (voucher) {    
+             $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+                  return $http({method: 'POST', url: server_url + 'voucher/generate', data: voucher});
         };
         //*********************//
         

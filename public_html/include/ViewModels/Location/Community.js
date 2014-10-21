@@ -14,7 +14,7 @@ var Community = Base.extend({
         this.code = "";   
         this.en_name = "";
         this.ar_name = "";
-        this.subdistrictId = 0;
+        this.subdistrict_id = 0;
         //this.beneficiaries = [];       
         //this.subdistributions = [];
     },
@@ -27,7 +27,7 @@ var Community = Base.extend({
             community.en_name = jsonObj['en_name'];
             community.ar_name = jsonObj['ar_name'];
             community.code = jsonObj['code'];
-            community.subdistrictId = jsonObj['subdistrict_id'];
+            community.subdistrict_id = jsonObj['subdistrict']['id'];
             /*
             for (x in jsonObj.beneficiaries)
             {

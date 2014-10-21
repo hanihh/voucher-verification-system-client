@@ -9,8 +9,8 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">Vendor</label>
                     <div class="col-md-4">
-                        <select class="form-control input-medium select2me" data-placeholder="Select..." ng-model='vendor.vendor' ng-options='vendorItem as vendorItem.en_name for vendorItem in vendorItems' required>
-                            <option value=""  ng-hide="vendor.vendor">Select...</option>
+                        <select class="form-control input-medium select2me" data-placeholder="Select..." ng-model='vendor_mobile.vendor_id' ng-options='vendorItem.id as vendorItem.en_name for vendorItem in vendorItems' required>
+                            <option value=""  ng-hide="vendor_mobile.vendor_id">Select...</option>
                         </select>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">Chosen Phones</label>
                     <div class="col-md-6">
-                        <input id="tagsChosen" type="text" class="form-control tags medium" ng-model='vendor.chosenPhones' value=""/>
+                        <input id="tagsChosen" type="text" class="form-control tags medium" ng-model='chosenPhones' value=""/>
                     </div>
                 </div>
 

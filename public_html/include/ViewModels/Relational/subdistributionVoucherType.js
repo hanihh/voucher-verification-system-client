@@ -29,6 +29,6 @@ var SubdistributionVoucherType = Base.extend({
             subdistributionVoucherType.expiration_date = jsonObj['expiration_date'];
             subdistributionVoucherType.value = jsonObj['value'];
             subdistributionVoucherType.subdistribution_id = jsonObj['subdistribution']['id'];
-            return subdistribution;
+            return subdistributionVoucherType;
         }
 });

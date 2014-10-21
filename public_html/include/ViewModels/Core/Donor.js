@@ -16,7 +16,6 @@ var Donor = Base.extend({
         this.logo_path = "";
         this.slogan_en = "";
         this.slogan_ar = "";
-        this.distributions = [];
     },
     parse: function (data) {
         var donor = new Donor();

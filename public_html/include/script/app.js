@@ -208,5 +208,8 @@ var dates = {
             start <= d && d <= end :
             NaN
         );
+    },
+    check: function(date) {
+        return date.toString() == "Invalid Date" ? false : true;        
     }
 }

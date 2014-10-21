@@ -23,20 +23,14 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($
             url: '/subdistributionsreport',
             templateUrl: 'views/wizardviews/SubdistributionsReport.html'
         }).state('vendor', {
-            url: '/vendor',
-            params: [
-                {id: {default: "", type:'integer'}}
-            ],
+            url: '/vendor/:id',            
             controller: 'VendorController',
             templateUrl: 'views/wizardviews/vendor.html'
         }).state('vendorreport', {
             url: '/vendorreport',
             templateUrl: 'views/wizardviews/vendorsReport.html'
         }).state('vouchertype', {
-            url: '/vouchertype',
-            params: [
-                {id: {default: "", type:'integer'}}
-            ],
+            url: '/vouchertype/:id',            
             controller: 'VoucherTypeController',
             templateUrl: 'views/wizardviews/vouchertype.html'            
         }).state('beneficiaryDist', {

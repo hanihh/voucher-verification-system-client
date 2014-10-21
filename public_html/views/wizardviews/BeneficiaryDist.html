@@ -97,13 +97,13 @@
                 <div class="" style="position: absolute; bottom: 75px; right: 0%; background-color: #FFF">
                     <label class="col-md-3">Chosen Beneficiaries</label>
                     <div class="col-md-4">
-                        <input id="tagsChosen" type="text" class="form-control tags medium" value="" />
+                        <input id="tagsChosen" type="text" style="overflow: scroll" class="form-control tags medium" value="" />
                     </div>
                 </div>
 
                 <div class="form-group" style="float: right">
                     <button style="width:100px" type="button" class="btn red"><i class="fa fa-times"></i> Cancel</button>
-                    <button  style="width:100px" type="button" class="btn green"><i class="fa fa-floppy-o"></i> Save</button>
+                    <button  style="width:100px" type="button" class="btn green" ng-click="Save()"><i class="fa fa-floppy-o"></i> Save</button>
                     <button  style="width:100px" type="button" class="btn green" ng-click="Filter(filter)"><i class="fa fa-floppy-o"></i> Filter</button>
                 </div>
             </div>   

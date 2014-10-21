@@ -32,8 +32,8 @@ var Distribution = Base.extend({
                   distribution.name = jsonObj['name'];  
             distribution.title_en = jsonObj['title_en'];   
             distribution.title_ar = jsonObj['title_ar'];        
-            distribution.start_date = jsonObj['start_date'];
-            distribution.end_date = jsonObj['end_date'];
+            distribution.start_date = (jsonObj['start_date'] == null ? "" : jsonObj['start_date']);
+            distribution.end_date = (jsonObj['end_date'] == null ? "" : jsonObj['end_date']);
             distribution.online = jsonObj['online'];
             distribution.program_id = jsonObj['program']["id"];
             distribution.donor_id = jsonObj['donor']["id"];

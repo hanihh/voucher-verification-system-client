@@ -7,18 +7,15 @@
 
 
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
-app.controller('VendorController', ['$scope', 'DataProviderService', 'SharedPropertiesService', function ($scope, DataProviderService, SharedPropertiesService) {
+app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
  
 
         $.getScript('include/ViewModels/Vendor/Vendor.js', function () {
-  
+   $.getScript('include/ViewModels/Relational/Vendor_mobile.js', function () {
         $.getScript('include/ViewModels/Vendor/Phone.js', function () {
      
 
-       $scope.vendor = {
-            vendor:"",
-            chosenPhones: ""
-        };
+       $scope.vendor_mobile = new Vendor_mobile();
         
         //Vendor
         DataProviderService.getVendors().success(function (data) {
@@ -37,10 +34,22 @@ app.controller('VendorController', ['$scope', 'DataProviderService', 'SharedProp
             InitImeiTypeahead($scope.phones);
         });
 
+        var id = ($stateParams) ? $stateParams.id : null;
+
+        if (id)
+        {
+            DataProviderService.getVendorMobiles(id).success(function (data) {
+                var data = data["data"]["vendor"];
+                var vendor_mobile = new Vendor_mobile();
+                $scope.vendor_mobile = vendor_mobile.parse(data);
+                console.log( $scope.vendor_mobile );
+            });
+        }
+        
         $scope.Save = function (vendor) {
             var model = {
-                vendor_id: vendor.id,
-                phones: vendor.chosenPhones,                      
+                vendor_id: vendor_mobile.vendor_id,
+                phones: chosenPhones,                      
                 subdistribution_id: SharedPropertiesService.getDistributionId()
             }
             console.log(vendor);
@@ -51,7 +60,9 @@ app.controller('VendorController', ['$scope', 'DataProviderService', 'SharedProp
             }); 
                   
         }
-           });      });
+           });      
+       });
+        });
     }]);
 
 

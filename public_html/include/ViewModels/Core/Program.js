@@ -15,12 +15,6 @@ var Program = Base.extend({
         this.id = "";
         this.name = "";
         this.code = "";
-        this.create_date = "";
-        this.delete_at = "";
-        this.codes = [];
-        this.voucher_types = [];
-        this.vendor_types = [];
-        this.distributions = [];
     },
     
      parse: function(data){

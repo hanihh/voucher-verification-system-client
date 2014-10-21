@@ -116,12 +116,16 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 parentTypeNodeId = parentTypeNodeId.replace("Types", "");
                 return parentTypeNodeId;
             },
+            getBeneficiarySubdistributionId: function(){
+                 var parentTypeNodeId = tree.jstree(true).get_selected(true)[0].parent;
+                return parentTypeNodeId;
+            },
             AddType: function (vouchType, WithSelectMethodology) {
-                tree.jstree(true).create_node(vouchType.subdistribution_id + "Types", CreateNode(vouchType.id + "vouchertype", vouchType.value));
+                tree.jstree(true).create_node(vouchType.subdistribution_id + "Types", CreateNode(vouchType.id + "vouchertype", vouchType.value, "fa fa-dollar icon-state-success"));
                 SetNodeRoute(tree.jstree(true).get_node(vouchType.id + "vouchertype"), "vouchertype", {id: vouchType.id});
 
-                var subdistributionBeneficiary = tree.jstree(true).get_node(vouchType.subdistribution_id + "Benes");
-                subdistributionBeneficiary.state.enabled = true;
+                var subdistributionBeneficiary = tree.jstree(true).get_node(vouchType.subdistribution_id + "Benes");                
+                subdistributionBeneficiary.state.disabled = false;
                 subdistributionBeneficiary.a_attr['class'] = '';
 
                 if (WithSelectMethodology) {
@@ -209,9 +213,10 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
         var $root = $("#tree_1").jstree({
             core: {
                 check_callback: true,
-                multiple: false
-            },
-            plugins: ["dnd"]
+                multiple: false,
+                draggable : false
+            },            
+            plugins: []
         });
 
         $("#tree_1").bind("select_node.jstree", function (event, data)

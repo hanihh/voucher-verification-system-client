@@ -31,6 +31,9 @@ app.factory('SharedPropertiesService', function () {
         },
         getSubdistributionIdForNewVoucherValue: function() {
             return tree.getAddTypeSubdistributionId();
-        },        
+        },     
+         getSubdistributionIdForBeneficiary: function() {
+            return tree.getBeneficiarySubdistributionId();
+        },     
     };
 });
