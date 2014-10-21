@@ -10,24 +10,26 @@
 app.controller('beneficiaryDistController', ['$scope', 'DataProviderService','SharedPropertiesService', function ($scope, DataProviderService, SharedPropertiesService) {
         $scope.beneficiary = {};
         $scope.filter = {};
-
+        //$scope.subdistributionId = SharedPropertiesService.getSubdistributionIdForBeneficiary();
+        $scope.subdistributionId = 73;        
         $.getScript('include/ViewModels/Beneficiary/Beneficiary.js', function ()
         {
             // script is now loaded and executed.
             // put your dependent JS here.
-            DataProviderService.getBeneficiaries().success(function (data) {
-                var data = data["data"]["beneficiary"];
-
-                var beneficiary = new Beneficiary();
-                $scope.beneficiaries = beneficiary.parseArray(data);
-
+         //   DataProviderService.getBeneficiariesBySubdistributionId($scope.subdistributionId).success(function (data) {
+           //     var data = data["Beneficiaries"];
+                //var beneficiary = new Beneficiary();
+//                $scope.beneficiaries = beneficiary.parseArray(data);
+              //  $scope.beneficiaries = data;
 
                 $('.date-picker').datepicker({
                     rtl: Metronic.isRTL(),
                     autoclose: true
-                });
+                });                
                 
-                
+                var dataSource = DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId);
+               var  dataProp = "Beneficiaries";
+               
                 $('#datatable_ajax').dataTable({
                     "pageLength": 10, // default record count per page
                     "bProcessing": true,
@@ -46,9 +48,9 @@ app.controller('beneficiaryDistController', ['$scope', 'DataProviderService','Sh
                                 return "";
                             }}
                     ],
-                    "sAjaxSource": "http://localhost:8080/vvs_v2/index.php/api/Beneficiary",
+                    "sAjaxSource": dataSource,
                     "sServerMethod": "GET",
-                    "sAjaxDataProp": "data.beneficiary",
+                    "sAjaxDataProp": dataProp, //"data.beneficiary",
                     "contentType": "application/json; charset=utf-8",
                     "dataType": "json",
                     "order": [
@@ -56,9 +58,7 @@ app.controller('beneficiaryDistController', ['$scope', 'DataProviderService','Sh
                     ] // set first column as a default s
                 });
 
-
-
-    
+   
                 $(".ChooseCheckBox").live("click", function () {
                     if ($(this).is(':checked'))
                     {
@@ -69,18 +69,12 @@ app.controller('beneficiaryDistController', ['$scope', 'DataProviderService','Sh
                         checkedBenesIds.pop( $(this).attr("idvalue"));
                     }
                 });
-            });
+            //});
         });
 
 
-        $scope.Save = function () {
-            var subdistributionId = SharedPropertiesService.getSubdistributionIdForBeneficiary();
-//            var object = {
-//                "subdistribution_id": subdistributionId,
-//                "beneficiaries": checkedBenesIds, 
-//                "check_all":0
-//            };
-            var object = $.param({ subdistribution_id: subdistributionId,
+        $scope.Save = function () {         
+            var object = $.param({ subdistribution_id: $scope.subdistributionId,
                 beneficiaries: checkedBenesIds, 
                 check_all:0});
             DataProviderService.createVoucher(object).success(function(){

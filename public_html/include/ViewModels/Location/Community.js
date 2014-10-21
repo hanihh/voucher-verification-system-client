@@ -10,7 +10,7 @@ $.getScript("include/ViewModels/Base.js", function () {
 var Community = Base.extend({
 
     init: function() {
-        this.id = 0;
+        this.id = null;
         this.code = "";   
         this.en_name = "";
         this.ar_name = "";

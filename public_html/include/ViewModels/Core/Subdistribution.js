@@ -12,7 +12,7 @@ $.getScript("include/ViewModels/Base.js", function () {
 var Subdistribution = Base.extend({
 
     init: function() {
-        this.id = "";
+        this.id = null;
         this.code = "";
         this.start_date = "";
         this.end_date = "";

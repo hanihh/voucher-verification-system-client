@@ -66,7 +66,7 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                             
                             $scope.dateRange = startDateString +  (startDateString == "" && endDateString == "" ? "" : " - ") + endDateString;
                             // ******************************************************
-                            
+                            SharedPropertiesService.setDistributionId(id);
                             SharedPropertiesService.getTree().BulidTreeByDistribution($scope.distribution);
                         });
                     }

@@ -25,7 +25,7 @@ $.getScript("include/ViewModels/Base.js", function () {
 var Voucher = Base.extend({
 
     init: function(code, distribution_voucher_id, ben_id, vendor_id, status_id) {
-        this.id = 0;
+        this.id = null;
        this.code = "";
        this.distribution_voucher_id = 0;
        this.ben_id = 0;

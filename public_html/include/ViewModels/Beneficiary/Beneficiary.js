@@ -10,7 +10,7 @@ $.getScript("include/ViewModels/Base.js", function () {
 
 var Beneficiary = Base.extend({
     init: function () {
-        this.id = 0;
+        this.id = null;
         this.create_date = "";
         this.update_date = "";
         this.registration_code = "";

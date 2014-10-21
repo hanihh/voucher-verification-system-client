@@ -136,14 +136,6 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                         //console.log( $scope.countryItems);
                                     });
 
-
-
-
-
-
-
-
-
                                     // Status
                                     DataProviderService.getStatus().success(function (data) {
                                         var data = data["data"]["distributionStatus"];
@@ -217,8 +209,10 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
 
                                         console.log(subdistribution);
                                         DataProviderService.createSubDistribution(subdistribution).success(function (data) {
+                                            console.log(data);
                                             var id = data["data"]["subdistribution"]["id"];
                                             subdistribution.id = id;
+                                              console.log(subdistribution);
                                             SharedPropertiesService.getTree().AddSubdistribution(subdistribution);
                                         });
 //                                        }

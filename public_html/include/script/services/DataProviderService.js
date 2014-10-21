@@ -75,9 +75,15 @@ app.factory('DataProviderService', ['$http', function ($http) {
              //console.log(JSON.stringify(GetFilter(params)));
             return $http({method: 'GET', url: server_url + 'api/distributionvoucher/?filter='+ JSON.stringify(GetFilter(params))});
         };
-        dataFactory.getBeneficiaries = function (filter) {    
+        dataFactory.getBeneficiaries = function () {    
             return $http({method: 'GET', url: server_url + 'api/Beneficiary'});
-        };        
+        };      
+        dataFactory.getBeneficiariesBySubdistributionId = function (subdist_id) {    
+            return $http({method: 'GET', url: server_url + 'api/Beneficiary/GetBeneficiaryFordistribution?subdistribution_id=' + subdist_id});
+        };      
+        dataFactory.getBeneficiariesBySubdistributionIdURL = function (subdist_id) {    
+            return server_url + 'api/Beneficiary/GetBeneficiaryFordistribution?subdistribution_id=' + subdist_id;
+        };      
          dataFactory.getBeneficiariesByFilter = function (params) {                
              return $http({method: 'GET', url: server_url + 'api/Beneficiary/?filter='+ JSON.stringify(GetFilter(params))});
         };

@@ -12,7 +12,7 @@ $.getScript("../Base.js", function () {
 var Vendor_type = Base.extend({
 
     init: function() {
-        this.id = 0;
+        this.id = null;
         this.name = "";   
         this.code = "";
         this.create_date = "";

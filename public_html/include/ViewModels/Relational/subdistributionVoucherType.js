@@ -12,7 +12,7 @@ $.getScript("include/ViewModels/Base.js", function () {
 var SubdistributionVoucherType = Base.extend({
 
     init: function() {
-        this.id="";
+        this.id=null;
         this.type_id= "" ;
         this.expiration_date= "" ;
         this.value="" ;

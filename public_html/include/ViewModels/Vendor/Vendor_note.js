@@ -21,7 +21,7 @@ $.getScript("../Base.js", function () {
 var Vendor_note = Base.extend({
 
     init: function() {
-        this.id = 0;
+        this.id = null;
         this.text = "";
         this.create_date = "";
         this.delete_at = "";

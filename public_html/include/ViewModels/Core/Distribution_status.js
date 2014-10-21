@@ -11,7 +11,7 @@ $.getScript("include/ViewModels/Base.js", function () {
 
 var Distribution_status = Base.extend({
     init: function () {
-        this.id = "";
+        this.id = null;
         this.name = "";   
     },
     parse: function (data) {

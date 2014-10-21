@@ -9,7 +9,7 @@ $.getScript("include/ViewModels/Base.js", function () {
 
 var Governorate = Base.extend({
     init: function() {    
-        this.id = 0;
+        this.id = null;
         this.ar_name = "";
         this.en_name = "";
         this.code = "";

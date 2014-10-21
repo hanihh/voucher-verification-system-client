@@ -12,7 +12,7 @@ $.getScript("include/ViewModels/Base.js", function () {
 var Voucher_type = Base.extend({
 
     init: function() {
-        this.id = "";
+        this.id = null;
         this.name = "";
         this.create_date = "";
         this.delete_at = "";

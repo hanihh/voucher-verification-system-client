@@ -11,7 +11,7 @@ $.getScript("include/ViewModels/Base.js", function () {
 var Vendor = Base.extend({
 
     init: function() {
-        this.id = 0;
+        this.id = null;
         this.code = "";   
         this.en_name = "";
         this.ar_name = "";

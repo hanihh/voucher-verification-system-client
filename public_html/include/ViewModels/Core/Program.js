@@ -12,7 +12,7 @@ $.getScript("include/ViewModels/Base.js", function () {
 var Program = Base.extend({
 
     init: function() {
-        this.id = "";
+        this.id = null;
         this.name = "";
         this.code = "";
     },

@@ -14,7 +14,7 @@ $.getScript("../Base.js", function () {
 var Vendor_status = Base.extend({
 
     init: function() {
-        this.id = 0;
+        this.id = null;
         this.name = "";   
         this.description = "";
         this.create_date = "";

@@ -17,7 +17,7 @@ $.getScript("include/ViewModels/Base.js", function () {
 
 var Vendor_mobile = Base.extend({
     init: function () {
-        this.id = 0;
+        this.id = null;
         this.subdistribution_id = "";
         this.vendor_id = "";
         this.phone_id = "";

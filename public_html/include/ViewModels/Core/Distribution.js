@@ -12,7 +12,7 @@ $.getScript("include/ViewModels/Base.js", function () {
 var Distribution = Base.extend({
 
     init: function() {
-        this.id = "";
+        this.id = null;
         this.name = "";
         this.en_title = "";
         this.ar_title = "";

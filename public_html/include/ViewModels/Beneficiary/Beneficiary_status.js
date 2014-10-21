@@ -9,7 +9,7 @@ $.getScript("../Base.js", function(){});
 
 var Beneficiary_status = Base.extend({
     init: function() {
-        this.id = 0;
+        this.id = null;
         this.name = "";
         this.create_date = "";
         this.deleted_at = "";        

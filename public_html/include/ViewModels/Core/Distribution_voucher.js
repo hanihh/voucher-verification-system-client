@@ -12,7 +12,7 @@ $.getScript("../Base.js", function () {
 var Distribution_voucher = Base.extend({
 
     init: function() {
-        this.id = "";
+        this.id = null;
         this.expiration_date = "";
         this.create_date = "";
         this.delete_at = "";

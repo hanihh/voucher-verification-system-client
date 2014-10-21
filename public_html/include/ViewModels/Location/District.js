@@ -9,7 +9,7 @@ $.getScript("include/ViewModels/Base.js", function () {
 
 var District = Base.extend({
     init: function() {
-        this.id = 0;
+        this.id = null;
         this.code = "";
         this.ar_name = "";
         this.en_name = "";

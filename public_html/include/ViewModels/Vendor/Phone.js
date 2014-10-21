@@ -12,7 +12,7 @@ $.getScript("include/ViewModels/Base.js", function () {
 var Phone = Base.extend({
 
     init: function() {
-        this.id = 0;
+        this.id = null;
         this.model = "";   
         this.imei = "";
         this.create_date = "";

@@ -9,7 +9,7 @@ $.getScript("../Base.js", function(){});
 
 var Nationality = Base.extend({
     init: function() {
-        this.id = 0;
+        this.id = null;
         this.name = "";      
     },
     parse: function(data){
