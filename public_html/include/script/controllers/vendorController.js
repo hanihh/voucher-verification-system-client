@@ -31,7 +31,7 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
             $scope.phones = phone.parseArray(data);         
             
             //Function exists in the view file (html file)
-            InitImeiTypeahead($scope.phones);
+            InitImeiTypeahead($scope.phones, SharedPropertiesService.getDistributionStatus());
         });
 
         var id = ($stateParams) ? $stateParams.id : null;
@@ -46,14 +46,10 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
             });
         }
         
-        $scope.Save = function (vendor) {
-            var model = {
-                vendor_id: vendor_mobile.vendor_id,
-                phones: chosenPhones,                      
-                subdistribution_id: SharedPropertiesService.getDistributionId()
-            }
-            console.log(vendor);
-            DataProviderService.createVendorMobile(model).success(function (data) {
+        $scope.Save = function (vendor_mobile) {
+            vendor_mobile.sub
+            console.log(vendor_mobile);
+            DataProviderService.createVendorMobile(vendor_mobile).success(function (data) {
                    var id = data["data"]["vendormobile"]["id"];
                    model.id = id;        
                   SharedPropertiesService.getTree().AddVendor(model);

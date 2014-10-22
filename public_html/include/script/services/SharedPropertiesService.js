@@ -8,6 +8,7 @@
 app.factory('SharedPropertiesService', function () {
     var tree = '';    
     var DistributionId = -1;
+    var DistributionStatus = true;
     var DistributionEndDate = "";
     return {
         getTree: function () {
@@ -22,6 +23,12 @@ app.factory('SharedPropertiesService', function () {
         },
         setDistributionId: function(value){
               DistributionId = value;
+        },
+        getDistributionStatus: function() {
+               return DistributionStatus;
+        },
+        setDistributionStatus: function(value) {
+              DistributionStatus = (value == 1 ? true : false) ;
         },
         getDistributionEndDate: function() {
               return  DistributionEndDate; 

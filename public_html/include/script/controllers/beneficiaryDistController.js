@@ -3,83 +3,122 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-            var checkedBenesIds = [];
-
+var checkedBenesIds = [];
+var addedBenesIds = [];
+var canceledBenesIds = [];
 
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
-app.controller('beneficiaryDistController', ['$scope', 'DataProviderService','SharedPropertiesService', function ($scope, DataProviderService, SharedPropertiesService) {
+app.controller('beneficiaryDistController', ['$scope', 'DataProviderService', 'SharedPropertiesService', function ($scope, DataProviderService, SharedPropertiesService) {
         $scope.beneficiary = {};
         $scope.filter = {};
         //$scope.subdistributionId = SharedPropertiesService.getSubdistributionIdForBeneficiary();
-        $scope.subdistributionId = 73;        
+        $scope.subdistributionId = 91;
         $.getScript('include/ViewModels/Beneficiary/Beneficiary.js', function ()
         {
             // script is now loaded and executed.
             // put your dependent JS here.
-         //   DataProviderService.getBeneficiariesBySubdistributionId($scope.subdistributionId).success(function (data) {
-           //     var data = data["Beneficiaries"];
-                //var beneficiary = new Beneficiary();
+            //   DataProviderService.getBeneficiariesBySubdistributionId($scope.subdistributionId).success(function (data) {
+            //     var data = data["Beneficiaries"];
+            //var beneficiary = new Beneficiary();
 //                $scope.beneficiaries = beneficiary.parseArray(data);
-              //  $scope.beneficiaries = data;
+            //  $scope.beneficiaries = data;
 
-                $('.date-picker').datepicker({
-                    rtl: Metronic.isRTL(),
-                    autoclose: true
-                });                
-                
-                var dataSource = DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId);
-               var  dataProp = "Beneficiaries";
-               
-                $('#datatable_ajax').dataTable({
-                    "pageLength": 10, // default record count per page
-                    "bProcessing": true,
-                    "bServerSide": true,
-                    "aoColumns": [
-                        {"mData": "registration_code",
-                            "mRender": function (data, type, full) {
-                                //return "<input type='checkbox' class='ChooseCheckBox' value=" + data + " idValue=" + data + " >";
-                                           return "<input type='checkbox' class='ChooseCheckBox' value=" + full.registration_code + " idValue = " + full.id + " >";
-                            }},
-                        {"mData": "registration_code"},
-                        {"mData": "en_name"},
-                        {"mData": "father_name"},
-                        {"mData": "birth_year"},
-                        {"mRender": function (data, type, full) {
-                                return "";
-                            }}
-                    ],
-                    "sAjaxSource": dataSource,
-                    "sServerMethod": "GET",
-                    "sAjaxDataProp": dataProp, //"data.beneficiary",
-                    "contentType": "application/json; charset=utf-8",
-                    "dataType": "json",
-                    "order": [
-                        [1, "asc"]
-                    ] // set first column as a default s
-                });
+            $('.date-picker').datepicker({
+                rtl: Metronic.isRTL(),
+                autoclose: true
+            });
 
-   
-                $(".ChooseCheckBox").live("click", function () {
-                    if ($(this).is(':checked'))
-                    {
-                        $('#tagsChosen').addTag($(this).attr("value"));
-                        checkedBenesIds.push( $(this).attr("idvalue"));
-                    } else {
-                        $('#tagsChosen').removeTag($(this).attr("value"));
-                        checkedBenesIds.pop( $(this).attr("idvalue"));
+            var dataSource = DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId, true, true);
+            var dataProp = "Beneficiaries";
+
+            $('#datatable_ajax').dataTable({
+                "pageLength": 10, // default record count per page
+                "bProcessing": true,
+                //  "bServerSide": true,
+                "aoColumns": [
+                    {"mData": "registration_code",
+                        "mRender": function (data, type, full) {
+                            var checkedAttr = "";
+                            if (full.available == "false")
+                            {
+                                checkedAttr = 'checked';
+                                if ($.inArray(full.id, checkedBenesIds) == -1) {
+                                    checkedBenesIds.push(full.id);
+                                    addedBenesIds.push(full.id);
+                                    $('#tagsChosen').addTag(full.registration_code);
+                                }
+
+                            } else {
+                                checkedAttr = '';
+                            }
+                            return "<input type='checkbox' class='ChooseCheckBox' value=" + full.registration_code + " idValue = " + full.id + " \" " + checkedAttr + " >";
+                        }},
+                    {"mData": "registration_code"},
+                    {"mData": "en_name"},
+                    {"mData": "father_name"},
+                    {"mData": "birth_year"},
+                    {"mRender": function (data, type, full) {
+                            return "";
+                        }}
+                ],
+                "sAjaxSource": dataSource,
+                "sServerMethod": "GET",
+                "sAjaxDataProp": dataProp, //"data.beneficiary",
+                "contentType": "application/json; charset=utf-8",
+                "dataType": "json",
+                "order": [
+                    [1, "asc"]
+                ] // set first column as a default s
+            });
+
+
+            $(".ChooseCheckBox").live("click", function () {
+                if ($(this).is(':checked'))
+                {
+                    $('#tagsChosen').addTag($(this).attr("value"));
+
+                    var idvalue = $(this).attr("idvalue");
+                    if ($.inArray(idvalue, canceledBenesIds) != -1) {
+                        canceledBenesIds.pop(idvalue);
                     }
-                });
+                    checkedBenesIds.push($(this).attr("idvalue"));
+
+                    console.log(canceledBenesIds);
+                } else {
+                    $('#tagsChosen').removeTag($(this).attr("value"));
+
+                    var idvalue = $(this).attr("idvalue");
+                    if ($.inArray(idvalue, addedBenesIds) != -1) {
+                        canceledBenesIds.push(idvalue);
+                    }
+                    checkedBenesIds.pop($(this).attr("idvalue"));
+
+                    console.log(canceledBenesIds);
+                }
+            });
             //});
         });
 
 
-        $scope.Save = function () {         
-            var object = $.param({ subdistribution_id: $scope.subdistributionId,
-                beneficiaries: checkedBenesIds, 
-                check_all:0});
-            DataProviderService.createVoucher(object).success(function(){
-                alert("Success");
-            })
+        $scope.Save = function () {
+
+            var addObject = $.param({subdistribution_id: $scope.subdistributionId,
+                beneficiaries: checkedBenesIds,
+                check_all: 0});
+            DataProviderService.createVoucher(addObject).success(function (data) {
+                alert(console.log(data));
+
+                if (canceledBenesIds.length != 0) {
+                    var cancelObject = $.param({subdistribution_id: $scope.subdistributionId,
+                        beneficiaries: canceledBenesIds});
+                    DataProviderService.RemoveVoucher(cancelObject).success(function (data) {
+                        alert(console.log(data));
+                    });
+                }
+
+            });
+
+
         }
 
 
@@ -117,76 +156,76 @@ function BulidTable(data) {
 
 /*
  * Old Code           
-                var grid = new Datatable();
-                grid.init({
-                    "src": $("#datatable_ajax"),
-                    dataTable: {
-                            "DataProp": "data.beneficiary",
-                        "pageLength": 10, // default record count per page
-                        //"bProcessing": true,
-                        //"bServerSide": true,
-                        "processing": false, // enable/disable display message box on record load
-                        "serverSide": false, // enable/disable server side ajax loading
-//
-//                        "aoColumns": [
-//                            {"mData": "registration_code",
-//                                "mRender": function (data, type, full) {
-//                                    return "<input type='checkbox' class='ChooseCheckBox' value=" + data + " >";
-//                                }},
-//                            {"mData": "registration_code"},
-//                            {"mData": "en_name"},
-//                            {"mData": "father_name"},
-//                            {"mData": "birth_year"},
-//                            {"mRender": function (data, type, full) {
-//                                    return "";
-//                                }}
-//                        ],
-                        //"sAjaxSource": "http://localhost:8080/vvs_v2/index.php/api/Beneficiary",
-                        "ajax": {
-                            "url": "http://localhost:8080/vvs_v2/index.php/api/Beneficiary",
-                            "type": "GET",        
-                            "DataProp": "data.beneficiary",
-                           //  "contentType": "application/json; charset=utf-8",
-                              //      "dataType": "json",
-                             columns: [{
-                                field: 'state',
-                                checkbox: true
-                            }, {
-                                field: 'data.beneficiary.registration_code',
-                                title: 'registration_code',
-                                align: 'right',
-                                valign: 'bottom',
-                                sortable: true
-                            }, {
-                                field: 'data.beneficiary.en_name',
-                                title: 'en_name',
-                                align: 'center',
-                                valign: 'middle',
-                                sortable: true,
-     
-                            }, {
-                                field: 'data.beneficiary.father_name',
-                                title: 'father_name',
-                                align: 'left',
-                                valign: 'top',
-                                sortable: true,
-                 
-                            }, {
-                                field: 'data.beneficiary.birth_year',
-                                title: 'birth_year',
-                                align: 'left',
-                                valign: 'top',
-                                sortable: true,
-                            }]                            
-                        },
-                        //"sServerMethod": "GET",
-                        "sAjaxDataProp": "data.beneficiary",
-                        "contentType": "application/json; charset=utf-8",
-                        "dataType": "json",
-                        "order": [
-                            [1, "asc"]
-                        ] // set first column as a default s
-                    },
-                });
+ var grid = new Datatable();
+ grid.init({
+ "src": $("#datatable_ajax"),
+ dataTable: {
+ "DataProp": "data.beneficiary",
+ "pageLength": 10, // default record count per page
+ //"bProcessing": true,
+ //"bServerSide": true,
+ "processing": false, // enable/disable display message box on record load
+ "serverSide": false, // enable/disable server side ajax loading
+ //
+ //                        "aoColumns": [
+ //                            {"mData": "registration_code",
+ //                                "mRender": function (data, type, full) {
+ //                                    return "<input type='checkbox' class='ChooseCheckBox' value=" + data + " >";
+ //                                }},
+ //                            {"mData": "registration_code"},
+ //                            {"mData": "en_name"},
+ //                            {"mData": "father_name"},
+ //                            {"mData": "birth_year"},
+ //                            {"mRender": function (data, type, full) {
+ //                                    return "";
+ //                                }}
+ //                        ],
+ //"sAjaxSource": "http://localhost:8080/vvs_v2/index.php/api/Beneficiary",
+ "ajax": {
+ "url": "http://localhost:8080/vvs_v2/index.php/api/Beneficiary",
+ "type": "GET",        
+ "DataProp": "data.beneficiary",
+ //  "contentType": "application/json; charset=utf-8",
+ //      "dataType": "json",
+ columns: [{
+ field: 'state',
+ checkbox: true
+ }, {
+ field: 'data.beneficiary.registration_code',
+ title: 'registration_code',
+ align: 'right',
+ valign: 'bottom',
+ sortable: true
+ }, {
+ field: 'data.beneficiary.en_name',
+ title: 'en_name',
+ align: 'center',
+ valign: 'middle',
+ sortable: true,
+ 
+ }, {
+ field: 'data.beneficiary.father_name',
+ title: 'father_name',
+ align: 'left',
+ valign: 'top',
+ sortable: true,
+ 
+ }, {
+ field: 'data.beneficiary.birth_year',
+ title: 'birth_year',
+ align: 'left',
+ valign: 'top',
+ sortable: true,
+ }]                            
+ },
+ //"sServerMethod": "GET",
+ "sAjaxDataProp": "data.beneficiary",
+ "contentType": "application/json; charset=utf-8",
+ "dataType": "json",
+ "order": [
+ [1, "asc"]
+ ] // set first column as a default s
+ },
+ });
  
  */

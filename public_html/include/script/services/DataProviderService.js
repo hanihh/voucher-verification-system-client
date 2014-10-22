@@ -81,8 +81,10 @@ app.factory('DataProviderService', ['$http', function ($http) {
         dataFactory.getBeneficiariesBySubdistributionId = function (subdist_id) {    
             return $http({method: 'GET', url: server_url + 'api/Beneficiary/GetBeneficiaryFordistribution?subdistribution_id=' + subdist_id});
         };      
-        dataFactory.getBeneficiariesBySubdistributionIdURL = function (subdist_id) {    
-            return server_url + 'api/Beneficiary/GetBeneficiaryFordistribution?subdistribution_id=' + subdist_id;
+        dataFactory.getBeneficiariesBySubdistributionIdURL = function (subdist_id, include, withall) {    
+            var _include = include ? 1:0;
+            var _withall = withall ? 1:0;
+            return server_url + 'api/Beneficiary/GetBeneficiaryFordistribution?subdistribution_id=' + subdist_id + '&include=' + _include + '&withall=' + _withall;
         };      
          dataFactory.getBeneficiariesByFilter = function (params) {                
              return $http({method: 'GET', url: server_url + 'api/Beneficiary/?filter='+ JSON.stringify(GetFilter(params))});
@@ -123,6 +125,12 @@ app.factory('DataProviderService', ['$http', function ($http) {
              $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
                   return $http({method: 'POST', url: server_url + 'voucher/generate', data: voucher});
         };
+        
+        dataFactory.RemoveVoucher = function (voucher) {    
+         $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+              return $http({method: 'POST', url: server_url + 'voucher/remove', data: voucher});
+        };
+   
         //*********************//
         
         /*

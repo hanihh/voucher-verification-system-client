@@ -23,6 +23,9 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                     $scope.subdistrict = null;
                                     $scope.subdistribution = new Subdistribution();
 
+                                    $("#status").val("Active");
+                                    $scope.subdistribution.status_id = 2
+                                                
                                     $('#defaultrange').on('apply.daterangepicker', function (ev, picker) {
                                         $scope.subdistribution.start_date = picker.startDate.format('YYYY-MM-DD');
                                         var today = new Date();
@@ -60,7 +63,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                                 $scope.governorateItems = data;
                                                 //console.log( $scope.governorateItems);
                                             });
-                                            
+
                                             $scope.district = null;
                                             $scope.subdistrict = null;
                                             $scope.subdistribution.community_id = null;
@@ -71,7 +74,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                         if (newVal != oldVal)
                                         {
                                             console.log(newVal);
-                                             $scope.districtItems = null;
+                                            $scope.districtItems = null;
                                             $scope.district = null;
                                             // Districts
                                             DataProviderService.getDistrictsByFilter([['governorate_id', newVal.id, '=']]).success(function (data) {
@@ -89,8 +92,8 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                         if (newVal != oldVal)
                                         {
                                             console.log(newVal);
-                                            
-                                                               $scope.subdistrictItems = null;
+
+                                            $scope.subdistrictItems = null;
                                             $scope.subdistrict = null;
                                             // Subdistricts
                                             DataProviderService.getSubdistrictsByFilter([['district_id', newVal.id, '=']]).success(function (data) {
@@ -107,7 +110,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                         if (newVal != oldVal)
                                         {
                                             console.log(newVal);
-                                                    $scope.communityItems = null;
+                                            $scope.communityItems = null;
                                             $scope.community = null;
                                             // Communities
                                             DataProviderService.getCommunitiesByFilter([['subdistrict_id', newVal.id, '=']]).success(function (data) {
@@ -119,20 +122,14 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                         }
                                     });
 
-                                    $scope.$watch('subdistribution.community_id', function (newVal, oldVal) {
-                                        if (newVal != oldVal)
-                                        {
-                                            console.log(newVal);
-
-                                        }
-                                    });
                                     // ------------------------------------------------ //
 
 
                                     DataProviderService.getCountries().success(function (data) {
                                         var data = data["data"]["country"];
-                                        var country = new Country();
-                                        $scope.countryItems = country.parseArray(data);
+                                        //var country = new Country();
+                                        //$scope.countryItems = country.parseArray(data);
+                                        $scope.countryItems = data;
                                         //console.log( $scope.countryItems);
                                     });
 
@@ -152,6 +149,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                             var subdistribution = new Subdistribution();
                                             $scope.subdistribution = subdistribution.parse(data);
                                             var community = data["community"];
+                                            $scope.status = data["status"].name;
                                             // Subdistricts
 
                                             DataProviderService.getSubdistricts(community["subdistrict_id"]).success(function (data) {
@@ -170,12 +168,21 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                                             var governorateModel = new Governorate();
                                                             var districtModel = new District();
                                                             var subdistrictModel = new Subdistrict();
-
-                                                            $scope.country = countryModel.parse(country).id;
-                                                            $scope.governorate = governorateModel.parse(governorate).id;
-                                                            $scope.district = districtModel.parse(district).id;
-                                                            $scope.subdistrict = subdistrictModel.parse(subdistrict).id;
-                                                            $scope.subdistribution.community_id = community.id;
+                                                            countryModel.parse(country);
+                                                            console.log(country);
+//console.log(governorate);
+//
+//console.log(district);
+//
+//console.log(subdistrict);
+//
+//console.log(community);
+                                                            console.log($scope.countryItems);
+                                                            $scope.country = country.id;
+//                                                            $scope.governorate = governorate;
+//                                                            $scope.district = district;
+//                                                            $scope.subdistrict = subdistrict;
+//                                                            $scope.subdistribution.community_id = community.id;
 
                                                         });
                                                     });
@@ -212,7 +219,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                             console.log(data);
                                             var id = data["data"]["subdistribution"]["id"];
                                             subdistribution.id = id;
-                                              console.log(subdistribution);
+                                            console.log(subdistribution);
                                             SharedPropertiesService.getTree().AddSubdistribution(subdistribution);
                                         });
 //                                        }

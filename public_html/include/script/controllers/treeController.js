@@ -142,7 +142,8 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 var vendorNode = tree.jstree(true).get_node(vendor.name + "vendor");
                 SetNodeRoute(vendorNode, "vendor", {id: vendor.id});
 
-                tree.jstree(true).create_node(vendorNode, CreateNode(vendor.name + "Benes", "Beneficiaries", "fa fa-group"));
+                if (SharedPropertiesService.getDistributionStatus() == false) 
+                    tree.jstree(true).create_node(vendorNode, CreateNode(vendor.name + "Benes", "Beneficiaries", "fa fa-group"));
                 //SetNodeRoute(tree.jstree(true).get_node(nodeObject.name + "Benes"), "");
 
                 tree.jstree(true).deselect_node(tree.jstree(true).get_selected(true)[0]);

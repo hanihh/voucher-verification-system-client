@@ -1,107 +1,145 @@
 <!DOCTYPE html>
 <style>
     input.ng-dirty.ng-invalid {
-            background-color: red;
-        }
+        background-color: red;
+    }
 
-        input[required].ng-pristine {
-           // background-color: yellow;
-        }
+    input[required].ng-pristine {
+        // background-color: yellow;
+    }
 
-        input[required].ng-dirty.ng-valid {
-            //background-color: yellow;
-        }
+    input[required].ng-dirty.ng-valid {
+        //background-color: yellow;
+    }
 </style>
 
-    <div class="portlet-body form">
-        <form action="#" class="form-horizontal form-bordered" name="subdistributionForm" role="form" novalidate>
-            <div class="form-body">  
-
-                <div class="form-group"  ng-class="{'has-error' : subdistributionForm.subdistribution.code.$invalid && !subdistributionForm.subdistribution.code.$pristine}">
-                    <label class="control-label col-md-3">Code</label>
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" ng-model="subdistribution.code" placeholder="Code..." required>
-                        <p ng-show="subdistributionForm.subdistribution.code.$invalid && !subdistributionForm.subdistribution.code.$pristine" class="help-block">Code is required.</p>
-                    </div>
+<div class="portlet-body form">
+    <form action="#" class="horizontal-form" name="subdistributionForm" role="form" novalidate> 
+        <div class="form-body">  
+            <h3 class="form-section">General Info</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group"  ng-class="{'has-error' : subdistributionForm.subdistribution.code.$invalid && !subdistributionForm.subdistribution.code.$pristine}">
+                        <label class="control-label">Code</label>
+                        <div >
+                            <input type="text" class="form-control" ng-model="subdistribution.code" placeholder="Code..." required>
+                            <p ng-show="subdistributionForm.subdistribution.code.$invalid && !subdistributionForm.subdistribution.code.$pristine" class="help-block">Code is required.</p>
+                        </div>
+                    </div>  
                 </div>  
-                <div class="form-group">
-                    <label class="control-label col-md-3">Status</label>
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" data-placeholder="Select..." id="status" required disabled>                            
-                    </div>
-                </div> 
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label ">Status</label>
+                        <div class="">
+                            <input type="text" class="form-control" data-placeholder="Select..." id="status" ng-model="status" required disabled>                            
+                        </div>
+                    </div> 
+                </div>
+            </div>  
+            <!--/row-->
 
-                <div class="form-group">
-                    <label class="control-label col-md-3">Start-End Date:</label>
-                    <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Start-End Date:</label>
+
+
                         <div class="input-group" id="defaultrange">
-                            <input ng-model="dateRange" type="daterange" class="form-control"  required>
+                            <input ng-model="dateRange" type="daterange" class="form-control" readonly required>
                             <span class="input-group-btn">
                                 <button class="btn default date-range-toggle" type="button"><i class="fa fa-calendar"></i></button>
                             </span>
                         </div>
                     </div>
                 </div> 
-                <div class="form-group"  ng-class="{ 'has-error' : subdistributionForm.country.$invalid && !subdistributionForm.country.$pristine }">
-                    <label class="control-label col-md-3">Country</label>
-                    <div class="col-md-4">
-                        <select class="form-control" data-placeholder="Select..." ng-model='country' ng-options='countryItem as countryItem.name for countryItem in countryItems' required>
-                            <option value="" ng-hide="country">Select...</option>
-                        </select>
-                        <p ng-show="subdistributionForm.country.$invalid && !subdistributionForm.country.$pristine" class="help-block">Country is required.</p>
+                <div class="col-md-6">
+                </div>                 
+            </div>  
+            <!--/row-->
+            <h3 class="form-section">Location</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group"  ng-class="{ 'has-error' : subdistributionForm.country.$invalid && !subdistributionForm.country.$pristine }">
+                        <label class="control-label">Country</label>
+                        <div>
+                            <select class="form-control input-medium select2me" data-placeholder="Select..." ng-model='country' ng-options='countryItem as countryItem.name for countryItem in countryItems' required>
+                                <!--<option value="" ng-hide="country">Select...</option>-->
+                            </select>
+                            <p ng-show="subdistributionForm.country.$invalid && !subdistributionForm.country.$pristine" class="help-block">Country is required.</p>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="form-group"  ng-class="{ 'has-error' : subdistributionForm.governorate.$invalid && !subdistributionForm.governorate.$pristine }">
-                    <label class="control-label col-md-3">Governorate</label>
-                    <div class="col-md-4">
-                        <select ng-disabled="governorateItems == null" class="form-control" data-placeholder="Select..." ng-model='governorate' ng-options='governorateItem as governorateItem.en_name for governorateItem in governorateItems' required>
-                            <option value="" ng-hide="governorate">Select...</option>
-                        </select>	
-                        <p ng-show="subdistributionForm.governorate.$invalid && !subdistributionForm.governorate.$pristine" class="help-block">Governorate is required.</p>
-                    </div>
-                </div>   
-                <div class="form-group"  ng-class="{ 'has-error' : subdistributionForm.district.$invalid && !subdistributionForm.district.$pristine }">
-                    <label class="control-label col-md-3">District</label>
-                    <div class="col-md-4">
-                        <select ng-disabled="districtItems == null" class="form-control" data-placeholder="Select..." ng-model='district' ng-options='districtItem as districtItem.en_name for districtItem in districtItems' required>
-                            <option value="" ng-hide="district">Select...</option>
-                        </select>
-                        <p ng-show="subdistributionForm.district.$invalid && !subdistributionForm.district.$pristine" class="help-block">District is required.</p>
+                <div class="col-md-6">
+                    <div class="form-group"  ng-class="{ 'has-error' : subdistributionForm.governorate.$invalid && !subdistributionForm.governorate.$pristine }">
+                        <label class="control-label">Governorate</label>
+                        <div>
+                            <select ng-disabled="governorateItems == null" class="form-control input-medium select2me" data-placeholder="Select..." ng-model='governorate' ng-options='governorateItem as governorateItem.en_name for governorateItem in governorateItems' required>
+                                <option value="" ng-hide="governorate">Select...</option>
+                            </select>	
+                            <p ng-show="subdistributionForm.governorate.$invalid && !subdistributionForm.governorate.$pristine" class="help-block">Governorate is required.</p>
+                        </div>
+                    </div>  
+                </div>  
+            </div> 
+            <!--/row-->
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group"  ng-class="{ 'has-error' : subdistributionForm.district.$invalid && !subdistributionForm.district.$pristine }">
+                        <label class="control-label">District</label>
+                        <div>
+                            <select ng-disabled="districtItems == null" class="form-control input-medium select2me" data-placeholder="Select..." ng-model='district' ng-options='districtItem as districtItem.en_name for districtItem in districtItems' required>
+                                <option value="" ng-hide="district">Select...</option>
+                            </select>
+                            <p ng-show="subdistributionForm.district.$invalid && !subdistributionForm.district.$pristine" class="help-block">District is required.</p>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group"  ng-class="{ 'has-error' : subdistributionForm.subdistrict.$invalid && !subdistributionForm.subdistrict.$pristine }">
-                    <label class="control-label col-md-3">Subdistrict</label>
-                    <div class="col-md-4" >
-                        <select ng-disabled="subdistrictItems == null" class="form-control" data-placeholder="Select..." ng-model='subdistrict' ng-options=' subdistrictItem as subdistrictItem.en_name for subdistrictItem in subdistrictItems' required>
-                            <option value="" ng-hide="subdistrict">Select...</option>
-                        </select>	
-                        <p ng-show="subdistributionForm.subdistrict.$invalid && !subdistributionForm.subdistrict.$pristine" class="help-block">Subdistrict is required.</p>
+                <div class="col-md-6">
+                    <div class="form-group"  ng-class="{ 'has-error' : subdistributionForm.subdistrict.$invalid && !subdistributionForm.subdistrict.$pristine }">
+                        <label class="control-label">Subdistrict</label>
+                        <div >
+                            <select ng-disabled="subdistrictItems == null" class="form-control input-medium select2me" data-placeholder="Select..." ng-model='subdistrict' ng-options=' subdistrictItem as subdistrictItem.en_name for subdistrictItem in subdistrictItems' required>
+                                <option value="" ng-hide="subdistrict">Select...</option>
+                            </select>	
+                            <p ng-show="subdistributionForm.subdistrict.$invalid && !subdistributionForm.subdistrict.$pristine" class="help-block">Subdistrict is required.</p>
+                        </div>
                     </div>
                 </div> 
-                <div class="form-group"  ng-class="{ 'has-error' : subdistributionForm.subdistribution.community_id.$invalid && !subdistributionForm.subdistribution.community_id.$pristine }">
-                    <label class="control-label col-md-3">Community</label>
-                    <div class="col-md-4">
-                        <select ng-disabled="communityItems == null" class="form-control" data-placeholder="Select..." ng-model='subdistribution.community_id' ng-options='communityItem.id as communityItem.en_name for communityItem in communityItems' required>
-                            <option value="" ng-hide="subdistribution.community_id">Select...</option>
-                        </select>	
-                        <p ng-show="subdistributionForm.subdistribution.community_id.$invalid && !subdistributionForm.subdistribution.community_id.$pristine" class="help-block">Community is required.</p>
-                    </div>
+            </div> 
+            <!--/row-->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group"  ng-class="{ 'has-error' : subdistributionForm.subdistribution.community_id.$invalid && !subdistributionForm.subdistribution.community_id.$pristine }">
+                        <label class="control-label">Community</label>
+                        <div >
+                            <select ng-disabled="communityItems == null" class="form-control input-medium select2me" data-placeholder="Select..." ng-model='subdistribution.community_id' ng-options='communityItem.id as communityItem.en_name for communityItem in communityItems' required>
+                                <option value="" ng-hide="subdistribution.community_id">Select...</option>
+                            </select>	
+                            <p ng-show="subdistributionForm.subdistribution.community_id.$invalid && !subdistributionForm.subdistribution.community_id.$pristine" class="help-block">Community is required.</p>
+                        </div>
+                    </div> 
                 </div> 
-                
-                <div class="form-group">
-                    <label class="control-label col-md-3">Note</label>
-                    <div class="col-md-4">
-                        <textarea class="form-control" rows="3" ng-model='subdistribution.note'></textarea>
-                    </div>
+            </div> 
+            <!--/row-->
+            <div class="row">
+                <div class="col-md-11">
+                    <div class="form-group">
+                        <label class="control-label">Note</label>
+                        <div>
+                            <textarea class="form-control" rows="3" ng-model='subdistribution.note'></textarea>
+                        </div>
+                    </div> 
                 </div> 
-                <div class="form-group" style="float: right">
-                    <button style="width:100px" type="button" class="btn red"><i class="fa fa-times"></i> Cancel</button>
-                    <button data-ng-click="Save(subdistributionForm, subdistribution)" style="width:100px" type="button" class="btn green"><i class="fa fa-floppy-o"></i> Save</button>
-                </div>
-            </div>   
-        </form>
-    </div>
+            </div> 
+            <!--/row-->
+            <div class="form-group" style="float: right">
+                <button style="width:100px" type="button" class="btn red"><i class="fa fa-times"></i> Cancel</button>
+                <button data-ng-click="Save(subdistributionForm, subdistribution)" style="width:100px" type="button" class="btn green"><i class="fa fa-floppy-o"></i> Save</button>
+            </div>
+        </div>   
+    </form>
+</div>
 
 <!-- Datetimepickers related PLUGINS -->
 <script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
@@ -115,22 +153,22 @@
 <!-- END PLUGINS -->
 
 <script>
-      jQuery(document).ready(function () {      
-                            Metronic.init();
-           ComponentsPickers.init();    
-           /*
-           $('#startEndRange').daterangepicker({
-                    opens: (Metronic.isRTL() ? 'left' : 'right'),
-                format: 'YYYY-MM-DD',
-                separator: ' to ',
-                startDate: moment().subtract('days', 29),
-                endDate: moment(),
-                minDate: '01/01/2012',
-                maxDate: '12/31/2014',
-            },
-            function (start, end) {
-                $('#startEndRange input').val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-            });
-            */
-    });
+                    jQuery(document).ready(function () {
+                        Metronic.init();
+                        ComponentsPickers.init();
+
+                        $('#defaultrange').daterangepicker({
+                            opens: (Metronic.isRTL() ? 'left' : 'right'),
+                            format: 'YYYY-MM-DD',
+                            separator: ' to ',
+                            startDate: moment(),
+                            endDate: moment().add('days', 1),
+                            minDate: moment(),
+                        },
+                                function (start, end) {
+                                    $('#defaultrange input').val(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
+                                }
+                        );
+
+                    });
 </script>

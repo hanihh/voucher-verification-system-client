@@ -78,6 +78,7 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                             var id = data["data"]["distribution"]["id"];
                             distribution.id = id;
                             SharedPropertiesService.setDistributionId(id);
+                            SharedPropertiesService.setDistributionStatus(distribution.online);
                             SharedPropertiesService.setDistributionEndDate(distribution.end_date);
                             SharedPropertiesService.getTree().AddDistribution(distribution);
                         });
