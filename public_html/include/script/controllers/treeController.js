@@ -94,7 +94,7 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 tree.jstree(true).create_node(subdistributionNode, CreateNode(subdistribution.id + "Benes", "Beneficiaries", "fa fa-group icon-state-success"));
                 var subdistributionBeneficiary = tree.jstree(true).get_node(subdistribution.id + "Benes");
                 SetNodeRoute(tree.jstree(true).get_node(subdistribution.id + "Benes"), "beneficiaryDist");
-                subdistributionBeneficiary.state.disabled = true;
+                tree.jstree(true).disable_node(subdistributionBeneficiary);
                 //*** Defining ToolTip ***
                 subdistributionBeneficiary.a_attr['class'] = 'tooltips';
                 subdistributionBeneficiary.a_attr['data-container'] = "body";
@@ -125,8 +125,9 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 SetNodeRoute(tree.jstree(true).get_node(vouchType.id + "vouchertype"), "vouchertype", {id: vouchType.id});
 
                 var subdistributionBeneficiary = tree.jstree(true).get_node(vouchType.subdistribution_id + "Benes");                
-                subdistributionBeneficiary.state.disabled = false;
-                subdistributionBeneficiary.a_attr['class'] = '';
+                //console.log(subdistributionBeneficiary);
+                //$("#" + vouchType.subdistribution_id + "Benes > a" ).removeClass("tooltips");
+                tree.jstree(true).enable_node(subdistributionBeneficiary);
 
                 if (WithSelectMethodology) {
                     tree.jstree(true).deselect_node(tree.jstree(true).get_selected(true)[0]);
