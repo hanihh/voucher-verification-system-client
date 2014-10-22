@@ -25,7 +25,7 @@
             <div class="form-group">
                 <label class="control-label col-md-3">Program</label>
                 <div class="col-md-4">                  
-                    <select class="form-control input-medium select2me" data-placeholder="Select..." ng-model='distribution.program_id' ng-options='programItem.id as programItem.name for programItem in programItems' required>
+                    <select  id="programList" class="form-control input-medium select2me" data-placeholder="Select..." ng-model='distribution.program_id' ng-options='programItem.id as programItem.name for programItem in programItems' required>
                         <option value=""  ng-hide="distribution.program_id">Select...</option>
                     </select>										
                 </div>
@@ -33,7 +33,7 @@
             <div class="form-group">
                 <label class="control-label col-md-3">Donor</label>
                 <div class="col-md-4">
-                    <select class="form-control input-medium select2me" data-placeholder="Select..." ng-model='distribution.donor_id' ng-options='donorItem.id as donorItem.name for donorItem in donorItems' required>
+                    <select id="donorList" class="form-control input-medium select2me" data-placeholder="Select..." ng-model='distribution.donor_id' ng-options='donorItem.id as donorItem.name for donorItem in donorItems' required>
                         <option value="" ng-hide="distribution.donor_id">Select...</option>
                     </select>											
                 </div>
@@ -94,8 +94,7 @@
                             function (start, end) {
                                 $('#defaultrange input').val(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
                             }
-                        );
-
+                        );               
                     });
 
 </script>

@@ -25,9 +25,27 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
 
                                     $("#status").val("Active");
                                     $scope.subdistribution.status_id = 2
-                                                
-                                    $('#defaultrange').on('apply.daterangepicker', function (ev, picker) {
-                                        $scope.subdistribution.start_date = picker.startDate.format('YYYY-MM-DD');
+
+
+                                    $('#defaultrange').daterangepicker({
+                                        opens: (Metronic.isRTL() ? 'left' : 'right'),
+                                        format: 'YYYY-MM-DD',
+                                        separator: ' to ',
+                                        startDate: moment(),
+                                        endDate: moment().add('days', 1),
+                                        minDate: moment(),
+                                    },
+                                            function (start, end) {
+                                                console.log(start);
+                                                console.log(end);
+                                                $('#defaultrange input').val(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
+                                                UpdateStatus(start, end);
+                                            }
+                                    );
+
+                                    //$('#defaultrange').on('apply.daterangepicker', function (ev, picker) {
+                                    function UpdateStatus(startDate, endDate) {
+                                        $scope.subdistribution.start_date = startDate.format('YYYY-MM-DD');
                                         var today = new Date();
                                         var subdistStartDate = dates.convert($scope.subdistribution.start_date).setHours(0, 0, 0, 0);
                                         var todayDate = dates.convert(today).setHours(0, 0, 0, 0);
@@ -45,14 +63,14 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                                 break;
                                         }
 
-                                        $scope.subdistribution.end_date = picker.endDate.format('YYYY-MM-DD');
-                                    });
+                                        $scope.subdistribution.end_date = endDate.format('YYYY-MM-DD');
+                                    }
+                                    //});
 
                                     //--- Watching cascade select lists models ---//
                                     $scope.$watch('country', function (newVal, oldVal) {
                                         if (newVal != oldVal)
-                                        {
-                                            console.log(newVal);
+                                        {                  
                                             $scope.governorateItems = null;
                                             $scope.governorate = null;
                                             // Governorates
@@ -67,13 +85,15 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                             $scope.district = null;
                                             $scope.subdistrict = null;
                                             $scope.subdistribution.community_id = null;
+                                                                       
+                                                            $('#s2id_governorateList > a > span:first').html("");
+                                                       
                                         }
                                     });
 
                                     $scope.$watch('governorate', function (newVal, oldVal) {
                                         if (newVal != oldVal)
                                         {
-                                            console.log(newVal);
                                             $scope.districtItems = null;
                                             $scope.district = null;
                                             // Districts
@@ -85,14 +105,14 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
 
                                             $scope.subdistrict = null;
                                             $scope.subdistribution.community_id = null;
+                                            
+                                                 $('#s2id_districtList > a > span:first').html("");                                                           
                                         }
                                     });
 
                                     $scope.$watch('district', function (newVal, oldVal) {
                                         if (newVal != oldVal)
                                         {
-                                            console.log(newVal);
-
                                             $scope.subdistrictItems = null;
                                             $scope.subdistrict = null;
                                             // Subdistricts
@@ -103,13 +123,15 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                                 //console.log( $scope.subdistrictItems);
                                             });
                                             $scope.subdistribution.community_id = null;
+                                            
+                                             $('#s2id_subdistrictList > a > span:first').html("");
+                                                           
                                         }
                                     });
 
                                     $scope.$watch('subdistrict', function (newVal, oldVal) {
                                         if (newVal != oldVal)
                                         {
-                                            console.log(newVal);
                                             $scope.communityItems = null;
                                             $scope.community = null;
                                             // Communities
@@ -118,7 +140,10 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
 
                                                 $scope.communityItems = data;
                                                 //console.log( $scope.communityItems);
+                                                
                                             });
+                                            
+                                             $('#s2id_communityList > a > span:first').html("");
                                         }
                                     });
 
@@ -132,7 +157,13 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                         $scope.countryItems = data;
                                         //console.log( $scope.countryItems);
                                     });
-
+                                    
+                                    DataProviderService.getCommunities().success(function (data) {
+                                        var data = data["data"]["community"];
+                                        $scope.communityItems = data;
+                                        //console.log( $scope.communityItems);
+                                    });
+                                            
                                     // Status
                                     DataProviderService.getStatus().success(function (data) {
                                         var data = data["data"]["distributionStatus"];
@@ -163,26 +194,18 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                                         // Country
                                                         DataProviderService.getCountries(governorate["country_id"]).success(function (data) {
                                                             var country = data["data"]["country"];
-
-                                                            var countryModel = new Country();
-                                                            var governorateModel = new Governorate();
-                                                            var districtModel = new District();
-                                                            var subdistrictModel = new Subdistrict();
-                                                            countryModel.parse(country);
-                                                            console.log(country);
-//console.log(governorate);
-//
-//console.log(district);
-//
-//console.log(subdistrict);
-//
-//console.log(community);
-                                                            console.log($scope.countryItems);
-                                                            $scope.country = country.id;
+                
+//                                                            $scope.country = country;
 //                                                            $scope.governorate = governorate;
 //                                                            $scope.district = district;
 //                                                            $scope.subdistrict = subdistrict;
-//                                                            $scope.subdistribution.community_id = community.id;
+                                                            $scope.subdistribution.community_id = community.id;
+
+                                                            $('#s2id_countryList > a > span:first').html(country.name);
+                                                            $('#s2id_governorateList > a > span:first').html(governorate.en_name);
+                                                            $('#s2id_districtList > a > span:first').html(district.en_name);
+                                                            $('#s2id_subdistrictList > a > span:first').html(subdistrict.en_name);
+                                                            $('#s2id_communityList > a > span:first').html(community.en_name);
 
                                                         });
                                                     });

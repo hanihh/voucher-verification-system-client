@@ -23,6 +23,21 @@ app.controller('beneficiaryDistController', ['$scope', 'DataProviderService', 'S
 //                $scope.beneficiaries = beneficiary.parseArray(data);
             //  $scope.beneficiaries = data;
 
+            $("#tagsChosen").tagsInput({
+                'height': '100px',
+                'width': '100%',
+                'interactive': false,
+                'onRemoveTag': function (data) {
+                    var checkboxObj = $('#' + data);
+                    checkboxObj.attr('checked', false);
+                    var checkboxObj_idvalue = checkboxObj.attr('idvalue');
+                    checkedBenesIds.pop(checkboxObj_idvalue);
+                    addedBenesIds.pop(checkboxObj_idvalue);
+                    if ($.inArray(checkboxObj_idvalue, canceledBenesIds) == -1)
+                        canceledBenesIds.push(checkboxObj_idvalue);
+                },
+            });
+
             $('.date-picker').datepicker({
                 rtl: Metronic.isRTL(),
                 autoclose: true
@@ -51,7 +66,7 @@ app.controller('beneficiaryDistController', ['$scope', 'DataProviderService', 'S
                             } else {
                                 checkedAttr = '';
                             }
-                            return "<input type='checkbox' class='ChooseCheckBox' value=" + full.registration_code + " idValue = " + full.id + " \" " + checkedAttr + " >";
+                            return "<input type='checkbox' class='ChooseCheckBox' id=" + full.registration_code + " idValue = " + full.id + " " + checkedAttr + " >";
                         }},
                     {"mData": "registration_code"},
                     {"mData": "en_name"},
@@ -75,7 +90,7 @@ app.controller('beneficiaryDistController', ['$scope', 'DataProviderService', 'S
             $(".ChooseCheckBox").live("click", function () {
                 if ($(this).is(':checked'))
                 {
-                    $('#tagsChosen').addTag($(this).attr("value"));
+                    $('#tagsChosen').addTag($(this).attr("id"));
 
                     var idvalue = $(this).attr("idvalue");
                     if ($.inArray(idvalue, canceledBenesIds) != -1) {
@@ -85,7 +100,7 @@ app.controller('beneficiaryDistController', ['$scope', 'DataProviderService', 'S
 
                     console.log(canceledBenesIds);
                 } else {
-                    $('#tagsChosen').removeTag($(this).attr("value"));
+                    $('#tagsChosen').removeTag($(this).attr("id"));
 
                     var idvalue = $(this).attr("idvalue");
                     if ($.inArray(idvalue, addedBenesIds) != -1) {
@@ -99,6 +114,15 @@ app.controller('beneficiaryDistController', ['$scope', 'DataProviderService', 'S
             //});
         });
 
+        $scope.ShowChosenBeneficiaries = function () {
+
+        }
+
+        $scope.debug = function () {
+            console.log(checkedBenesIds);
+            console.log(addedBenesIds);
+            console.log(canceledBenesIds);
+        }
 
         $scope.Save = function () {
 
