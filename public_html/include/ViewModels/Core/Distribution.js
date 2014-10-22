@@ -14,8 +14,8 @@ var Distribution = Base.extend({
     init: function() {
         this.id = null;
         this.name = "";
-        this.en_title = "";
-        this.ar_title = "";
+        this.title_en = "";
+        this.title_ar = "";
         this.start_date = "";
         this.end_date = "";
         this.online = "";
