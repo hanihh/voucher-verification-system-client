@@ -14,11 +14,25 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
 
                     $scope.distribution = new Distribution();
 
-                    $('#defaultrange').on('apply.daterangepicker', function (ev, picker) {
-                        $scope.distribution.start_date = picker.startDate.format('YYYY-MM-DD');
-                        $scope.distribution.end_date = picker.endDate.format('YYYY-MM-DD');
-                    });
-
+                    $('#defaultrange').daterangepicker({
+                        opens: (Metronic.isRTL() ? 'left' : 'right'),
+                        format: 'YYYY-MM-DD',
+                        separator: ' to ',
+                        startDate: moment(),
+                        endDate: moment().add('days', 1),
+                        minDate: moment(),
+                    },
+                            function (start, end) {
+                                $scope.distribution.start_date = start.format('YYYY-MM-DD');
+                                $scope.distribution.end_date = end.format('YYYY-MM-DD');
+                            }
+                    );
+                    /*
+                     $('#defaultrange').on('apply.daterangepicker', function (ev, picker) {
+                     $scope.distribution.start_date = picker.startDate.format('YYYY-MM-DD');
+                     $scope.distribution.end_date = picker.endDate.format('YYYY-MM-DD');
+                     });
+                     */
                     //Programs
                     DataProviderService.getPrograms().success(function (data) {
                         var data = data["data"]["program"];
@@ -32,7 +46,7 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                         var donor = new Donor();
                         $scope.donorItems = donor.parseArray(data);
                     });
-
+ 
                     $scope.$watch('distribution.online', function (newVal, oldVal) {
                         if (newVal != oldVal)
                             if (newVal == true)
@@ -42,6 +56,7 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                     });
 
 
+
                     var id = ($stateParams) ? $stateParams.id : null;
                     if (id) {
                         DataProviderService.getDistributions(id).success(function (data) {
@@ -49,6 +64,9 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                             var distribution = new Distribution();
                             $scope.distribution = distribution.parse(data);
 
+                            $('#s2id_programList > a > span:first').html(data.program.name);  
+                            $('#s2id_donorList > a > span:first').html(data.donor.name);
+                      
                             // *** Checking dates and filling Date Range Control ***
                             var startDate = new Date($scope.distribution.start_date);
                             var endDate = new Date($scope.distribution.end_date);
@@ -63,8 +81,8 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                                 $('#defaultrange').data('daterangepicker').setEndDate(endDate);
                                 endDateString = endDate.toDateString();
                             }
-                            
-                            $scope.dateRange = startDateString +  (startDateString == "" && endDateString == "" ? "" : " - ") + endDateString;
+
+                            $scope.dateRange = startDateString + (startDateString == "" && endDateString == "" ? "" : " - ") + endDateString;
                             // ******************************************************
                             SharedPropertiesService.setDistributionId(id);
                             SharedPropertiesService.getTree().BulidTreeByDistribution($scope.distribution);
