@@ -7,8 +7,7 @@
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
 app.controller('subdistributionController', ['$scope', '$stateParams', '$compile', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, $compile, DataProviderService, SharedPropertiesService) {
         //Initializing Models for cascade select lists
-
-
+        
         $.getScript('include/ViewModels/Core/Subdistribution.js', function () {
             $.getScript('include/ViewModels/Core/Distribution_status.js', function () {
                 $.getScript('include/ViewModels/Location/Country.js', function () {
@@ -16,6 +15,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                         $.getScript('include/ViewModels/Location/District.js', function () {
                             $.getScript('include/ViewModels/Location/Subdistrict.js', function () {
                                 $.getScript('include/ViewModels/Location/Community.js', function () {
+
 
                                     $scope.country = null;
                                     $scope.governorate = null;
@@ -171,7 +171,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                         $scope.statusItems = distribution_status.parseArray(data);
                                     });
 
-                                    var id = ($stateParams) ? $stateParams.id : null;
+                                    var id = ($stateParams) ? $stateParams.subdist_id : null;
 
                                     if (id)
                                     {
@@ -243,7 +243,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                             var id = data["data"]["subdistribution"]["id"];
                                             subdistribution.id = id;
                                             console.log(subdistribution);
-                                            SharedPropertiesService.getTree().AddSubdistribution(subdistribution);
+                                            SharedPropertiesService.getTree().AddSubdistribution(subdistribution, false);
                                         });
 //                                        }
 //                                        else

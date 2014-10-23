@@ -34,7 +34,7 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
             InitImeiTypeahead($scope.phones, SharedPropertiesService.getDistributionStatus());
         });
 
-        var id = ($stateParams) ? $stateParams.id : null;
+        var id = ($stateParams) ? $stateParams.vendor_id : null;
 
         if (id)
         {
@@ -52,7 +52,7 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
             DataProviderService.createVendorMobile(vendor_mobile).success(function (data) {
                    var id = data["data"]["vendormobile"]["id"];
                    model.id = id;        
-                  SharedPropertiesService.getTree().AddVendor(model);
+                  SharedPropertiesService.getTree().AddVendor(model,true);
             }); 
                   
         }

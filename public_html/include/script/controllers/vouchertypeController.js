@@ -28,7 +28,7 @@ app.controller('VoucherTypeController', ['$scope', '$stateParams', 'DataProvider
                 $scope.subdistributionVoucherType.expiration_date = SharedPropertiesService.getDistributionEndDate();
 
 
-                var id = ($stateParams) ? $stateParams.id : null;
+                var id = ($stateParams) ? $stateParams.vouchertype_id : null;
                 if (id) {
                     DataProviderService.getSubdistributionVoucher(id).success(function (data) {
                         var data = data["data"]["distributionVoucher"];
@@ -55,7 +55,7 @@ app.controller('VoucherTypeController', ['$scope', '$stateParams', 'DataProvider
                         var id = data["data"]["distributionVoucher"]["id"];
                         subdistributionVoucherType.id = id;
 //                        model.type = vouchType.type;
-                        SharedPropertiesService.getTree().AddType(subdistributionVoucherType);
+                        SharedPropertiesService.getTree().AddType(subdistributionVoucherType, true);
                     });
                 }
             });

@@ -66,26 +66,7 @@ $(document).ready(function () {
     });
 */
 
-    function CreateBreadCrumbTree(data) {
-        if (data)
-            for (i = 0; i < data.length; i++) {
-                if (data[i] == "Distributions") {
-                    //$("#breadcrumb").append('<li><i class="fa fa-home"></i><a href="#/home">Home</a><i class="fa fa-angle-right"></i></li>');
-                    $("ul#breadcrumb").append('<li><i class="fa fa-home"></i><a id="page-breadcrumb-home"> Distributions</a> <i class="fa fa-angle-right"></i></li>');
-
-                }
-                else
-                {
-                    var dir = data[i];
-                    //$("#breadcrumb").append('<li><a href="#/' + dir + '">' + dir + '</a> <i class="fa fa-angle-right"></i>');
-                    $("ul#breadcrumb").append('<li><a>' + dir + '</a> <i class="fa fa-angle-right"></i>');
-
-                }
-            }
-        else
-            // $("#breadcrumb").append('<li><i class="fa fa-home"></i><a href="#/home">Home</a><i class="fa fa-angle-right"></i></li>');
-            $("ul#breadcrumb").append('<li><i class="fa fa-home"></i><a id="page-breadcrumb-home"> Distributions</a> <i class="fa fa-angle-right"></i></li>');
-    }
+  
 
 
     /*
@@ -119,6 +100,22 @@ $(document).ready(function () {
 });
 //  $("#content").append("<div>" + GetHTML("Distributions.html") + "</div>");
 
+  function CreateBreadCrumbTree(data) {
+        $("ul#breadcrumb").empty();
+        if (data)
+            for (i = 0; i < data.length; i++) {
+                if (i == 0) {
+                    //$("#breadcrumb").append('<li><i class="fa fa-home"></i><a href="#/home">Home</a><i class="fa fa-angle-right"></i></li>');
+                    $("ul#breadcrumb").append('<li><i class="fa fa-home"></i><a> ' + data[0] +'</a> <i class="fa fa-angle-right"></i></li>')
+                }
+                else
+                {                
+                    //$("#breadcrumb").append('<li><a href="#/' + dir + '">' + dir + '</a> <i class="fa fa-angle-right"></i>');
+                    $("ul#breadcrumb").append('<li><a> ' + data[i] + '</a> <i class="fa fa-angle-right"></i>');
+                }
+            }       
+    }
+    
 function toTitleCase(str) {
     return str.replace(/(?:^|\s)\w/g, function (match) {
         return match.toUpperCase();

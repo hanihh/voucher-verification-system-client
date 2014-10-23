@@ -57,7 +57,7 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
 
 
 
-                    var id = ($stateParams) ? $stateParams.id : null;
+                    var id = ($stateParams) ? $stateParams.dist_id : null;
                     if (id) {
                         DataProviderService.getDistributions(id).success(function (data) {
                             var data = data["data"]["distribution"];
@@ -85,7 +85,7 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                             $scope.dateRange = startDateString + (startDateString == "" && endDateString == "" ? "" : " - ") + endDateString;
                             // ******************************************************
                             SharedPropertiesService.setDistributionId(id);
-                            SharedPropertiesService.getTree().BulidTreeByDistribution($scope.distribution);
+                            SharedPropertiesService.getTree().BulidTreeByDistribution($scope.distribution, true);
                         });
                     }
 
@@ -98,7 +98,7 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                             SharedPropertiesService.setDistributionId(id);
                             SharedPropertiesService.setDistributionStatus(distribution.online);
                             SharedPropertiesService.setDistributionEndDate(distribution.end_date);
-                            SharedPropertiesService.getTree().AddDistribution(distribution);
+                            SharedPropertiesService.getTree().AddDistribution(distribution, false);
                         });
 
 

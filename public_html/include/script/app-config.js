@@ -12,36 +12,76 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($
             url: "/home",
             templateUrl: 'views/home.html'
         }).state('distributions', {
-            url: '/distributions/:id',                
-            controller: 'DistributionController',
-            templateUrl: 'views/wizardviews/Distributions.html'
-        }).state('subdistribution', {
-            url: '/subdistribution/:id',           
-            controller: 'subdistributionController',
-            templateUrl: 'views/wizardviews/Subdistribution.html'
-        }).state('subdistributionsreport', {
+            url: '/distributions/:dist_id',                        
+//            views:{           
+//                '': {
+//                    controller: 'DistributionController',
+//                    templateUrl: 'views/wizardviews/Distributions.html',
+//                },
+//                'subdistribution@distributions': {
+//                    controller: 'subdistributionController',
+//                    templateUrl: 'views/wizardviews/Subdistribution.html'
+//                }
+//            },
+               controller: 'DistributionController',
+                    templateUrl: 'views/wizardviews/Distributions.html',
+        }).state('distributions.subdistribution', {
+            url: '/subdistribution/:subdist_id',    
+              views: {
+            'subdistribution': {
+                  controller: 'subdistributionController',
+                    templateUrl: 'views/wizardviews/Subdistribution.html'
+            }
+        },
+//            controller: 'subdistributionController',
+//                    templateUrl: 'views/wizardviews/Subdistribution.html'
+   
+        }).state('subdistributionsreport', {            
             url: '/subdistributionsreport',
+            controller: 'SubdistributionReportController',
             templateUrl: 'views/wizardviews/SubdistributionsReport.html'
-        }).state('vendor', {
-            url: '/vendor/:id',            
-            controller: 'VendorController',
-            templateUrl: 'views/wizardviews/vendor.html'
+        }).state('distributions.vendor', {            
+            url: '/vendor/:vendor_id',    
+              views: {
+                  'vendor':{
+                    controller: 'VendorController',
+                    templateUrl: 'views/wizardviews/vendor.html'
+                  }
+              }
         }).state('vendorreport', {
             url: '/vendorreport',
+            controller: 'VendorReportController',
             templateUrl: 'views/wizardviews/vendorsReport.html'
-        }).state('vouchertype', {
-            url: '/vouchertype/:id',            
-            controller: 'VoucherTypeController',
-            templateUrl: 'views/wizardviews/vouchertype.html'            
-        }).state('beneficiaryDist', {
+        }).state('distributions.subdistribution.vouchertype', {
+            url: '/vouchertype/:vouchertype_id',   
+            views: {
+                'vouchertype':{
+                    controller: 'VoucherTypeController',
+                    templateUrl: 'views/wizardviews/vouchertype.html'            
+                }
+            }
+        }).state('vouchertypereport', {
+            url: '/vouchertypereport',            
+            controller: 'VoucherTypeReportController',
+            templateUrl: 'views/wizardviews/vouchertypereport.html'            
+        }).state('distributions.subdistribution.beneficiaryDist', {
             url: '/beneficiaryDist',
-            controller:'beneficiaryDistController',
-            templateUrl: 'views/wizardviews/BeneficiaryDist.html'
-        }).state('beneficiaryVendor', {
+            views: {
+                'beneficiaryDist':{
+                    controller:'beneficiaryDistController',
+                    templateUrl: 'views/wizardviews/BeneficiaryDist.html'
+                }
+            }
+        }).state('distributions.vendor.beneficiaryVendor', {
             url: '/beneficiaryVendor',
-            templateUrl: 'views/wizardviews/BeneficiaryVendor.html'
+            views:{
+                'beneficiaryVendor':{
+                    controller:'beneficiaryVendorController',
+                    templateUrl: 'views/wizardviews/BeneficiaryVendor.html'
+                }
+            }
         });
-        ;
+       
 
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
