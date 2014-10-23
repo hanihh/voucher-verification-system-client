@@ -8,7 +8,7 @@
 
 app.factory('DataProviderService', ['$http', function ($http) {
         var dataFactory = {};
-        var server_url = "http://localhost:8080/vvs_v2/index.php/";
+        var server_url = "http://localhost/vvs_v2/index.php/";
 
         //*** Gets Methods ***//
         dataFactory.getDistributions = function (id) {
@@ -132,7 +132,11 @@ app.factory('DataProviderService', ['$http', function ($http) {
         };
    
         //*********************//
-        
+        //**** Put Methods ****//
+        dataFactory.updateDistribution = function (distribution) {
+            console.log(distribution);
+            return $http({method: 'PUT', url: server_url + 'api/distribution/'+distribution.id, data: distribution});
+        };    
         /*
          dataFactory.updateUsersFields = function (filedsObj) {
          return $http.put('/Membership/UpdateUsersFields', filedsObj);

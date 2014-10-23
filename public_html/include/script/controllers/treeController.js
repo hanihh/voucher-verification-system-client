@@ -96,11 +96,11 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 SetNodeRoute(tree.jstree(true).get_node(subdistribution.id + "Benes"), "beneficiaryDist");
                 tree.jstree(true).disable_node(subdistributionBeneficiary);
                 //*** Defining ToolTip ***
-                subdistributionBeneficiary.a_attr['class'] = 'tooltips';
-                subdistributionBeneficiary.a_attr['data-container'] = "body";
-                subdistributionBeneficiary.a_attr['data-placement'] = "right";
-                subdistributionBeneficiary.a_attr['data-html'] = "true";
-                subdistributionBeneficiary.a_attr['data-original-title'] = "YOU SHOULD ADD VOUCHER TYPE FIRST";
+//                subdistributionBeneficiary.a_attr['class'] = 'tooltips';
+//                subdistributionBeneficiary.a_attr['data-container'] = "body";
+//                subdistributionBeneficiary.a_attr['data-placement'] = "right";
+//                subdistributionBeneficiary.a_attr['data-html'] = "true";
+//                subdistributionBeneficiary.a_attr['data-original-title'] = "YOU SHOULD ADD VOUCHER TYPE FIRST";
                 //************************
 
                 tree.jstree(true).open_node(subdistributionNode, false);
@@ -229,6 +229,18 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 $state.go(data.node.a_attr['ui-sref']);
 
         });
+
+//        $("#tree_1").on('changed.jstree', function (e, data) {
+//            if (data.instance.get_node(data.selected[0]).text == "Beneficiaries") {
+//                var node = data.instance.get_node(data.selected[0]);
+//                console.log(node);
+//                
+//                if (false ) {
+//                    alert(1);
+//                    toastr.error('You need to define one voucher type at least.');
+//                }
+//            }
+//        });
 
         var $tree = $WizardTree;
         $tree.__Init($root);
