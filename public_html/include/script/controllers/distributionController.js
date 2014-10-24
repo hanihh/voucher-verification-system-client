@@ -50,6 +50,7 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                         var data = data["data"]["program"];
                         var program = new Program();
                         $scope.programItems = program.parseArray(data);
+                        console.log( $scope.programItems);
                     });
 
                     //Donors            
@@ -70,11 +71,11 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                     $scope.$watch('distribution.program_id', function (newVal, oldVal) {
                         if (newVal != oldVal) {
                             if (newVal != null) {
-                                $scope.programItems.forEach(function (entry) {
-                                    if (entry.id == newVal)
-                                        $scope.distributionNameProgramPart = entry.code;
-                                        $scope.distribution.name = $scope.distributionNameProgramPart + "-" + $scope.distributionDatePart;
-                                });
+//                                $scope.programItems.forEach(function (entry) {
+//                                    if (entry.id == newVal)
+//                                        $scope.distributionNameProgramPart = entry.code;
+//                                        $scope.distribution.name = $scope.distributionNameProgramPart + "-" + $scope.distributionDatePart;
+//                                });
                             }
                         }
                     });
@@ -118,10 +119,10 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                             // ******************************************************
                             SharedPropertiesService.setDistributionId(id);
                             SharedPropertiesService.getTree().BulidTreeByDistribution($scope.distribution);
-                            $scope.programItems.forEach(function (entry) {
-                                if (entry.id == $scope.distribution.program_id)
-                                    $scope.distributionNameProgramPart = entry.code;
-                            });
+//                            $scope.programItems.forEach(function (entry) {
+//                                if (entry.id == $scope.distribution.program_id)
+//                                    $scope.distributionNameProgramPart = entry.code;
+//                            });
                         });
                     }
 

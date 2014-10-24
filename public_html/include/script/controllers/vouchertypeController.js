@@ -34,7 +34,7 @@ app.controller('VoucherTypeController', ['$scope', '$stateParams', 'DataProvider
                         var data = data["data"]["distributionVoucher"];
                         var subdistributionVoucherType = new SubdistributionVoucherType();
                         $scope.subdistributionVoucherType = subdistributionVoucherType.parse(data);
-                        
+                         console.log($scope.subdistributionVoucherType);
                          // *** Checking dates and filling Date Range Control ***
                                             
                                             var expireDate = new Date($scope.subdistributionVoucherType.expiration_date);

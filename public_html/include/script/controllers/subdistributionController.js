@@ -7,7 +7,7 @@
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
 app.controller('subdistributionController', ['$scope', '$stateParams', '$compile', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, $compile, DataProviderService, SharedPropertiesService) {
         //Initializing Models for cascade select lists
-        
+                $.getScript('include/ViewModels/Core/Distribution.js', function () {
         $.getScript('include/ViewModels/Core/Subdistribution.js', function () {
             $.getScript('include/ViewModels/Core/Distribution_status.js', function () {
                 $.getScript('include/ViewModels/Location/Country.js', function () {
@@ -16,7 +16,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                             $.getScript('include/ViewModels/Location/Subdistrict.js', function () {
                                 $.getScript('include/ViewModels/Location/Community.js', function () {
 
-
+console.log("SUb");
                                     $scope.country = null;
                                     $scope.governorate = null;
                                     $scope.district = null;
@@ -172,7 +172,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                     });
 
                                     var id = ($stateParams) ? $stateParams.subdist_id : null;
-
+                                    var dist_id = ($stateParams) ? $stateParams.dist_id : null;
                                     if (id)
                                     {
                                         DataProviderService.getSubdistributions(id).success(function (data) {
@@ -230,6 +230,17 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                             $scope.dateRange = startDateString + (startDateString == "" && endDateString == "" ? "" : " - ") + endDateString;
                                             // ******************************************************
                                         });
+                                        
+                                        if (dist_id && !SharedPropertiesService.getTreeBuildStatus(true)){
+                                            SharedPropertiesService.setDistributionId(id);
+                                            SharedPropertiesService.setTreeBuildStatus(true);
+                                            DataProviderService.getDistributions(dist_id).success(function (data) {
+                                                    var data = data["data"]["distribution"];
+                                                    var distribution = new Distribution();
+                                                    var currentDistribution = distribution.parse(data);
+                                                    SharedPropertiesService.getTree().BulidTreeByDistribution(currentDistribution, $scope.subdistribution);
+                                            });
+                                        }
                                     }
 
                                     $scope.Save = function (subdistributionForm, subdistribution) {
@@ -257,5 +268,6 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                 });
             });
         });
+         });
     }]);
 

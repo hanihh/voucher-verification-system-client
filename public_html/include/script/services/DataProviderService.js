@@ -8,7 +8,7 @@
 
 app.factory('DataProviderService', ['$http', function ($http) {
         var dataFactory = {};
-        var server_url = "http://localhost/vvs_v2/index.php/";
+        var server_url = "http://localhost:8080/vvs_v2/index.php/";
 
         //*** Gets Methods ***//
         dataFactory.getDistributions = function (id) {
@@ -93,8 +93,8 @@ app.factory('DataProviderService', ['$http', function ($http) {
                       var _id = (id) ? id : "";
             return $http({method: 'GET', url: server_url + 'api/Vendor/' + _id});
         };
-        dataFactory.getVendorMobiles = function (id) {
-                      var _id = (id) ? id : "";
+        dataFactory.getVendorMobiles = function (dist_id, vendor_id) {
+                   
             return $http({method: 'GET', url: server_url + 'api/vendormobile/' + _id});
         };
         dataFactory.getPhones = function () {

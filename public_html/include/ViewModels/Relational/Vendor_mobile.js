@@ -18,30 +18,25 @@ $.getScript("include/ViewModels/Base.js", function () {
 var Vendor_mobile = Base.extend({
     init: function () {
         this.id = null;
-        this.subdistribution_id = "";
+        this.distribution_id = "";
         this.vendor_id = "";
-        this.phone_id = "";
+        this.phones = [];
     },
     parse: function (data) {
         var vendor_mobile = new Vendor_mobile();
 
         var jsonObj = data;
         vendor_mobile.id = jsonObj['id'];
-        vendor_mobile.subdistribution_id = jsonObj['subdistribution_id'];
+        vendor_mobile.distribution_id = jsonObj['distribution_id'];
         vendor_mobile.vendor_id = jsonObj['vendor_id'];
-        vendor_mobile.phone_id = jsonObj['phone_id'];
 
         return vendor_mobile;
     },
-    parseArray: function (array) {
-        var parsedArray = [];
-        var vendor_mobile = new Vendor_mobile();
-
-
-        for (i = 0; i < array["length"]; i++) {
-            parsedArray.push(vendor_mobile.parse(array[i]));
+    Split: function() {       
+        var splitedObjects = [];
+        for(i=0; i<this.phones.length; i++) {     
+            splitedObjects.push({id:null, distribution_id: this.distribution_id, vendor_id: this.vendor_id, phone_id: this.phones[i][0].id});
         }
-
-        return parsedArray;
+        return splitedObjects;
     }
 });

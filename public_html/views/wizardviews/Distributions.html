@@ -1,71 +1,67 @@
 <!DOCTYPE html>
 
-<div ui-view="subdistribution" >
-    <div ui-view="vendor">
-<div class="portlet-body form">
-    <form action="#" class="form-horizontal form-bordered" name="DistributionForm">
-        <div class="form-body">  
-            <div class="form-group">
-                <label class="control-label col-md-3">Name</label>
-                <div class="col-md-4">                  
-                    <input disabled="disabled" id="distribution_name" type="text" class="form-control" ng-model="distribution.name" placeholder="Name...">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-md-3">Title in English</label>
-                <div class="col-md-4">                  
-                    <input type="text" class="form-control" ng-model="distribution.title_en" placeholder="Title...">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-md-3">Title in Arabic</label>
-                <div class="col-md-4">                  
-                    <input type="text" class="form-control" ng-model="distribution.title_ar" placeholder="Title...">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-md-3">Program</label>
-                <div class="col-md-4">                  
-                    <select  id="programList" class="form-control input-medium select2me" data-placeholder="Select..." ng-model='distribution.program_id' ng-options='programItem.id as programItem.name for programItem in programItems' required>
-                        <option value=""  ng-hide="distribution.program_id">Select...</option>
-                    </select>										
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-md-3">Donor</label>
-                <div class="col-md-4">
-                    <select id="donorList" class="form-control input-medium select2me" data-placeholder="Select..." ng-model='distribution.donor_id' ng-options='donorItem.id as donorItem.name for donorItem in donorItems' required>
-                        <option value="" ng-hide="distribution.donor_id">Select...</option>
-                    </select>											
-                </div>
-            </div>               
-            <div class="form-group">
-                <label class="control-label col-md-3">Start-End Date:</label>
-                <div class="col-md-4">
-                    <div class="input-group" id="defaultrange">
-                        <input ng-model="dateRange" type="daterange" class="form-control" readonly required>
-                        <span class="input-group-btn">
-                            <button class="btn default date-range-toggle" type="button"><i class="fa fa-calendar"></i></button>
-                        </span>
+        <div class="portlet-body form">
+            <form action="#" class="form-horizontal form-bordered" name="DistributionForm">
+                <div class="form-body">  
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Name</label>
+                        <div class="col-md-4">                  
+                            <input disabled="disabled" id="distribution_name" type="text" class="form-control" ng-model="distribution.name" placeholder="Name...">
+                        </div>
                     </div>
-                </div>
-            </div>  
-            <div class="form-group">
-                <label class="control-label col-md-3">Online</label>
-                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Title in English</label>
+                        <div class="col-md-4">                  
+                            <input type="text" class="form-control" ng-model="distribution.title_en" placeholder="Title...">
+                        </div>
+                    </div>
+                    <div class="form-group">    
+                        <label class="control-label col-md-3">Title in Arabic</label>
+                        <div class="col-md-4">                  
+                            <input type="text" class="form-control" ng-model="distribution.title_ar" placeholder="Title...">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Program</label>
+                        <div class="col-md-4">                  
+                            <select  id="programList" class="form-control input-medium select2me" data-placeholder="Select..." ng-model='distribution.program_id' ng-options='programItem.id as programItem.name for programItem in programItems' required>
+                                <option value=""  ng-hide="distribution.program_id">Select...</option>
+                            </select>										
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Donor</label>
+                        <div class="col-md-4">
+                            <select id="donorList" class="form-control input-medium select2me" data-placeholder="Select..." ng-model='distribution.donor_id' ng-options='donorItem.id as donorItem.name for donorItem in donorItems' required>
+                                <option value="" ng-hide="distribution.donor_id">Select...</option>
+                            </select>											
+                        </div>
+                    </div>               
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Start-End Date:</label>
+                        <div class="col-md-4">
+                            <div class="input-group" id="defaultrange">
+                                <input ng-model="dateRange" type="daterange" class="form-control" readonly required>
+                                <span class="input-group-btn">
+                                    <button class="btn default date-range-toggle" type="button"><i class="fa fa-calendar"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Online</label>
+                        <div class="col-md-4">
+                            <input ng-model="distribution.online" id="online-switch" name="online-switch" type="checkbox" data-on-text="&nbsp;Online&nbsp;" data-off-text="&nbsp;Offline&nbsp;" checked>
+                        </div>
+                    </div>         
+                    <div class="form-group" style="float:right">
+                        <button style="width:100px" type="button" class="btn red"><i class="fa fa-times"></i> Cancel</button>
+                        <button  style="width:100px" type="button" class="btn green" ng-click="Save(distribution)"><i class="fa fa-floppy-o"></i> Save</button>
+                    </div>
+                </div>   
+            </form>
+        </div>
 
-                    <input ng-model="distribution.online" id="online-switch" name="online-switch" type="checkbox" data-on-text="&nbsp;Online&nbsp;" data-off-text="&nbsp;Offline&nbsp;" checked>
-                </div>
-            </div>         
-            <div class="form-group" style="float:right">
-                <button style="width:100px" type="button" class="btn red"><i class="fa fa-times"></i> Cancel</button>
-                <button  style="width:100px" type="button" class="btn green" ng-click="Save(distribution)"><i class="fa fa-floppy-o"></i> Save</button>
-            </div>
-        </div>   
-    </form>
-</div>
-    </div>
-</div>
 
 <!-- Datetimepickers related PLUGINS -->
 <script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
@@ -79,23 +75,11 @@
 <!-- END PLUGINS -->
 
 <script>
-                    jQuery(document).ready(function () {
-                        Metronic.init();
-                        ComponentsPickers.init();
-                        $('#online-switch').bootstrapSwitch();
-
-                        $('#defaultrange').daterangepicker({
-                            opens: (Metronic.isRTL() ? 'left' : 'right'),
-                            format: 'YYYY-MM-DD',
-                            separator: ' to ',
-                            startDate: moment(),
-                            endDate: moment().add('days', 1),
-                            minDate: moment(),
-                            },
-                            function (start, end) {
-                                $('#defaultrange input').val(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
-                            }
-                        );               
-                    });
+                            jQuery(document).ready(function () {
+                                Metronic.init();
+                                ComponentsPickers.init();
+                                $('#online-switch').bootstrapSwitch();
+                                
+                            });
 
 </script>
