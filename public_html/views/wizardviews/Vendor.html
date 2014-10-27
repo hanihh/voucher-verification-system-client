@@ -9,7 +9,7 @@
             <div class="form-group">
                 <label class="control-label col-md-3">Vendor</label>
                 <div class="col-md-4">
-                    <select class="form-control input-medium select2me" data-placeholder="Select..." ng-model='vendor_mobile.vendor_id' ng-options='vendorItem.id as vendorItem.en_name for vendorItem in vendorItems' required>
+                    <select id="vendorList" class="form-control input-medium select2me" data-placeholder="Select..." ng-model='vendor_mobile.vendor_id' ng-options='vendorItem.id as vendorItem.en_name for vendorItem in vendorItems' required>
                         <option value=""  ng-hide="vendor_mobile.vendor_id">Select...</option>
                     </select>
                 </div>
@@ -64,10 +64,6 @@
                     jQuery(document).ready(function () {
                         Metronic.init(); // init metronic core components
                         ComponentsFormTools.init();
-
-
-                        
-
                     });
 
 

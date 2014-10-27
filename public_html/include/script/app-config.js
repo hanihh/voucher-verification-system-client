@@ -11,6 +11,9 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($
         $stateProvider.state('home', {            
             url: "/home",
             templateUrl: 'views/home.html'             
+        }).state('viewdistributions', {            
+            url: "/viewdistributions",      
+             controller: 'ViewDistributionsController',
         }).state('distributions', {
             url: '/distributions/:dist_id',                        
             controller: 'DistributionController',
@@ -51,7 +54,6 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($
 
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
-
     }]);
 
 

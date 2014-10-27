@@ -7,13 +7,13 @@ var checkedBenesIds = [];
 var addedBenesIds = [];
 var canceledBenesIds = [];
 
-app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
+app.controller('beneficiaryVendorController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
         $scope.beneficiary = {};
         $scope.filter = {};
-        var subdist_id = ($stateParams) ? $stateParams.subdist_id : null;
+        var vendor_id = ($stateParams) ? $stateParams.vendor_id : null;
         var dist_id = ($stateParams) ? $stateParams.dist_id : null;
         //$scope.subdistributionId = SharedPropertiesService.getSubdistributionIdForBeneficiary();
-        $scope.subdistributionId = subdist_id;
+        $scope.vendorId = vendor_id;
 
         $.getScript('include/ViewModels/Beneficiary/Beneficiary.js', function ()
         {
@@ -57,7 +57,7 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
 
                     dataTable: {              
                         "pageLength": 10, // default record count per page
-                        "ajax": DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId, true, true),
+                        "ajax": DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId, true, false),
                         "sAjaxDataProp": "Beneficiaries",
                         "columns": [
                             {"data": "id",

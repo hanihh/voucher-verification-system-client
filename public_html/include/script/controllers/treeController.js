@@ -5,7 +5,7 @@
  */
 
 var IdPrefixString = {
-    distribution: "dist",
+    distribution: "maindist",
     subdistribution: "subdist",
     subdistributionsreport: "subdistreport",
     vouchertypesreport: "vouchertypereport",
@@ -62,26 +62,14 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
             },
             AddDistribution: function (distribution, WithSelectMethodology) {
                 dist_id = distribution.id;
-                tree.jstree(true).delete_node(distributionsNode);
+                this.__Clear();
                 this.distributionIdString = distribution.id + IdPrefixString.distribution;
                 tree.jstree(true).create_node(tree, CreateNode(this.distributionIdString, distribution.name, "fa fa-cube"));
                 distributionsNode = tree.jstree(true).get_node(this.distributionIdString);
-                SetNodeRoute(distributionsNode, "distributions", {dist_id: dist_id}, "Distribution: " + distribution.name);
+                SetNodeRoute(distributionsNode, "distributions", {dist_id: distribution.id}, "Distribution: " + distribution.name);
                 
-                tree.jstree(true).create_node(distributionsNode, CreateNode(IdPrefixString.subdistributionsreport, "Subdistributions", "fa fa-cubes icon-state-warning"));
-                subdistributionsNode = tree.jstree(true).get_node(IdPrefixString.subdistributionsreport);
-                SetNodeRoute(subdistributionsNode, "subdistributionsreport", {dist_id: dist_id}, "Subdistributions");
+                this.AddDistributionChilds(distribution);
                 
-                tree.jstree(true).create_node(subdistributionsNode, CreateNode(this.addNewSubdistributionsId, "Add New", "fa fa-plus-circle icon-state-danger"));
-                SetNodeRoute(tree.jstree(true).get_node(this.addNewSubdistributionsId), "subdistribution", {dist_id: dist_id, subdist_id: ""}, "Add New Subdistribution");
-                //this.LoadSubdistributions();
-
-                tree.jstree(true).create_node(distributionsNode, CreateNode(IdPrefixString.vendorsreport, "Vendors", "fa fa-building icon-state-warning"));
-                vendorsNode = tree.jstree(true).get_node(IdPrefixString.vendorsreport);
-                SetNodeRoute(vendorsNode, "vendorreport", {dist_id: dist_id}, "Vendors");
-                
-                tree.jstree(true).create_node(vendorsNode, CreateNode(this.addNewVendorsId, "Add New", "fa fa-plus-circle icon-state-danger"));
-                SetNodeRoute(tree.jstree(true).get_node(this.addNewVendorsId), "vendor", {dist_id: dist_id, vendor_id: ""}, "Add New Vendor");
                 tree.jstree(true).open_node(distributionsNode, false);
                 tree.jstree(true).open_node(subdistributionsNode, false);
                 tree.jstree(true).open_node(vendorsNode, false);
@@ -92,22 +80,62 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 }
 //                tree.jstree(true).select_node(nodeObject.name + "Types" + "AddNew");
             },
+            AddDistributionArray: function (distributions) {
+                this.__Clear();
+                for (i = 0; i < distributions.length; i++) {             
+                    var distributionIdString = distributions[i].id + IdPrefixString.distribution;
+                    tree.jstree(true).create_node(tree, CreateNode(distributionIdString, distributions[i].name, "fa fa-cube"));
+                    var distributionNode = tree.jstree(true).get_node(distributionIdString);
+                    SetNodeRoute(distributionNode, "distributions", {dist_id: distributions[i].id}, "Distribution: " + distributions[i].name);
+                    
+      
+                    this.AddDistributionChilds(distributions[i]);
+                } 
+                
+                var currentthis = this;
+                 $("#tree_1").bind("open_node.jstree", function (e, data) {
+                    if (data.node.id.indexOf(IdPrefixString.distribution) > -1)
+                    {
+                        var distId = data.node.id.substr(0, data.node.id.indexOf(IdPrefixString.distribution));
+                        currentthis.BulidTreeByAddedDistribution(distId);                    
+                    }
+                });
+            },
+            AddDistributionChilds: function(distribution) {                  
+                var distributionIdString = distribution.id + IdPrefixString.distribution;
+                var distributionNode = tree.jstree(true).get_node(distributionIdString);
+                
+                tree.jstree(true).create_node(distributionNode, CreateNode(distributionIdString + IdPrefixString.subdistributionsreport, "Subdistributions", "fa fa-cubes icon-state-warning"));
+                subdistributionsNode = tree.jstree(true).get_node(distributionIdString + IdPrefixString.subdistributionsreport);               
+                SetNodeRoute(subdistributionsNode, "subdistributionsreport", {dist_id: distribution.id}, "Subdistributions");
+                
+                tree.jstree(true).create_node(subdistributionsNode, CreateNode(distributionIdString + this.addNewSubdistributionsId, "Add New", "fa fa-plus-circle icon-state-danger"));
+                SetNodeRoute(tree.jstree(true).get_node(distributionIdString + this.addNewSubdistributionsId), "subdistribution", {dist_id: distribution.id, subdist_id: ""}, "Add New Subdistribution");
+                //this.LoadSubdistributions();
+
+                tree.jstree(true).create_node(distributionNode, CreateNode(distributionIdString + IdPrefixString.vendorsreport, "Vendors", "fa fa-building icon-state-warning"));
+                vendorsNode = tree.jstree(true).get_node(distributionIdString + IdPrefixString.vendorsreport);
+                SetNodeRoute(vendorsNode, "vendorreport", {dist_id: distribution.id}, "Vendors");
+                
+                tree.jstree(true).create_node(vendorsNode, CreateNode(distributionIdString + this.addNewVendorsId, "Add New", "fa fa-plus-circle icon-state-danger"));
+                SetNodeRoute(tree.jstree(true).get_node(distributionIdString + this.addNewVendorsId), "vendor", {dist_id: distribution.id, vendor_id: ""}, "Add New Vendor");
+            },
             AddSubdistribution: function (subdistribution, WithSelectMethodology) {
                 //$("#SubdistributionsList").find(' > li:first').after('<li>' + nodeObject.code + '</li>');  
                 tree.jstree(true).create_node(subdistributionsNode, CreateNode(subdistribution.id + IdPrefixString.subdistribution, subdistribution.code, "fa fa-cubes icon-state-success"));
                 var subdistributionNode = tree.jstree(true).get_node(subdistribution.id + IdPrefixString.subdistribution);
-                SetNodeRoute(subdistributionNode, "subdistribution", {dist_id: dist_id, subdist_id: subdistribution.id}, "Subdistribution: " + subdistribution.code);
+                SetNodeRoute(subdistributionNode, "subdistribution", {dist_id: subdistribution.distribution_id, subdist_id: subdistribution.id}, "Subdistribution: " + subdistribution.code);
                 
-                tree.jstree(true).create_node(subdistributionNode, CreateNode(subdistribution.id +  IdPrefixString.vouchertypesreport, "Voucher Types", "fa fa-money icon-state-success"));
-                var subdistributionTypesNode = tree.jstree(true).get_node(subdistribution.id +  IdPrefixString.vouchertypesreport);
-                SetNodeRoute(subdistributionTypesNode, "vouchertypereport", {dist_id: dist_id, subdist_id: subdistribution.id}, "Voucher Types");
+                tree.jstree(true).create_node(subdistributionNode, CreateNode(subdistribution.id + IdPrefixString.subdistribution +  IdPrefixString.vouchertypesreport, "Voucher Types", "fa fa-money icon-state-success"));
+                var subdistributionTypesNode = tree.jstree(true).get_node(subdistribution.id + IdPrefixString.subdistribution +  IdPrefixString.vouchertypesreport);
+                SetNodeRoute(subdistributionTypesNode, "vouchertypereport", {dist_id: subdistribution.distribution_id, subdist_id: subdistribution.id}, "Voucher Types");
                 
                 tree.jstree(true).create_node(subdistributionTypesNode, CreateNode(subdistribution.id + IdPrefixString.subdistribution + this.addNewVoucherType, "Add New", "fa fa-plus-circle icon-state-danger"));
-                SetNodeRoute(tree.jstree(true).get_node(subdistribution.id + IdPrefixString.subdistribution + this.addNewVoucherType), "vouchertype", {dist_id: dist_id, subdist_id: subdistribution.id, vouchertype_id: ""}, "Add New Voucher Type");
+                SetNodeRoute(tree.jstree(true).get_node(subdistribution.id + IdPrefixString.subdistribution + this.addNewVoucherType), "vouchertype", {dist_id: subdistribution.distribution_id, subdist_id: subdistribution.id, vouchertype_id: ""}, "Add New Voucher Type");
                 
                 tree.jstree(true).create_node(subdistributionNode, CreateNode(subdistribution.id + IdPrefixString.subdistribution + IdPrefixString.beneficiariesSubdistribution, "Beneficiaries", "fa fa-group icon-state-success"));
                 var subdistributionBeneficiary = tree.jstree(true).get_node(subdistribution.id + IdPrefixString.subdistribution + IdPrefixString.beneficiariesSubdistribution);
-                SetNodeRoute(tree.jstree(true).get_node(subdistribution.id + IdPrefixString.subdistribution + IdPrefixString.beneficiariesSubdistribution), "beneficiaryDist", {dist_id: dist_id, subdist_id: subdistribution.id}, "Beneficiaries");
+                SetNodeRoute(tree.jstree(true).get_node(subdistribution.id + IdPrefixString.subdistribution + IdPrefixString.beneficiariesSubdistribution), "beneficiaryDist", {dist_id: subdistribution.distribution_id, subdist_id: subdistribution.id}, "Beneficiaries");
                 
                 tree.jstree(true).disable_node(subdistributionBeneficiary);
                 //*** Defining ToolTip ***
@@ -134,8 +162,14 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 var parentTypeNodeId = tree.jstree(true).get_selected(true)[0].parent;
                 return parentTypeNodeId;
             },
-            AddType: function (vouchType, WithSelectMethodology) { 
-                var voucherTypesNode = tree.jstree(true).get_node(vouchType.subdistribution_id + IdPrefixString.vouchertypesreport);
+            AddType: function (vouchType, WithSelectMethodology) {                                 
+                var voucherTypesNode = tree.jstree(true).get_node(vouchType.subdistribution_id + IdPrefixString.subdistribution + IdPrefixString.vouchertypesreport);                
+                console.log(voucherTypesNode);
+                var distIdString =  voucherTypesNode.parents[voucherTypesNode.parents.length - 2];
+                console.log(distIdString);
+                var dist_id = distIdString.substr(0, distIdString.indexOf(IdPrefixString.distribution));
+                console.log(dist_id);
+                
                 tree.jstree(true).create_node(voucherTypesNode, CreateNode(vouchType.subdistribution_id + IdPrefixString.subdistribution + vouchType.id + IdPrefixString.voucherType, vouchType.value, "fa fa-dollar icon-state-success"));               
                 SetNodeRoute(tree.jstree(true).get_node(vouchType.subdistribution_id + IdPrefixString.subdistribution + vouchType.id + IdPrefixString.voucherType), "vouchertype", {dist_id: dist_id, subdist_id: vouchType.subdistribution_id, vouchertype_id: vouchType.id}, "Voucher Type: " + vouchType.value);
                 
@@ -155,7 +189,7 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
             AddVendor: function (vendor, WithSelectMethodology) {
                 tree.jstree(true).create_node(vendorsNode, CreateNode(vendor.id + IdPrefixString.vendor, vendor.name));
                 var vendorNode = tree.jstree(true).get_node(vendor.id + IdPrefixString.vendor);
-                SetNodeRoute(vendorNode, "vendor", {dist_id: dist_id, vendor_id: vendor.id}, "Vendor: " + vendor.name);
+                SetNodeRoute(vendorNode, "vendor", {dist_id: vendor.distribution_id, vendor_id: vendor.id}, "Vendor: " + vendor.name);
                 if (SharedPropertiesService.getDistributionStatus() == false)
                 {
                     tree.jstree(true).create_node(vendorNode, CreateNode(vendor.id + IdPrefixString.vendor + IdPrefixString.beneficiariesVendor, "Beneficiaries", "fa fa-group"));
@@ -180,11 +214,16 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                     alert("beneficiaryVendor");
 
             },
-            BulidTreeByDistribution: function (distribution, WithSelectMethodology) {
+            BulidAllTreeByDistribution: function (distribution, WithSelectMethodology) {
                 this.__Clear();
                 this.AddDistribution(distribution, WithSelectMethodology);
-                var currentThis = this;
-                DataProviderService.getSubdistributionsByFilter([["distribution_id", distribution.id, "="]]).success(function (data) {
+                               
+                this.BulidTreeByAddedDistribution(distribution);
+            },  
+            BulidTreeByAddedDistribution: function (distributionId) {
+                 var currentThis = this;
+                 
+                DataProviderService.getSubdistributionsByFilter([["distribution_id", distributionId, "="]]).success(function (data) {
                     var relatedSubdistributions = data["data"]["subdistribution"];
                     var responses = [];
                     for (i = 0; i < relatedSubdistributions.length; i++) {
@@ -204,10 +243,10 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                         currentThis.BulidTreeBySubdistributionWithFunc(responses[j]);
                     }
                 });
-                DataProviderService.getVendorMobilesByFilter([["distribution_id", distribution.id, "="]]).success(function (data) {
+                DataProviderService.getVendorMobilesByFilter([["distribution_id", distributionId, "="]]).success(function (data) {
                     var relatedVendors = data["data"]["vendorMobile"];
                     for (i = 0; i < relatedVendors.length; i++) {
-                        currentThis.AddVendor(relatedVendors[i]["vendor"], WithSelectMethodology);
+                        currentThis.AddVendor(relatedVendors[i]["vendor"]);
                     }
                 });
             },
@@ -244,7 +283,7 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                         var data = data["data"]["distribution"];
                         var distribution = new Distribution();
                         var currentDistribution = distribution.parse(data);
-                        currentThis.BulidTreeByDistribution(currentDistribution);
+                        currentThis.BulidAllTreeByDistribution(currentDistribution);
                     });
                 });
             },
@@ -269,9 +308,9 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
             },
             plugins: []
         });
+        
         $("#tree_1").bind("select_node.jstree", function (event, data)
         {
-
             if (data.node.a_attr['ui-sref-param'])
                 $state.go(data.node.a_attr['ui-sref'], data.node.a_attr['ui-sref-param']);
             else
@@ -290,6 +329,7 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                     CreateBreadCrumbTree(breadCrumbData);
             }
         });
+        
 //        $("#tree_1").on('changed.jstree', function (e, data) {
 //            if (data.instance.get_node(data.selected[0]).text == "Beneficiaries") {
 //                var node = data.instance.get_node(data.selected[0]);

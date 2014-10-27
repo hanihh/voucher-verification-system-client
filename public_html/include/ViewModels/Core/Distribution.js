@@ -29,7 +29,7 @@ var Distribution = Base.extend({
             
             var jsonObj = data;    
             distribution.id = jsonObj['id'];   
-                  distribution.name = jsonObj['name'];  
+            distribution.name = jsonObj['name'];  
             distribution.title_en = jsonObj['title_en'];   
             distribution.title_ar = jsonObj['title_ar'];        
             distribution.start_date = (jsonObj['start_date'] == null ? "" : jsonObj['start_date']);

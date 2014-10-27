@@ -83,20 +83,24 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
                     });
 
                     var id = ($stateParams) ? $stateParams.vendor_id : null;
-
+                    var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+                    var vendor_id = ($stateParams) ? $stateParams.vendor_id : null;
                     if (id)
                     {
                         var filterString = [["distribution_id", dist_id, "="], ["vendor_id", vendor_id, "="]];
-                        DataProviderService.getVendorMobiles(filterString).success(function (data) {
+                        DataProviderService.getVendorMobilesByFilter(filterString).success(function (data) {
                             console.log(data);
-                            var data = data["data"]["vendor"];
+                            var data = data["data"]["vendorMobile"];
                             var vendor_mobile = new Vendor_mobile();
-                            $scope.vendor_mobile = vendor_mobile.parse(data);
-                            console.log($scope.vendor_mobile);
+                            $scope.vendor_mobile = vendor_mobile.parse(data[0]);
+                            $('#s2id_vendorList > a > span:first').html(data[0].vendor.en_name);
                             
-                             if (dist_id && !SharedPropertiesService.getTreeBuildStatus(true)){
-                                                 BuildTreeWithDistributionIdByQueryString(dist_id);
-                                            }
+                            
+                            
+                            
+                            if (dist_id && !SharedPropertiesService.getTreeBuildStatus(true)){
+                                 SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
+                            }
                         });
                     }
 
