@@ -46,9 +46,8 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
 
             var dataSource;
             DataProviderService.getBeneficiariesBySubdistributionId($scope.subdistributionId, true, true).success(function (data) {
-                console.log(data.Beneficiaries);
-                dataSource = data;
                 var dataProp = "Beneficiaries";
+                console.log(data);
 
 
                 var grid = new Datatable();
@@ -57,44 +56,23 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
                    // loadingMessage: 'Loading...',
                    
                     dataTable: {
-                        "pageLength": 10, // default record count per page
-                        //   "bProcessing": true,
+                        "ajax":  DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId, true, true),
+                      "sAjaxDataProp": "Beneficiaries",
+                        "columns": [
+                            { "data": "id" },
+                            { "data": "registration_code" },
+                            { "data": "en_name" },
+                            { "data": "father_name" },
+                            { "data": "birth_year" }
+                        ]
+                        
+//                           "bProcessing": true,
                         //  "bServerSide": true,
-                        "aoColumns": [
-                            {"mData": "registration_code",
-                                "mRender": function (data, type, full) {
-                                    var checkedAttr = "";
-                                    if (full.available == "false")
-                                    {
-                                        checkedAttr = 'checked';
-                                        if ($.inArray(full.id, checkedBenesIds) == -1) {
-                                            checkedBenesIds.push(full.id);
-                                            addedBenesIds.push(full.id);
-                                            $('#tagsChosen').addTag(full.registration_code);
-                                        }
-
-                                    } else {
-                                        checkedAttr = '';
-                                    }
-                                    return "<input type='checkbox' class='ChooseCheckBox' id=" + full.registration_code + " idValue = " + full.id + " " + checkedAttr + " >";
-                                }},
-                            {"mData": "registration_code"},
-                            {"mData": "en_name"},
-                            {"mData": "father_name"},
-                            {"mData": "birth_year"},
-                            {"mRender": function (data, type, full) {
-                                    return "";
-                                }}
-                        ],
-                                   "dataSrc": dataSource,
-             "sServerMethod": "GET",
-             "sAjaxDataProp": dataProp, //"data.beneficiary",
-            // "contentType": "application/json; charset=utf-8",
-            // "dataType": "json",
-             "order": [
-             [1, "asc"]
-             ] // set first column as a default s
-             //
+                        
+                        
+ 
+           
+          
                         //"aData": dataSource,
                         //  "sServerMethod": "GET",
                        // "sAjaxDataProp": dataProp, //"data.beneficiary",
@@ -186,7 +164,7 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
         }
 
         if (dist_id && !SharedPropertiesService.getTreeBuildStatus(true)) {
-            SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
+            //SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
         }
 
         $scope.Save = function () {
