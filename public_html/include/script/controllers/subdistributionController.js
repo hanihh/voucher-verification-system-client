@@ -14,14 +14,16 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                         $.getScript('include/ViewModels/Location/District.js', function () {
                             $.getScript('include/ViewModels/Location/Subdistrict.js', function () {
                                 $.getScript('include/ViewModels/Location/Community.js', function () {
-
-console.log("SUb");
+                                    $scope.subdistributionNameLocation = "";
+                                    $scope.subdistributionDatePart = "";
+                                    console.log("SUb");
                                     $scope.country = null;
                                     $scope.governorate = null;
                                     $scope.district = null;
                                     $scope.subdistrict = null;
                                     $scope.subdistribution = new Subdistribution();
-
+                                    $scope.subdistribution.end_date= SharedPropertiesService.getDistributionEndDate();
+                                    $scope.subdistribution.start_date = SharedPropertiesService.getDistributionStartDate();
                                     $("#status").val("Active");
                                     $scope.subdistribution.status_id = 2
 
@@ -35,10 +37,15 @@ console.log("SUb");
                                         minDate: moment(),
                                     },
                                             function (start, end) {
-                                                console.log(start);
-                                                console.log(end);
+                                                console.log(start.format('YYYY-MM-DD'));
+                                                console.log(end.format('YYYY-MM-DD'));
                                                 $('#defaultrange input').val(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
                                                 UpdateStatus(start, end);
+                                                var datetime = start.format('YYYY-MM-DD');
+                                                var dateParts = datetime.split("-");
+                                                $scope.subdistributionDatePart = dateParts[1] + "-" + dateParts[2];
+                                                $scope.subdistribution.code = $scope.subdistributionNameLocation + "-" + $scope.subdistributionDatePart;
+                                                $("#subdistribution_code").val($scope.subdistribution.code);
                                             }
                                     );
 
@@ -162,7 +169,24 @@ console.log("SUb");
                                         $scope.communityItems = data;
                                         //console.log( $scope.communityItems);
                                     });
-                                            
+                                    
+                                    $scope.$watch('subdistribution.community_id', function (newVal, oldVal) {
+                                        console.log($scope.communityItems);
+                                        if (newVal != oldVal) {
+                                            if (newVal != null) {
+                                                if ($scope.communityItems != null) {
+                                                    $scope.communityItems.forEach(function (entry) {
+                                                        if (entry.id == newVal)
+                                                            $scope.subdistributionNameLocation = entry.code;
+                                                            $scope.subdistribution.code = $scope.subdistributionNameLocation + "-" + $scope.subdistributionDatePart;
+                                                    });
+                                                } else {
+
+                                                }
+                                            }
+                                        }
+                                    });
+                                    
                                     // Status
                                     DataProviderService.getStatus().success(function (data) {
                                         var data = data["data"]["distributionStatus"];

@@ -47,7 +47,7 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
             var dataSource;
             DataProviderService.getBeneficiariesBySubdistributionId($scope.subdistributionId, true, true).success(function (data) {
                 var dataProp = "Beneficiaries";
-                console.log(data);
+                console.log(DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId, true, true));
 
 
                 var grid = new Datatable();
@@ -56,7 +56,7 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
                    // loadingMessage: 'Loading...',
                    
                     dataTable: {
-                      //  "ajax":  DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId, true, true),
+                      "ajax":  DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId, true, true),
                       "sAjaxDataProp": "Beneficiaries",
                         "columns": [
                             { "data": "id" },

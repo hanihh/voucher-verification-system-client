@@ -60,20 +60,25 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
 
                     $scope.$watch('distribution.online', function (newVal, oldVal) {
                         if (newVal != oldVal)
-                            if (newVal == true)
+                            if (newVal == 1)
                                 $('#online-switch').bootstrapSwitch('state', true);
-                            else if (newVal == false)
+                            else if (newVal == 0)
                                 $('#online-switch').bootstrapSwitch('state', false);
                     });
 
                     $scope.$watch('distribution.program_id', function (newVal, oldVal) {
+                        console.log($scope.programItems);
                         if (newVal != oldVal) {
                             if (newVal != null) {
-//                                $scope.programItems.forEach(function (entry) {
-//                                    if (entry.id == newVal)
-//                                        $scope.distributionNameProgramPart = entry.code;
-//                                        $scope.distribution.name = $scope.distributionNameProgramPart + "-" + $scope.distributionDatePart;
-//                                });
+                                if ($scope.programItems != null) {
+                                    $scope.programItems.forEach(function (entry) {
+                                        if (entry.id == newVal)
+                                            $scope.distributionNameProgramPart = entry.code;
+                                        $scope.distribution.name = $scope.distributionNameProgramPart + "-" + $scope.distributionDatePart;
+                                    });
+                                } else {
+                                    
+                                }
                             }
                         }
                     });
@@ -115,11 +120,12 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                             $scope.distributionDatePart = dateParts[1] + "-" + dateParts[2];
                             $scope.dateRange = startDateString + (startDateString == "" && endDateString == "" ? "" : " - ") + endDateString;
                             // ******************************************************
-//                            $scope.programItems.forEach(function (entry) {
-//                                if (entry.id == $scope.distribution.program_id)
-//                                    $scope.distributionNameProgramPart = entry.code;
-//                            });
-                            
+                            if ($scope.programItems != null) {
+                                $scope.programItems.forEach(function (entry) {
+                                    if (entry.id == $scope.distribution.program_id)
+                                        $scope.distributionNameProgramPart = entry.code;
+                                });
+                            }
                             SharedPropertiesService.setDistributionId(id);
                             
                             if (!SharedPropertiesService.getTreeBuildStatus())
@@ -140,6 +146,7 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                             SharedPropertiesService.setDistributionId(id);
                             SharedPropertiesService.setDistributionStatus(distribution.online);
                             SharedPropertiesService.setDistributionEndDate(distribution.end_date);
+                            SharedPropertiesService.setDistributionStartDate(distribution.start_date);
                             SharedPropertiesService.getTree().AddDistribution(distribution, false);
                         });
                         } else {
@@ -148,7 +155,8 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                             distribution.id = id;
                             SharedPropertiesService.setDistributionId(id);
                             SharedPropertiesService.setDistributionStatus(distribution.online);
-                            SharedPropertiesService.setDistributionEndDate(distribution.end_date);
+                            SharedPropertiesService.setDistributionEndDate(distribution.end_date);                            
+                            SharedPropertiesService.setDistributionStartDate(distribution.start_date);
                             SharedPropertiesService.getTree().AddDistribution(distribution);
                         });
                         }

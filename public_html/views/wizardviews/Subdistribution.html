@@ -23,7 +23,7 @@
                     <div class="form-group"  ng-class="{'has-error' : subdistributionForm.subdistribution.code.$invalid && !subdistributionForm.subdistribution.code.$pristine}">
                         <label class="control-label">Code</label>
                         <div >
-                            <input type="text" class="form-control" ng-model="subdistribution.code" placeholder="Code..." required>
+                            <input disabled="disabled" id="subdistribution_code" type="text" class="form-control" ng-model="subdistribution.code" placeholder="Code..." required>
                             <p ng-show="subdistributionForm.subdistribution.code.$invalid && !subdistributionForm.subdistribution.code.$pristine" class="help-block">Code is required.</p>
                         </div>
                     </div>  
