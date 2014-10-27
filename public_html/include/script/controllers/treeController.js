@@ -134,11 +134,12 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 var parentTypeNodeId = tree.jstree(true).get_selected(true)[0].parent;
                 return parentTypeNodeId;
             },
-            AddType: function (vouchType, WithSelectMethodology) {
-                tree.jstree(true).create_node(vouchType.subdistribution_id + IdPrefixString.subdistribution + vouchType.id + IdPrefixString.voucherType, CreateNode(vouchType.id + "vouchertype", vouchType.value, "fa fa-dollar icon-state-success"));
+            AddType: function (vouchType, WithSelectMethodology) { 
+                var voucherTypesNode = tree.jstree(true).get_node(vouchType.subdistribution_id + IdPrefixString.vouchertypesreport);
+                tree.jstree(true).create_node(voucherTypesNode, CreateNode(vouchType.subdistribution_id + IdPrefixString.subdistribution + vouchType.id + IdPrefixString.voucherType, vouchType.value, "fa fa-dollar icon-state-success"));               
                 SetNodeRoute(tree.jstree(true).get_node(vouchType.subdistribution_id + IdPrefixString.subdistribution + vouchType.id + IdPrefixString.voucherType), "vouchertype", {dist_id: dist_id, subdist_id: vouchType.subdistribution_id, vouchertype_id: vouchType.id}, "Voucher Type: " + vouchType.value);
                 
-                var subdistributionBeneficiary = tree.jstree(true).get_node(vouchType.subdistribution_id + "Benes");
+                var subdistributionBeneficiary = tree.jstree(true).get_node(vouchType.subdistribution_id + IdPrefixString.subdistribution + IdPrefixString.beneficiariesSubdistribution);
                 //console.log(subdistributionBeneficiary);
                 //$("#" + vouchType.subdistribution_id + "Benes > a" ).removeClass("tooltips");
                 tree.jstree(true).enable_node(subdistributionBeneficiary);
@@ -157,18 +158,16 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 SetNodeRoute(vendorNode, "vendor", {dist_id: dist_id, vendor_id: vendor.id}, "Vendor: " + vendor.name);
                 if (SharedPropertiesService.getDistributionStatus() == false)
                 {
-                    tree.jstree(true).create_node(vendorNode, CreateNode(vendor.id + IdPrefixString.beneficiariesVendor, "Beneficiaries", "fa fa-group"));
-                    SetNodeRoute(tree.jstree(true).get_node(vendor.id + IdPrefixString.beneficiariesVendor), "beneficiaryVendor", {dist_id: dist_id}, "Beneficiaries");
+                    tree.jstree(true).create_node(vendorNode, CreateNode(vendor.id + IdPrefixString.vendor + IdPrefixString.beneficiariesVendor, "Beneficiaries", "fa fa-group"));
+                    SetNodeRoute(tree.jstree(true).get_node(vendor.id +IdPrefixString.vendor+ IdPrefixString.beneficiariesVendor), "beneficiaryVendor", {dist_id: dist_id}, "Beneficiaries");
                 }
 
                 if (WithSelectMethodology) {
                     tree.jstree(true).deselect_node(tree.jstree(true).get_selected(true)[0]);
-                    tree.jstree(true).select_node(vendor.id + IdPrefixString.beneficiariesVendor);
+                    tree.jstree(true).select_node(vendor.id + IdPrefixString.vendor + IdPrefixString.beneficiariesVendor);
                 }
             },
             SelectTreeNodeByWizardModel: function (object) {
-
-
                 if (object.subdistribution)
                     console.log(object.subdistribution);
                 if (object.vendor)

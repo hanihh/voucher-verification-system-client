@@ -56,7 +56,7 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
                    // loadingMessage: 'Loading...',
                    
                     dataTable: {
-                        "ajax":  DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId, true, true),
+                      //  "ajax":  DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId, true, true),
                       "sAjaxDataProp": "Beneficiaries",
                         "columns": [
                             { "data": "id" },
@@ -164,7 +164,7 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
         }
 
         if (dist_id && !SharedPropertiesService.getTreeBuildStatus(true)) {
-            //SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
+            SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
         }
 
         $scope.Save = function () {
