@@ -48,7 +48,7 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                         var data = data["data"]["program"];
                         var program = new Program();
                         $scope.programItems = program.parseArray(data);
-                        console.log( $scope.programItems);
+                        console.log($scope.programItems);
                     });
 
                     //Donors            
@@ -77,7 +77,7 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                                         $scope.distribution.name = $scope.distributionNameProgramPart + "-" + $scope.distributionDatePart;
                                     });
                                 } else {
-                                    
+
                                 }
                             }
                         }
@@ -114,9 +114,9 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                                 $('#defaultrange').data('daterangepicker').setEndDate(endDate);
                                 endDateString = endDate.toDateString();
                             }
-                            
+
                             var dateParts = $scope.distribution.start_date.split(" ");
-                            dateParts = dateParts[0] .split("-");
+                            dateParts = dateParts[0].split("-");
                             $scope.distributionDatePart = dateParts[1] + "-" + dateParts[2];
                             $scope.dateRange = startDateString + (startDateString == "" && endDateString == "" ? "" : " - ") + endDateString;
                             // ******************************************************
@@ -127,7 +127,7 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                                 });
                             }
                             SharedPropertiesService.setDistributionId(id);
-                            
+
                             if (!SharedPropertiesService.getTreeBuildStatus())
                             {
                                 SharedPropertiesService.getTree().BulidAllTreeByDistribution($scope.distribution);
@@ -138,29 +138,29 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                     }
 
                     $scope.Save = function (distribution) {
-                        distribution.online = $('#online-switch').bootstrapSwitch("state") == "true" ? 1 : 0;
+                        console.log($('#online-switch').bootstrapSwitch("state"));
+                        distribution.online = $('#online-switch').bootstrapSwitch("state") == true ? 1 : 0;
                         if (distribution.id == null) {
                             DataProviderService.createDistribution(distribution).success(function (data) {
-                            var id = data["data"]["distribution"]["id"];
-                            distribution.id = id;
-                            SharedPropertiesService.setDistributionId(id);
-                            SharedPropertiesService.setDistributionStatus(distribution.online);
-                            SharedPropertiesService.setDistributionEndDate(distribution.end_date);
-                            SharedPropertiesService.setDistributionStartDate(distribution.start_date);
-                            SharedPropertiesService.getTree().AddDistribution(distribution, false);
-                        });
+                                var id = data["data"]["distribution"]["id"];
+                                distribution.id = id;
+                                SharedPropertiesService.setDistributionId(id);
+                                SharedPropertiesService.setDistributionStatus(distribution.online);
+                                SharedPropertiesService.setDistributionEndDate(distribution.end_date);
+                                SharedPropertiesService.setDistributionStartDate(distribution.start_date);
+                                SharedPropertiesService.getTree().AddDistribution(distribution, false);
+                            });
                         } else {
                             DataProviderService.updateDistribution(distribution).success(function (data) {
-                            var id = data["data"]["distribution"]["id"];
-                            distribution.id = id;
-                            SharedPropertiesService.setDistributionId(id);
-                            SharedPropertiesService.setDistributionStatus(distribution.online);
-                            SharedPropertiesService.setDistributionEndDate(distribution.end_date);                            
-                            SharedPropertiesService.setDistributionStartDate(distribution.start_date);
-                            SharedPropertiesService.getTree().AddDistribution(distribution);
-                        });
+                                var id = data["data"]["distribution"]["id"];
+                                distribution.id = id;
+                                SharedPropertiesService.setDistributionId(id);
+                                SharedPropertiesService.setDistributionStatus(distribution.online);
+                                SharedPropertiesService.setDistributionEndDate(distribution.end_date);
+                                SharedPropertiesService.setDistributionStartDate(distribution.start_date);
+                                SharedPropertiesService.getTree().AddDistribution(distribution);
+                            });
                         }
-
                     }
 
                 });

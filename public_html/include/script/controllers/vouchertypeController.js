@@ -26,35 +26,42 @@ app.controller('VoucherTypeController', ['$scope', '$stateParams', 'DataProvider
 
                 $scope.subdistributionVoucherType = new SubdistributionVoucherType();
                 $scope.subdistributionVoucherType.expiration_date = SharedPropertiesService.getDistributionEndDate();
-
-
+                var expireDate = new Date($scope.subdistributionVoucherType.expiration_date);
+                
+                $( "#datepicker" ).datepicker( 
+                        {
+                           
+                    maxDate: expireDate
+                });
+                $('#expiredate').data('datepicker').setDate(expireDate);              
+                 
                 var id = ($stateParams) ? $stateParams.vouchertype_id : null;
                 if (id) {
                     DataProviderService.getSubdistributionVoucher(id).success(function (data) {
                         var data = data["data"]["distributionVoucher"];
                         var subdistributionVoucherType = new SubdistributionVoucherType();
                         $scope.subdistributionVoucherType = subdistributionVoucherType.parse(data);
-                         console.log($scope.subdistributionVoucherType);
-                         // *** Checking dates and filling Date Range Control ***
-                                            
-                                            var expireDate = new Date($scope.subdistributionVoucherType.expiration_date);
+                        console.log($scope.subdistributionVoucherType);
+                        // *** Checking dates and filling Date Range Control ***
 
-                                            var expireString = "";                                      ;
-                                            if (dates.check(expireDate)) {
-                                                $('#expiredate').data('datepicker').setDate(expireDate);
-                                                expireString = expireDate.toDateString();
-                                            }                                         
+                        var expireDate = new Date($scope.subdistributionVoucherType.expiration_date);
 
-                                            $scope.expireDate = expireString;
-                                            // ******************************************************
-                                            
-                                             if (dist_id && !SharedPropertiesService.getTreeBuildStatus(true)){
-                                                 BuildTreeWithDistributionIdByQueryString(dist_id);
-                                            }
+                        var expireString = "";                 
+                        if (dates.check(expireDate)) {
+                            $('#expiredate').data('datepicker').setDate(expireDate);
+                            expireString = expireDate.toDateString();
+                        }
+
+                        $scope.expireDate = expireString;
+                        // ******************************************************
+
+                        if (dist_id && !SharedPropertiesService.getTreeBuildStatus(true)) {
+                            BuildTreeWithDistributionIdByQueryString(dist_id);
+                        }
                     });
                 }
                 $scope.Save = function (subdistributionVoucherType) {
-                    subdistributionVoucherType.subdistribution_id = SharedPropertiesService.getSubdistributionIdForNewVoucherValue()              
+                    subdistributionVoucherType.subdistribution_id = SharedPropertiesService.getSubdistributionIdForNewVoucherValue()
                     DataProviderService.createSubdistributionVoucher(subdistributionVoucherType).success(function (data) {
                         var id = data["data"]["distributionVoucher"]["id"];
                         subdistributionVoucherType.id = id;

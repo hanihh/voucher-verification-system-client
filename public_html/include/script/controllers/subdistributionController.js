@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 
-//app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
 app.controller('subdistributionController', ['$scope', '$stateParams', '$compile', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, $compile, DataProviderService, SharedPropertiesService) {
         //Initializing Models for cascade select lists
         $.getScript('include/ViewModels/Core/Subdistribution.js', function () {
@@ -25,8 +24,8 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                     $scope.subdistribution.end_date= SharedPropertiesService.getDistributionEndDate();
                                     $scope.subdistribution.start_date = SharedPropertiesService.getDistributionStartDate();
                                     $("#status").val("Active");
-                                    $scope.subdistribution.status_id = 2
-
+                                    $scope.subdistribution.status_id = 2;
+                                    console.log($scope.subdistribution);
 
                                     $('#defaultrange').daterangepicker({
                                         opens: (Metronic.isRTL() ? 'left' : 'right'),
@@ -35,6 +34,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                         startDate: moment(),
                                         endDate: moment().add('days', 1),
                                         minDate: moment(),
+                                        maxDate: new Date($scope.subdistribution.end_date)
                                     },
                                             function (start, end) {
                                                 console.log(start.format('YYYY-MM-DD'));
