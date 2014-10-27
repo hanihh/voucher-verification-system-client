@@ -8,7 +8,7 @@
 
 app.factory('DataProviderService', ['$http', function ($http) {
         var dataFactory = {};
-        var server_url = "http://localhost:8080/vvs_v2/index.php/";
+        var server_url = "http://localhost/vvs_v2/index.php/";
 
         //*** Gets Methods ***//
         dataFactory.getDistributions = function (id) {

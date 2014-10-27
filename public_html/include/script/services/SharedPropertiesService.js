@@ -10,6 +10,7 @@ app.factory('SharedPropertiesService', function () {
     var DistributionId = -1;
     var DistributionStatus = true;
     var DistributionEndDate = "";
+    var DistributionStartDate = "";
     var TreeBuildStatus = false;
     return {
         getTree: function () {
@@ -36,6 +37,12 @@ app.factory('SharedPropertiesService', function () {
         },
         setDistributionEndDate: function(value) {
               DistributionEndDate = value; 
+        },
+        getDistributionStartDate: function() {
+              return  DistributionStartDate; 
+        },
+        setDistributionStartDate: function(value) {
+              DistributionStartDate = value; 
         },
         getSubdistributionIdForNewVoucherValue: function() {
             return tree.getAddTypeSubdistributionId();
