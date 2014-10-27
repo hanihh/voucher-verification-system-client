@@ -78,8 +78,10 @@ app.factory('DataProviderService', ['$http', function ($http) {
         dataFactory.getBeneficiaries = function () {    
             return $http({method: 'GET', url: server_url + 'api/Beneficiary'});
         };      
-        dataFactory.getBeneficiariesBySubdistributionId = function (subdist_id) {    
-            return $http({method: 'GET', url: server_url + 'api/Beneficiary/GetBeneficiaryFordistribution?subdistribution_id=' + subdist_id});
+        dataFactory.getBeneficiariesBySubdistributionId = function (subdist_id, include, withall) {   
+            var _include = include ? 1:0;
+            var _withall = withall ? 1:0;
+            return $http({method: 'GET', url: server_url + 'api/Beneficiary/GetBeneficiaryFordistribution?subdistribution_id=' + subdist_id + '&include=' + _include + '&withall=' + _withall});
         };      
         dataFactory.getBeneficiariesBySubdistributionIdURL = function (subdist_id, include, withall) {    
             var _include = include ? 1:0;
@@ -93,9 +95,8 @@ app.factory('DataProviderService', ['$http', function ($http) {
                       var _id = (id) ? id : "";
             return $http({method: 'GET', url: server_url + 'api/Vendor/' + _id});
         };
-        dataFactory.getVendorMobiles = function (dist_id, vendor_id) {
-                   
-            return $http({method: 'GET', url: server_url + 'api/vendormobile/' + _id});
+        dataFactory.getVendorMobilesByFilter = function (params) {
+            return $http({method: 'GET', url: server_url + 'api/vendormobile/?filter='+ JSON.stringify(GetFilter(params))});
         };
         dataFactory.getPhones = function () {
             return $http({method: 'GET', url: server_url + 'api/phone'});

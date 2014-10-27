@@ -105,13 +105,13 @@ $(document).ready(function () {
         if (data)
             for (i = 0; i < data.length; i++) {
                 if (i == 0) {
-                    //$("#breadcrumb").append('<li><i class="fa fa-home"></i><a href="#/home">Home</a><i class="fa fa-angle-right"></i></li>');
-                    $("ul#breadcrumb").append('<li><i class="fa fa-home"></i><a> ' + data[0] +'</a> <i class="fa fa-angle-right"></i></li>')
+                   var rightAngle = (data.length == 1 ? '<i></i>' : '<i class="fa fa-angle-right"></i>');
+                    $("ul#breadcrumb").append('<li><i class="fa fa-home"></i><a> ' + data[0] + '</a>' + rightAngle);
                 }
                 else
-                {                
-                    //$("#breadcrumb").append('<li><a href="#/' + dir + '">' + dir + '</a> <i class="fa fa-angle-right"></i>');
-                    $("ul#breadcrumb").append('<li><a> ' + data[i] + '</a> <i class="fa fa-angle-right"></i>');
+                {                                
+                    var rightAngle = (i ==  data.length-1 ? '<i></i>' : '<i class="fa fa-angle-right"></i>');
+                    $("ul#breadcrumb").append('<li><a> ' + data[i] + '</a>' + rightAngle);
                 }
             }       
     }

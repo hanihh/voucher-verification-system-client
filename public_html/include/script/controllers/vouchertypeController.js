@@ -47,6 +47,10 @@ app.controller('VoucherTypeController', ['$scope', '$stateParams', 'DataProvider
 
                                             $scope.expireDate = expireString;
                                             // ******************************************************
+                                            
+                                             if (dist_id && !SharedPropertiesService.getTreeBuildStatus(true)){
+                                                 BuildTreeWithDistributionIdByQueryString(dist_id);
+                                            }
                     });
                 }
                 $scope.Save = function (subdistributionVoucherType) {

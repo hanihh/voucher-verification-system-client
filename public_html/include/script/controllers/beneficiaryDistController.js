@@ -7,12 +7,14 @@ var checkedBenesIds = [];
 var addedBenesIds = [];
 var canceledBenesIds = [];
 
-//app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
-app.controller('beneficiaryDistController', ['$scope', 'DataProviderService', 'SharedPropertiesService', function ($scope, DataProviderService, SharedPropertiesService) {
+app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
         $scope.beneficiary = {};
         $scope.filter = {};
+        var subdist_id = ($stateParams) ? $stateParams.subdist_id : null;
+        var dist_id = ($stateParams) ? $stateParams.dist_id : null;
         //$scope.subdistributionId = SharedPropertiesService.getSubdistributionIdForBeneficiary();
-        $scope.subdistributionId = 91;
+        $scope.subdistributionId = subdist_id;
+
         $.getScript('include/ViewModels/Beneficiary/Beneficiary.js', function ()
         {
             // script is now loaded and executed.
@@ -32,7 +34,6 @@ app.controller('beneficiaryDistController', ['$scope', 'DataProviderService', 'S
                     checkboxObj.attr('checked', false);
                     var checkboxObj_idvalue = checkboxObj.attr('idvalue');
                     checkedBenesIds.pop(checkboxObj_idvalue);
-                    addedBenesIds.pop(checkboxObj_idvalue);
                     if ($.inArray(checkboxObj_idvalue, canceledBenesIds) == -1)
                         canceledBenesIds.push(checkboxObj_idvalue);
                 },
@@ -43,48 +44,112 @@ app.controller('beneficiaryDistController', ['$scope', 'DataProviderService', 'S
                 autoclose: true
             });
 
-            var dataSource = DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId, true, true);
-            var dataProp = "Beneficiaries";
+            var dataSource;
+            DataProviderService.getBeneficiariesBySubdistributionId($scope.subdistributionId, true, true).success(function (data) {
+                console.log(data.Beneficiaries);
+                dataSource = data;
+                var dataProp = "Beneficiaries";
 
-            $('#datatable_ajax').dataTable({
-                "pageLength": 10, // default record count per page
-                "bProcessing": true,
-                //  "bServerSide": true,
-                "aoColumns": [
-                    {"mData": "registration_code",
-                        "mRender": function (data, type, full) {
-                            var checkedAttr = "";
-                            if (full.available == "false")
-                            {
-                                checkedAttr = 'checked';
-                                if ($.inArray(full.id, checkedBenesIds) == -1) {
-                                    checkedBenesIds.push(full.id);
-                                    addedBenesIds.push(full.id);
-                                    $('#tagsChosen').addTag(full.registration_code);
-                                }
 
-                            } else {
-                                checkedAttr = '';
-                            }
-                            return "<input type='checkbox' class='ChooseCheckBox' id=" + full.registration_code + " idValue = " + full.id + " " + checkedAttr + " >";
-                        }},
-                    {"mData": "registration_code"},
-                    {"mData": "en_name"},
-                    {"mData": "father_name"},
-                    {"mData": "birth_year"},
-                    {"mRender": function (data, type, full) {
-                            return "";
-                        }}
-                ],
-                "sAjaxSource": dataSource,
-                "sServerMethod": "GET",
-                "sAjaxDataProp": dataProp, //"data.beneficiary",
-                "contentType": "application/json; charset=utf-8",
-                "dataType": "json",
-                "order": [
-                    [1, "asc"]
-                ] // set first column as a default s
+                var grid = new Datatable();
+                grid.init({
+                    "src": $("#datatable_ajax"),
+                   // loadingMessage: 'Loading...',
+                   
+                    dataTable: {
+                        "pageLength": 10, // default record count per page
+                        //   "bProcessing": true,
+                        //  "bServerSide": true,
+                        "aoColumns": [
+                            {"mData": "registration_code",
+                                "mRender": function (data, type, full) {
+                                    var checkedAttr = "";
+                                    if (full.available == "false")
+                                    {
+                                        checkedAttr = 'checked';
+                                        if ($.inArray(full.id, checkedBenesIds) == -1) {
+                                            checkedBenesIds.push(full.id);
+                                            addedBenesIds.push(full.id);
+                                            $('#tagsChosen').addTag(full.registration_code);
+                                        }
+
+                                    } else {
+                                        checkedAttr = '';
+                                    }
+                                    return "<input type='checkbox' class='ChooseCheckBox' id=" + full.registration_code + " idValue = " + full.id + " " + checkedAttr + " >";
+                                }},
+                            {"mData": "registration_code"},
+                            {"mData": "en_name"},
+                            {"mData": "father_name"},
+                            {"mData": "birth_year"},
+                            {"mRender": function (data, type, full) {
+                                    return "";
+                                }}
+                        ],
+                                   "dataSrc": dataSource,
+             "sServerMethod": "GET",
+             "sAjaxDataProp": dataProp, //"data.beneficiary",
+            // "contentType": "application/json; charset=utf-8",
+            // "dataType": "json",
+             "order": [
+             [1, "asc"]
+             ] // set first column as a default s
+             //
+                        //"aData": dataSource,
+                        //  "sServerMethod": "GET",
+                       // "sAjaxDataProp": dataProp, //"data.beneficiary",
+                        //"contentType": "application/json; charset=utf-8",
+                        //"dataType": "json",
+//                    "order": [
+//                        [1, "asc"]
+//                    ] // set first column as a default s
+                    },                    
+                });                    
             });
+    
+
+            /*
+             $('#datatable_ajax').dataTable({
+             "pageLength": 10, // default record count per page
+             "bProcessing": true,
+             //  "bServerSide": true,
+             "aoColumns": [
+             {"mData": "registration_code",
+             "mRender": function (data, type, full) {
+             var checkedAttr = "";
+             if (full.available == "false")
+             {
+             checkedAttr = 'checked';
+             if ($.inArray(full.id, checkedBenesIds) == -1) {
+             checkedBenesIds.push(full.id);
+             addedBenesIds.push(full.id);
+             $('#tagsChosen').addTag(full.registration_code);
+             }
+             
+             } else {
+             checkedAttr = '';
+             }
+             return "<input type='checkbox' class='ChooseCheckBox' id=" + full.registration_code + " idValue = " + full.id + " " + checkedAttr + " >";
+             }},
+             {"mData": "registration_code"},
+             {"mData": "en_name"},
+             {"mData": "father_name"},
+             {"mData": "birth_year"},
+             {"mRender": function (data, type, full) {
+             return "";
+             }}
+             ],
+             "sAjaxSource": dataSource,
+             "sServerMethod": "GET",
+             "sAjaxDataProp": dataProp, //"data.beneficiary",
+             "contentType": "application/json; charset=utf-8",
+             "dataType": "json",
+             "order": [
+             [1, "asc"]
+             ] // set first column as a default s
+             });
+             
+             */
 
 
             $(".ChooseCheckBox").live("click", function () {
@@ -114,18 +179,17 @@ app.controller('beneficiaryDistController', ['$scope', 'DataProviderService', 'S
             //});
         });
 
-        $scope.ShowChosenBeneficiaries = function () {
-
-        }
-
         $scope.debug = function () {
             console.log(checkedBenesIds);
             console.log(addedBenesIds);
             console.log(canceledBenesIds);
         }
 
-        $scope.Save = function () {
+        if (dist_id && !SharedPropertiesService.getTreeBuildStatus(true)) {
+            SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
+        }
 
+        $scope.Save = function () {
             var addObject = $.param({subdistribution_id: $scope.subdistributionId,
                 beneficiaries: checkedBenesIds,
                 check_all: 0});
@@ -141,10 +205,7 @@ app.controller('beneficiaryDistController', ['$scope', 'DataProviderService', 'S
                 }
 
             });
-
-
         }
-
 
         $scope.Filter = function (filter) {
             console.log(filter);
@@ -176,80 +237,3 @@ function BulidTable(data) {
     }
     return records;
 }
-
-
-/*
- * Old Code           
- var grid = new Datatable();
- grid.init({
- "src": $("#datatable_ajax"),
- dataTable: {
- "DataProp": "data.beneficiary",
- "pageLength": 10, // default record count per page
- //"bProcessing": true,
- //"bServerSide": true,
- "processing": false, // enable/disable display message box on record load
- "serverSide": false, // enable/disable server side ajax loading
- //
- //                        "aoColumns": [
- //                            {"mData": "registration_code",
- //                                "mRender": function (data, type, full) {
- //                                    return "<input type='checkbox' class='ChooseCheckBox' value=" + data + " >";
- //                                }},
- //                            {"mData": "registration_code"},
- //                            {"mData": "en_name"},
- //                            {"mData": "father_name"},
- //                            {"mData": "birth_year"},
- //                            {"mRender": function (data, type, full) {
- //                                    return "";
- //                                }}
- //                        ],
- //"sAjaxSource": "http://localhost:8080/vvs_v2/index.php/api/Beneficiary",
- "ajax": {
- "url": "http://localhost:8080/vvs_v2/index.php/api/Beneficiary",
- "type": "GET",        
- "DataProp": "data.beneficiary",
- //  "contentType": "application/json; charset=utf-8",
- //      "dataType": "json",
- columns: [{
- field: 'state',
- checkbox: true
- }, {
- field: 'data.beneficiary.registration_code',
- title: 'registration_code',
- align: 'right',
- valign: 'bottom',
- sortable: true
- }, {
- field: 'data.beneficiary.en_name',
- title: 'en_name',
- align: 'center',
- valign: 'middle',
- sortable: true,
- 
- }, {
- field: 'data.beneficiary.father_name',
- title: 'father_name',
- align: 'left',
- valign: 'top',
- sortable: true,
- 
- }, {
- field: 'data.beneficiary.birth_year',
- title: 'birth_year',
- align: 'left',
- valign: 'top',
- sortable: true,
- }]                            
- },
- //"sServerMethod": "GET",
- "sAjaxDataProp": "data.beneficiary",
- "contentType": "application/json; charset=utf-8",
- "dataType": "json",
- "order": [
- [1, "asc"]
- ] // set first column as a default s
- },
- });
- 
- */

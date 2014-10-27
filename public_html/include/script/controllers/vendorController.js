@@ -86,11 +86,17 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
 
                     if (id)
                     {
-                        DataProviderService.getVendorMobiles(SharedPropertiesService.getDistributionId(), id).success(function (data) {
+                        var filterString = [["distribution_id", dist_id, "="], ["vendor_id", vendor_id, "="]];
+                        DataProviderService.getVendorMobiles(filterString).success(function (data) {
+                            console.log(data);
                             var data = data["data"]["vendor"];
                             var vendor_mobile = new Vendor_mobile();
                             $scope.vendor_mobile = vendor_mobile.parse(data);
                             console.log($scope.vendor_mobile);
+                            
+                             if (dist_id && !SharedPropertiesService.getTreeBuildStatus(true)){
+                                                 BuildTreeWithDistributionIdByQueryString(dist_id);
+                                            }
                         });
                     }
 

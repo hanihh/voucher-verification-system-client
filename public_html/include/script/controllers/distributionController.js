@@ -4,10 +4,8 @@
  * and open the template in the editor.
  */
 
-//app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
 app.controller('DistributionController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
 
-        //$scope.distribution = new Distribution();
         $.getScript('include/ViewModels/Core/Distribution.js', function () {
             $.getScript('include/ViewModels/Core/Program.js', function () {
                 $.getScript('include/ViewModels/Core/Donor.js', function () {
@@ -117,12 +115,19 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                             $scope.distributionDatePart = dateParts[1] + "-" + dateParts[2];
                             $scope.dateRange = startDateString + (startDateString == "" && endDateString == "" ? "" : " - ") + endDateString;
                             // ******************************************************
-                            SharedPropertiesService.setDistributionId(id);
-                            SharedPropertiesService.getTree().BulidTreeByDistribution($scope.distribution);
 //                            $scope.programItems.forEach(function (entry) {
 //                                if (entry.id == $scope.distribution.program_id)
 //                                    $scope.distributionNameProgramPart = entry.code;
 //                            });
+                            
+                            SharedPropertiesService.setDistributionId(id);
+                            
+                            if (!SharedPropertiesService.getTreeBuildStatus())
+                            {
+                                SharedPropertiesService.getTree().BulidTreeByDistribution($scope.distribution);
+                                SharedPropertiesService.setTreeBuildStatus(true);
+                            }
+
                         });
                     }
 
