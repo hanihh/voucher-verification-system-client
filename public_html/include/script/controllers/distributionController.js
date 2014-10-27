@@ -124,7 +124,7 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                             
                             if (!SharedPropertiesService.getTreeBuildStatus())
                             {
-                                SharedPropertiesService.getTree().BulidTreeByDistribution($scope.distribution);
+                                SharedPropertiesService.getTree().BulidAllTreeByDistribution($scope.distribution);
                                 SharedPropertiesService.setTreeBuildStatus(true);
                             }
 
