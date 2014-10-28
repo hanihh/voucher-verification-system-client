@@ -100,8 +100,6 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
                         canceledBenesIds.pop(idvalue);
                     }
                     checkedBenesIds.push($(this).attr("idvalue"));
-
-                    console.log(canceledBenesIds);
                 } else {
                     $('#tagsChosen').removeTag($(this).attr("id"));
 
@@ -110,11 +108,8 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
                         canceledBenesIds.push(idvalue);
                     }
                     checkedBenesIds.pop($(this).attr("idvalue"));
-
-                    console.log(canceledBenesIds);
                 }
             });
-            //});
         });
 
         $scope.debug = function () {

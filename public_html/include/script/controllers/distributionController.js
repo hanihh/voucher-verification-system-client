@@ -47,8 +47,7 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                     DataProviderService.getPrograms().success(function (data) {
                         var data = data["data"]["program"];
                         var program = new Program();
-                        $scope.programItems = program.parseArray(data);
-                        console.log($scope.programItems);
+                        $scope.programItems = program.parseArray(data);                    
                     });
 
                     //Donors            
@@ -66,8 +65,7 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                                 $('#online-switch').bootstrapSwitch('state', false);
                     });
 
-                    $scope.$watch('distribution.program_id', function (newVal, oldVal) {
-                        console.log($scope.programItems);
+                    $scope.$watch('distribution.program_id', function (newVal, oldVal) {                      
                         if (newVal != oldVal) {
                             if (newVal != null) {
                                 if ($scope.programItems != null) {
@@ -126,7 +124,11 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                                         $scope.distributionNameProgramPart = entry.code;
                                 });
                             }
+                            
                             SharedPropertiesService.setDistributionId(id);
+                            SharedPropertiesService.setDistributionStatus(distribution.online);
+                            SharedPropertiesService.setDistributionEndDate(distribution.end_date);
+                            SharedPropertiesService.setDistributionStartDate(distribution.start_date);    
 
                             if (!SharedPropertiesService.getTreeBuildStatus())
                             {

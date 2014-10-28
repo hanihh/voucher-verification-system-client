@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-app.controller('subdistributionController', ['$scope', '$stateParams', '$compile', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, $compile, DataProviderService, SharedPropertiesService) {
+app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
         //Initializing Models for cascade select lists
         $.getScript('include/ViewModels/Core/Subdistribution.js', function () {
             $.getScript('include/ViewModels/Core/Distribution_status.js', function () {
@@ -92,7 +92,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', '$compile
                                             $scope.subdistrict = null;
                                             $scope.subdistribution.community_id = null;
                                                                        
-                                                            $('#s2id_governorateList > a > span:first').html("");
+                                            $('#s2id_governorateList > a > span:first').html("");
                                                        
                                         }
                                     });

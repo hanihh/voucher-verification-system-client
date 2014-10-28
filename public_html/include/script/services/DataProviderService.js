@@ -22,6 +22,9 @@ app.factory('DataProviderService', ['$http', function ($http) {
         dataFactory.getSubdistributionsByFilter = function (params){
             return $http({method: 'GET', url: server_url + 'api/subdistribution/?filter='+ JSON.stringify(GetFilter(params))});
         };
+        dataFactory.getSubdistributionsByFilterURL = function (params){
+            return server_url + 'api/subdistribution/?filter='+ JSON.stringify(GetFilter(params));
+        };
         dataFactory.getPrograms = function () {
             return $http({method: 'GET', url: server_url + 'api/program'});
         };
@@ -92,8 +95,12 @@ app.factory('DataProviderService', ['$http', function ($http) {
              return $http({method: 'GET', url: server_url + 'api/Beneficiary/?filter='+ JSON.stringify(GetFilter(params))});
         };
         dataFactory.getVendors = function (id) {
-                      var _id = (id) ? id : "";
+            var _id = (id) ? id : "";
             return $http({method: 'GET', url: server_url + 'api/Vendor/' + _id});
+        };
+        dataFactory.getVendorMobile = function (id) {
+            var _id = (id) ? id : "";
+            return $http({method: 'GET', url: server_url + 'api/vendormobile/' + _id});
         };
         dataFactory.getVendorMobilesByFilter = function (params) {
             return $http({method: 'GET', url: server_url + 'api/vendormobile/?filter='+ JSON.stringify(GetFilter(params))});

@@ -27,7 +27,7 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($
             controller: 'SubdistributionReportController',
             templateUrl: 'views/wizardviews/SubdistributionsReport.html'
         }).state('vendor', {            
-            url: '/distributions/:dist_id/vendor/:vendor_id',
+            url: '/distributions/:dist_id/vendor/:vendormobile_id',
                controller: 'VendorController',
                 templateUrl: 'views/wizardviews/vendor.html'
         }).state('vendorreport', {

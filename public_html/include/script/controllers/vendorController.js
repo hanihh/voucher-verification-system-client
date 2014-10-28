@@ -82,20 +82,19 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
                         InitImeiTypeahead($scope.phones, SharedPropertiesService.getDistributionStatus());
                     });
 
-                    var id = ($stateParams) ? $stateParams.vendor_id : null;
-                    var dist_id = ($stateParams) ? $stateParams.dist_id : null;
-                    var vendor_id = ($stateParams) ? $stateParams.vendor_id : null;
+                    var id = ($stateParams) ? $stateParams.vendormobile_id : null;
+//                    var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+//                    var vendor_id = ($stateParams) ? $stateParams.vendor_id : null;
                     if (id)
                     {
-                        var filterString = [["distribution_id", dist_id, "="], ["vendor_id", vendor_id, "="]];
-                        DataProviderService.getVendorMobilesByFilter(filterString).success(function (data) {
+                       // var filterString = [["distribution_id", dist_id, "="], ["vendor_id", vendor_id, "="]];
+//                        DataProviderService.getVendorMobilesByFilter(filterString).success(function (data) {
+                        DataProviderService.getVendorMobile(id).success(function (data) {
                             console.log(data);
                             var data = data["data"]["vendorMobile"];
                             var vendor_mobile = new Vendor_mobile();
                             $scope.vendor_mobile = vendor_mobile.parse(data[0]);
                             $('#s2id_vendorList > a > span:first').html(data[0].vendor.en_name);
-                            
-                            
                             
                             
                             if (dist_id && !SharedPropertiesService.getTreeBuildStatus(true)){
@@ -109,14 +108,14 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
                         vendor_mobile.phones = addPhones;                        
                         var vendor_mobiles = vendor_mobile.Split();
                         console.log(vendor_mobiles);
-                        for(i=0; i<vendor_mobiles.length; i++)
+                        for(i=0; i< vendor_mobiles.length; i++)
                         {
                             DataProviderService.createVendorMobile(vendor_mobiles[i]).success(function (data) {
 //                                var id = data["data"]["vendorMobile"]["id"];
 //                                vendor_mobile.id = id;
                                 var vendor = $.grep($scope.vendorItems, function(e){ return e.id === vendor_mobile.vendor_id}); 
                                 console.log(vendor);
-                                SharedPropertiesService.getTree().AddVendor({id: vendor[0].id, name: vendor[0].en_name}, true);
+                                SharedPropertiesService.getTree().AddVendor({vendor: vendor[0], distribution_id:  vendor_mobile.distribution_id}, true);
                             });
                         }
                     }

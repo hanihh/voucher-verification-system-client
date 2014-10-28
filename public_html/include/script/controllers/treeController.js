@@ -41,38 +41,39 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
 
         var $WizardTree = {
             $tree: {},
-      
+            treeDivId: "",
             dist_id: null,
             distributionIdString: "",
-            distributionsNode: "",
-            subdistributionsNode: "",
-            vendorsNode: "",
+            //distributionsNode: "",
+            //subdistributionsNode: "",
+            //vendorsNode: "",
             addNewSubdistributionsId: "addnew" + IdPrefixString.subdistribution,
             addNewVendorsId: "addnew" + IdPrefixString.vendor,
             addNewVoucherType: "addnew" + IdPrefixString.voucherType,
             
-            __Init: function (_tree) {
+            __Init: function (_tree, treeDivId) {
                 tree = _tree;
+                treeDivId = treeDivId;
                 tree.jstree(true).create_node(tree, CreateNode("AddNewDistribution", "Add Distribution", "fa fa-plus-circle icon-state-danger"));
-                distributionsNode = tree.jstree(true).get_node("AddNewDistribution");          
+                var distributionsNode = tree.jstree(true).get_node("AddNewDistribution")
                 SetNodeRoute(distributionsNode, "distributions", {dist_id: ""}, "Add New Distribution");
             },
             __Clear: function () {
-                tree.jstree(true).delete_node(distributionsNode);
+//                var distributionsNode = tree.jstree(true).get_node("AddNewDistribution");
+//                tree.jstree(true).delete_node(distributionsNode);
+                 tree.jstree(true).delete_node(this.treeDivId + ' > ul > li');
             },
             AddDistribution: function (distribution, WithSelectMethodology) {
                 dist_id = distribution.id;
                 this.__Clear();
                 this.distributionIdString = distribution.id + IdPrefixString.distribution;
                 tree.jstree(true).create_node(tree, CreateNode(this.distributionIdString, distribution.name, "fa fa-cube"));
-                distributionsNode = tree.jstree(true).get_node(this.distributionIdString);
+                var distributionsNode = tree.jstree(true).get_node(this.distributionIdString);
                 SetNodeRoute(distributionsNode, "distributions", {dist_id: distribution.id}, "Distribution: " + distribution.name);
                 
                 this.AddDistributionChilds(distribution);
                 
                 tree.jstree(true).open_node(distributionsNode, false);
-                tree.jstree(true).open_node(subdistributionsNode, false);
-                tree.jstree(true).open_node(vendorsNode, false);
                 
                 if (WithSelectMethodology) {
                     tree.jstree(true).deselect_node(tree.jstree(true).get_selected(true)[0]);
@@ -99,6 +100,7 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                         var distId = data.node.id.substr(0, data.node.id.indexOf(IdPrefixString.distribution));
                         currentthis.BulidTreeByAddedDistribution(distId);                    
                     }
+                    console.log(data.node.id);
                 });
             },
             AddDistributionChilds: function(distribution) {                  
@@ -106,7 +108,7 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 var distributionNode = tree.jstree(true).get_node(distributionIdString);
                 
                 tree.jstree(true).create_node(distributionNode, CreateNode(distributionIdString + IdPrefixString.subdistributionsreport, "Subdistributions", "fa fa-cubes icon-state-warning"));
-                subdistributionsNode = tree.jstree(true).get_node(distributionIdString + IdPrefixString.subdistributionsreport);               
+                var subdistributionsNode = tree.jstree(true).get_node(distributionIdString + IdPrefixString.subdistributionsreport);               
                 SetNodeRoute(subdistributionsNode, "subdistributionsreport", {dist_id: distribution.id}, "Subdistributions");
                 
                 tree.jstree(true).create_node(subdistributionsNode, CreateNode(distributionIdString + this.addNewSubdistributionsId, "Add New", "fa fa-plus-circle icon-state-danger"));
@@ -118,10 +120,14 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 SetNodeRoute(vendorsNode, "vendorreport", {dist_id: distribution.id}, "Vendors");
                 
                 tree.jstree(true).create_node(vendorsNode, CreateNode(distributionIdString + this.addNewVendorsId, "Add New", "fa fa-plus-circle icon-state-danger"));
-                SetNodeRoute(tree.jstree(true).get_node(distributionIdString + this.addNewVendorsId), "vendor", {dist_id: distribution.id, vendor_id: ""}, "Add New Vendor");
+                SetNodeRoute(tree.jstree(true).get_node(distributionIdString + this.addNewVendorsId), "vendor", {dist_id: distribution.id, vendormobile_id: ""}, "Add New Vendor");
+                
+                tree.jstree(true).open_node(subdistributionsNode, false);
+                tree.jstree(true).open_node(vendorsNode, false);
+                
             },
             AddSubdistribution: function (subdistribution, WithSelectMethodology) {
-                //$("#SubdistributionsList").find(' > li:first').after('<li>' + nodeObject.code + '</li>');  
+                var subdistributionsNode = this.GetSubdistributionsNode(subdistribution.distribution_id);
                 tree.jstree(true).create_node(subdistributionsNode, CreateNode(subdistribution.id + IdPrefixString.subdistribution, subdistribution.code, "fa fa-cubes icon-state-success"));
                 var subdistributionNode = tree.jstree(true).get_node(subdistribution.id + IdPrefixString.subdistribution);
                 SetNodeRoute(subdistributionNode, "subdistribution", {dist_id: subdistribution.distribution_id, subdist_id: subdistribution.id}, "Subdistribution: " + subdistribution.code);
@@ -148,6 +154,7 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
 
                 tree.jstree(true).open_node(subdistributionNode, false);
                 tree.jstree(true).open_node(subdistributionTypesNode, false);
+                
                 if (WithSelectMethodology) {
                     tree.jstree(true).deselect_node(tree.jstree(true).get_selected(true)[0]);
                     tree.jstree(true).select_node(subdistribution.id);
@@ -163,12 +170,8 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 return parentTypeNodeId;
             },
             AddType: function (vouchType, WithSelectMethodology) {                                 
-                var voucherTypesNode = tree.jstree(true).get_node(vouchType.subdistribution_id + IdPrefixString.subdistribution + IdPrefixString.vouchertypesreport);                
-                console.log(voucherTypesNode);
-                var distIdString =  voucherTypesNode.parents[voucherTypesNode.parents.length - 2];
-                console.log(distIdString);
-                var dist_id = distIdString.substr(0, distIdString.indexOf(IdPrefixString.distribution));
-                console.log(dist_id);
+                var voucherTypesNode = this.GetVoucherTypesNode(vouchType.subdistribution_id);
+                var dist_id =  this.GetDistributionId(voucherTypesNode);
                 
                 tree.jstree(true).create_node(voucherTypesNode, CreateNode(vouchType.subdistribution_id + IdPrefixString.subdistribution + vouchType.id + IdPrefixString.voucherType, vouchType.value, "fa fa-dollar icon-state-success"));               
                 SetNodeRoute(tree.jstree(true).get_node(vouchType.subdistribution_id + IdPrefixString.subdistribution + vouchType.id + IdPrefixString.voucherType), "vouchertype", {dist_id: dist_id, subdist_id: vouchType.subdistribution_id, vouchertype_id: vouchType.id}, "Voucher Type: " + vouchType.value);
@@ -186,19 +189,21 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 //console.log( tree.jstree(true).get_node(vouchType.subdistribution_id));
                 //tree.jstree(true).get_node(vouchType.subdistribution_id).state.opened = false;
             },
-            AddVendor: function (vendor, WithSelectMethodology) {
-                tree.jstree(true).create_node(vendorsNode, CreateNode(vendor.id + IdPrefixString.vendor, vendor.name));
-                var vendorNode = tree.jstree(true).get_node(vendor.id + IdPrefixString.vendor);
-                SetNodeRoute(vendorNode, "vendor", {dist_id: vendor.distribution_id, vendor_id: vendor.id}, "Vendor: " + vendor.name);
+            AddVendor: function (vendormobile, WithSelectMethodology) {             
+                var vendorsNode = this.GetVendorsNode(vendormobile.distribution_id);
+
+                tree.jstree(true).create_node(vendorsNode, CreateNode(vendormobile.id + IdPrefixString.vendor, vendormobile.vendor.en_name, "fa fa-home"));
+                var vendorNode = tree.jstree(true).get_node(vendormobile.id + IdPrefixString.vendor);
+                SetNodeRoute(vendorNode, "vendor", {dist_id: vendormobile.distribution_id, vendormobile_id: vendormobile.id}, "Vendor: " + vendormobile.vendor.en_name);
                 if (SharedPropertiesService.getDistributionStatus() == false)
-                {
-                    tree.jstree(true).create_node(vendorNode, CreateNode(vendor.id + IdPrefixString.vendor + IdPrefixString.beneficiariesVendor, "Beneficiaries", "fa fa-group"));
-                    SetNodeRoute(tree.jstree(true).get_node(vendor.id +IdPrefixString.vendor+ IdPrefixString.beneficiariesVendor), "beneficiaryVendor", {dist_id: dist_id}, "Beneficiaries");
-                }
+                {                    
+                    tree.jstree(true).create_node(vendorNode, CreateNode(vendormobile.id + IdPrefixString.vendor + IdPrefixString.beneficiariesVendor, "Beneficiaries", "fa fa-group"));
+                    SetNodeRoute(tree.jstree(true).get_node(vendormobile.id +IdPrefixString.vendor+ IdPrefixString.beneficiariesVendor), "beneficiaryVendor", {dist_id: vendormobile.distribution_id, vendormobile_id: vendormobile.id}, "Beneficiaries");
+                }   
 
                 if (WithSelectMethodology) {
                     tree.jstree(true).deselect_node(tree.jstree(true).get_selected(true)[0]);
-                    tree.jstree(true).select_node(vendor.id + IdPrefixString.vendor + IdPrefixString.beneficiariesVendor);
+                    tree.jstree(true).select_node(vendormobile.id + IdPrefixString.vendor + IdPrefixString.beneficiariesVendor);
                 }
             },
             SelectTreeNodeByWizardModel: function (object) {
@@ -216,15 +221,14 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
             },
             BulidAllTreeByDistribution: function (distribution, WithSelectMethodology) {
                 this.__Clear();
-                this.AddDistribution(distribution, WithSelectMethodology);
-                               
-                this.BulidTreeByAddedDistribution(distribution);
+                this.AddDistribution(distribution, WithSelectMethodology);                               
+                this.BulidTreeByAddedDistribution(distribution.id);
             },  
             BulidTreeByAddedDistribution: function (distributionId) {
                  var currentThis = this;
                  
-                DataProviderService.getSubdistributionsByFilter([["distribution_id", distributionId, "="]]).success(function (data) {
-                    var relatedSubdistributions = data["data"]["subdistribution"];
+                DataProviderService.getSubdistributionsByFilter([["distribution_id", distributionId, "="]]).success(function (data) {                    
+                    var relatedSubdistributions = data["data"]["subdistribution"];           
                     var responses = [];
                     for (i = 0; i < relatedSubdistributions.length; i++) {
 //                        var withSelectMethodology = false;
@@ -246,7 +250,7 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 DataProviderService.getVendorMobilesByFilter([["distribution_id", distributionId, "="]]).success(function (data) {
                     var relatedVendors = data["data"]["vendorMobile"];
                     for (i = 0; i < relatedVendors.length; i++) {
-                        currentThis.AddVendor(relatedVendors[i]["vendor"]);
+                        currentThis.AddVendor(relatedVendors[i]);
                     }
                 });
             },
@@ -297,7 +301,22 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                         //SetNodeRoute(tree.jstree(true).get_node("Subdistribution" + subdistributions[i].id), "subdistribution/" + subdistributions[i].id);
                     }
                 });
-            }
+            },
+            GetSubdistributionsNode: function(distributionId){
+                var distributionIdString = distributionId + IdPrefixString.distribution; 
+                return tree.jstree(true).get_node(distributionIdString + IdPrefixString.subdistributionsreport);
+            },
+             GetVendorsNode : function(distributionId){
+                var distributionIdString = distributionId + IdPrefixString.distribution; 
+                return tree.jstree(true).get_node(distributionIdString + IdPrefixString.vendorsreport);
+            },
+            GetVoucherTypesNode: function(subdistributionId) {
+               return tree.jstree(true).get_node(subdistributionId + IdPrefixString.subdistribution + IdPrefixString.vouchertypesreport);                
+            },
+            GetDistributionId: function(node){
+                var distIdString = node.parents[node.parents.length - 2];
+                return distIdString.substr(0, distIdString.indexOf(IdPrefixString.distribution));
+            }           
         }
 
         var $root = $("#tree_1").jstree({
@@ -305,7 +324,7 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 check_callback: true,
                 multiple: false,
                 draggable: false
-            },
+            },          
             plugins: []
         });
         
@@ -329,21 +348,9 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                     CreateBreadCrumbTree(breadCrumbData);
             }
         });
-        
-//        $("#tree_1").on('changed.jstree', function (e, data) {
-//            if (data.instance.get_node(data.selected[0]).text == "Beneficiaries") {
-//                var node = data.instance.get_node(data.selected[0]);
-//                console.log(node);
-//                
-//                if (false ) {
-//                    alert(1);
-//                    toastr.error('You need to define one voucher type at least.');
-//                }
-//            }
-//        });
-
+       
         var $tree = $WizardTree;
-        $tree.__Init($root);
+        $tree.__Init($root, "#tree_1");
         SharedPropertiesService.setTree($tree);
         $scope.contentTitle = "Content";
     }]);
