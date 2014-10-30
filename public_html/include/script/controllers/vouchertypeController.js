@@ -27,7 +27,7 @@ app.controller('VoucherTypeController', ['$scope', '$stateParams', 'DataProvider
                 $scope.subdistributionVoucherType = new SubdistributionVoucherType();
                 $scope.subdistributionVoucherType.expiration_date = SharedPropertiesService.getDistributionEndDate();
                 var expireDate = new Date($scope.subdistributionVoucherType.expiration_date);
-                
+                console.log(expireDate);
                 $( "#datepicker" ).datepicker( 
                         {
                            
@@ -35,6 +35,14 @@ app.controller('VoucherTypeController', ['$scope', '$stateParams', 'DataProvider
                 });
                 $('#expiredate').data('datepicker').setDate(expireDate);              
                  
+                   // *** Build Tree by existing distribution id ***
+                                    var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+                                    if ((dist_id && !SharedPropertiesService.getTreeBuildStatus(true)) ||
+                                            (dist_id && dist_id != SharedPropertiesService.getDistributionId())) {
+                                        SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
+                                    }
+                                    // **********************************************
+                
                 var id = ($stateParams) ? $stateParams.vouchertype_id : null;
                 if (id) {
                     DataProviderService.getSubdistributionVoucher(id).success(function (data) {
@@ -54,12 +62,9 @@ app.controller('VoucherTypeController', ['$scope', '$stateParams', 'DataProvider
 
                         $scope.expireDate = expireString;
                         // ******************************************************
-
-                        if (dist_id && !SharedPropertiesService.getTreeBuildStatus(true)) {
-                            BuildTreeWithDistributionIdByQueryString(dist_id);
-                        }
                     });
                 }
+                
                 $scope.Save = function (subdistributionVoucherType) {
                     subdistributionVoucherType.subdistribution_id = SharedPropertiesService.getSubdistributionIdForNewVoucherValue()
                     DataProviderService.createSubdistributionVoucher(subdistributionVoucherType).success(function (data) {

@@ -1,7 +1,7 @@
 var ComponentsFormTools = function () {
 
     var handleTwitterTypeahead = function() {
-/*
+
         // Example #1
         // instantiate the bloodhound suggestion engine
         var numbers = new Bloodhound({
@@ -23,7 +23,6 @@ var ComponentsFormTools = function () {
         if (Metronic.isRTL()) {
           $('#typeahead_example_1').attr("dir", "rtl");  
         }
-        
         $('#typeahead_example_1').typeahead(null, {
           displayKey: 'num',
           hint: (Metronic.isRTL() ? false : true),
@@ -48,7 +47,6 @@ var ComponentsFormTools = function () {
         if (Metronic.isRTL()) {
           $('#typeahead_example_2').attr("dir", "rtl");  
         } 
-                
         $('#typeahead_example_2').typeahead(null, {
           name: 'typeahead_example_2',
           displayKey: 'name',
@@ -70,7 +68,7 @@ var ComponentsFormTools = function () {
         }  
         $('#typeahead_example_3').typeahead(null, {
           name: 'datypeahead_example_3',
-          displayKey: 'name',
+          displayKey: 'value',
           source: custom.ttAdapter(),
           hint: (Metronic.isRTL() ? false : true),
           templates: {
@@ -130,11 +128,11 @@ var ComponentsFormTools = function () {
                 header: '<h3>NHL Teams</h3>'
           }
         });
-*/
+
     }
 
     var handleTwitterTypeaheadModal = function() {
-/*
+
         // Example #1
         // instantiate the bloodhound suggestion engine
         var numbers = new Bloodhound({
@@ -201,7 +199,7 @@ var ComponentsFormTools = function () {
         }
         $('#typeahead_example_modal_3').typeahead(null, {
           name: 'datypeahead_example_modal_3',
-          displayKey: 'name',
+          displayKey: 'value',
           hint: (Metronic.isRTL() ? false : true),
           source: custom.ttAdapter(),
           templates: {
@@ -260,7 +258,7 @@ var ComponentsFormTools = function () {
                 header: '<h3>NHL Teams</h3>'
           }
         });
-*/
+
     }
 
     var handleBootstrapSwitch = function() {

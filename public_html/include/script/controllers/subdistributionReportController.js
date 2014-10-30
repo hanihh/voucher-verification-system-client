@@ -5,14 +5,20 @@
  */
 
 app.controller('SubdistributionReportController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
-        var distId = SharedPropertiesService.getDistributionId();   
+            // *** Build Tree by existing distribution id ***
+                                    var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+                                    if ((dist_id && !SharedPropertiesService.getTreeBuildStatus(true)) ||
+                                            (dist_id && dist_id != SharedPropertiesService.getDistributionId())) {
+                                        SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
+                                    }
+                                    // **********************************************
         var grid = new Datatable();
         grid.init({
             "src": $("#datatable_ajax"),
             // loadingMessage: 'Loading...',
             dataTable: {
                 "pageLength": 10, // default record count per page
-                "ajax": DataProviderService.getSubdistributionsByFilterURL([["distribution_id", distId, "="]]),
+                "ajax": DataProviderService.getSubdistributionsByFilterURL([["distribution_id", dist_id, "="]]),
                 "sAjaxDataProp": "data.subdistribution",
                 "columns": [
                     {"data": "id"},

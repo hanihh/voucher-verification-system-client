@@ -49,7 +49,7 @@ var ComponentsPickers = function () {
         }
 
         $('#defaultrange').daterangepicker({
-                opens: (Metronic.isRTL() ?'left' : 'right'),                
+                opens: (Metronic.isRTL() ? 'left' : 'right'),
                 format: 'MM/DD/YYYY',
                 separator: ' to ',
                 startDate: moment().subtract('days', 29),
@@ -130,6 +130,10 @@ var ComponentsPickers = function () {
     }
 
     var handleDatetimePicker = function () {
+
+        if (!jQuery().datetimepicker) {
+            return;
+        }
 
         $(".form_datetime").datetimepicker({
             autoclose: true,

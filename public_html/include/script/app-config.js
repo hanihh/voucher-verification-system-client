@@ -30,8 +30,8 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($
             url: '/distributions/:dist_id/vendor/:vendormobile_id',
                controller: 'VendorController',
                 templateUrl: 'views/wizardviews/vendor.html'
-        }).state('vendorreport', {
-            url: '/distributions/:dist_id/vendorreport',
+        }).state('vendorsreport', {
+            url: '/distributions/:dist_id/vendorsreport',
             controller: 'VendorReportController',
             templateUrl: 'views/wizardviews/vendorsReport.html'
         }).state('vouchertype', {
@@ -47,7 +47,7 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($
             controller:'beneficiaryDistController',
             templateUrl: 'views/wizardviews/BeneficiaryDist.html'
         }).state('beneficiaryVendor', {
-            url: '/distributions/:dist_id/vendor/:vendor_id/beneficiaryVendor',
+            url: '/distributions/:dist_id/vendor/:vendormobile_id/beneficiaryVendor',
             controller:'beneficiaryVendorController',
             templateUrl: 'views/wizardviews/BeneficiaryVendor.html'
         });

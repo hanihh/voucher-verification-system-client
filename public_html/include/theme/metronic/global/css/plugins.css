@@ -249,6 +249,13 @@ Bootstrap Markdown
 .md-editor .btn-toolbar {
   margin-left: 0px;
 }
+.md-editor .btn-toolbar .btn-group .btn-sm.btn {
+  padding-bottom: 3px;
+}
+.md-editor .btn-toolbar .btn-group .btn-primary {
+  padding-top: 5px;
+  padding-bottom: 7px;
+}
 
 .md-editor.active {
   border: 1px solid #999999;
@@ -410,7 +417,7 @@ Color variants
 /* Bootstrap switch on portlet headers */
 .portlet > .portlet-title > .actions > .bootstrap-switch {
   border-color: transparent;
-  margin-top: -13px;
+  margin-top: 0px;
 }
 
 /***
@@ -617,6 +624,14 @@ Error state for WYSIWYG Editors
   z-index: 11000;
   width: 100% !important;
 }
+.note-editor .dropdown-menu:before {
+  left: 9px;
+  right: auto;
+}
+.note-editor .dropdown-menu:after {
+  left: 10px;
+  right: auto;
+}
 
 .note-link-dialog .checkbox {
   margin-left: 20px;
@@ -632,6 +647,13 @@ Error state for WYSIWYG Editors
 
 .has-warning .note-editor {
   border: 1px solid #faebcc !important;
+}
+
+/***
+Bootbox
+***/
+.bootbox .bootbox-close-button {
+  margin-top: 0px !important;
 }
 
 /***
@@ -1059,6 +1081,15 @@ Fullcalendar
   margin-left: 5px;
 }
 
+.fc-scroller {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.fc-month-view .fc-scroller {
+  height: auto !important;
+}
+
 .portlet .event-form-title {
   font-size: 14px;
   margin-top: 4px;
@@ -1071,7 +1102,8 @@ Fullcalendar
   box-shadow: none;
   text-shadow: none;
   border: 0;
-  padding: 5px 8px 33px 8px;
+  height: 35px;
+  padding: 6px 8px 7px 8px;
   margin-left: 2px;
   border-top-style: none;
   border-bottom-style: none;
@@ -1080,7 +1112,15 @@ Fullcalendar
   border-color: #ddd;
   background: transparent;
   color: #fff;
-  top: -48px;
+  top: -45px;
+  outline: none !important;
+}
+.portlet.calendar .fc-toolbar {
+  margin-bottom: 0px;
+}
+.portlet.calendar .fc-toolbar h2 {
+  margin-top: 3px;
+  font-size: 17px;
 }
 .portlet.calendar .fc-header {
   margin-bottom: -21px;
@@ -1100,6 +1140,26 @@ Fullcalendar
 .portlet.calendar .fc-button.fc-state-disabled {
   color: #ddd;
 }
+.portlet.calendar .fc-button .fc-icon-left-single-arrow {
+  font-family: FontAwesome;
+  font-size: 16px;
+}
+.portlet.calendar .fc-button .fc-icon-left-single-arrow:after {
+  content: "";
+}
+.portlet.calendar .fc-button .fc-icon-left-single-arrow:before {
+  content: "\f104";
+}
+.portlet.calendar .fc-button .fc-icon-right-single-arrow {
+  font-family: FontAwesome;
+  font-size: 16px;
+}
+.portlet.calendar .fc-button .fc-icon-right-single-arrow:after {
+  content: "";
+}
+.portlet.calendar .fc-button .fc-icon-right-single-arrow:before {
+  content: "\f105";
+}
 .portlet.calendar .fc-text-arrow {
   font-size: 22px;
   font-family: "Courier New", Courier, monospace;
@@ -1110,17 +1170,17 @@ Fullcalendar
   background-color: #69a4e0;
   color: #fff;
 }
-.portlet.calendar .fc-event .fc-event-inner {
+.portlet.calendar .fc-event .fc-content {
   border: 0px;
 }
-.portlet.calendar .fc-event .fc-event-time {
+.portlet.calendar .fc-event .fc-time {
   float: left;
   text-align: left;
   color: #fff;
   font-size: 13px;
   font-weight: 300;
 }
-.portlet.calendar .fc-event .fc-event-title {
+.portlet.calendar .fc-event .fc-title {
   text-align: left;
   float: left;
   color: #fff;
@@ -1793,6 +1853,7 @@ Select2 Plugin
   webkit-appearance: none !important;
   color: #333333;
   outline: 0;
+  box-shadow: none;
   height: auto !important;
   min-height: 26px;
   padding: 6px 6px !important;
@@ -2018,4 +2079,90 @@ Morris Charts
   font-size: 14px;
   font-weight: 400;
   font-family: "Open Sans", sans-serif;
+}
+
+/***
+iCheck
+***/
+.icheck-list > label {
+  display: block;
+  margin-bottom: 8px;
+}
+.icheck-list > label:last-child {
+  margin-bottom: 0;
+}
+
+.form-horizontal .icheck-inline {
+  margin-top: 8px;
+}
+.icheck-inline > label {
+  display: inline-block;
+  margin-left: 15px;
+}
+.icheck-inline > label:first-child {
+  margin-left: 0;
+}
+
+div[class*='icheckbox_'],
+div[class*='iradio_'] {
+  margin-right: 5px;
+  top: -1px !important;
+}
+
+.icheck-colors {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.icheck-colors > li {
+  padding: 0;
+  margin: 4px;
+  float: left;
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  background: #000000;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+}
+.icheck-colors > li:first-child {
+  margin-left: 0;
+}
+.icheck-colors > li:hover {
+  opacity: 1;
+  filter: alpha(opacity=100);
+  cursor: pointer;
+}
+.icheck-colors > li.active {
+  height: 26px;
+  margin-top: 0;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+}
+.icheck-colors > li.red {
+  background: #d54e21;
+}
+.icheck-colors > li.green {
+  background: #78a300;
+}
+.icheck-colors > li.blue {
+  background: #0e76a8;
+}
+.icheck-colors > li.aero {
+  background: #9cc2cb;
+}
+.icheck-colors > li.grey {
+  background: #73716e;
+}
+.icheck-colors > li.orange {
+  background: #f70;
+}
+.icheck-colors > li.yellow {
+  background: #fc0;
+}
+.icheck-colors > li.pink {
+  background: #ff66b5;
+}
+.icheck-colors > li.purple {
+  background: #6a5a8c;
 }

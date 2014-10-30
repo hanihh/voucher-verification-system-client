@@ -15,14 +15,16 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
                                 $.getScript('include/ViewModels/Location/Community.js', function () {
                                     $scope.subdistributionNameLocation = "";
                                     $scope.subdistributionDatePart = "";
-                                    console.log("SUb");
+                     
                                     $scope.country = null;
                                     $scope.governorate = null;
                                     $scope.district = null;
                                     $scope.subdistrict = null;
+                                    
                                     $scope.subdistribution = new Subdistribution();
-                                    $scope.subdistribution.end_date= SharedPropertiesService.getDistributionEndDate();
+                                    $scope.subdistribution.end_date = SharedPropertiesService.getDistributionEndDate();
                                     $scope.subdistribution.start_date = SharedPropertiesService.getDistributionStartDate();
+                                    
                                     $("#status").val("Active");
                                     $scope.subdistribution.status_id = 2;
                                     console.log($scope.subdistribution);
@@ -36,17 +38,17 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
                                         minDate: moment(),
                                         maxDate: new Date($scope.subdistribution.end_date)
                                     },
-                                            function (start, end) {
-                                                console.log(start.format('YYYY-MM-DD'));
-                                                console.log(end.format('YYYY-MM-DD'));
-                                                $('#defaultrange input').val(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
-                                                UpdateStatus(start, end);
-                                                var datetime = start.format('YYYY-MM-DD');
-                                                var dateParts = datetime.split("-");
-                                                $scope.subdistributionDatePart = dateParts[1] + "-" + dateParts[2];
-                                                $scope.subdistribution.code = $scope.subdistributionNameLocation + "-" + $scope.subdistributionDatePart;
-                                                $("#subdistribution_code").val($scope.subdistribution.code);
-                                            }
+                                    function (start, end) {
+                                        console.log(start.format('YYYY-MM-DD'));
+                                        console.log(end.format('YYYY-MM-DD'));
+                                        $('#defaultrange input').val(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
+                                        UpdateStatus(start, end);
+                                        var datetime = start.format('YYYY-MM-DD');
+                                        var dateParts = datetime.split("-");
+                                        $scope.subdistributionDatePart = dateParts[1] + "-" + dateParts[2];
+                                        $scope.subdistribution.code = $scope.subdistributionNameLocation + "-" + $scope.subdistributionDatePart;
+                                        $("#subdistribution_code").val($scope.subdistribution.code);
+                                    }
                                     );
 
                                     //$('#defaultrange').on('apply.daterangepicker', function (ev, picker) {
@@ -76,7 +78,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
                                     //--- Watching cascade select lists models ---//
                                     $scope.$watch('country', function (newVal, oldVal) {
                                         if (newVal != oldVal)
-                                        {                  
+                                        {
                                             $scope.governorateItems = null;
                                             $scope.governorate = null;
                                             // Governorates
@@ -91,9 +93,9 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
                                             $scope.district = null;
                                             $scope.subdistrict = null;
                                             $scope.subdistribution.community_id = null;
-                                                                       
+
                                             $('#s2id_governorateList > a > span:first').html("");
-                                                       
+
                                         }
                                     });
 
@@ -111,8 +113,8 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
 
                                             $scope.subdistrict = null;
                                             $scope.subdistribution.community_id = null;
-                                            
-                                                 $('#s2id_districtList > a > span:first').html("");                                                           
+
+                                            $('#s2id_districtList > a > span:first').html("");
                                         }
                                     });
 
@@ -129,9 +131,9 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
                                                 //console.log( $scope.subdistrictItems);
                                             });
                                             $scope.subdistribution.community_id = null;
-                                            
-                                             $('#s2id_subdistrictList > a > span:first').html("");
-                                                           
+
+                                            $('#s2id_subdistrictList > a > span:first').html("");
+
                                         }
                                     });
 
@@ -146,10 +148,10 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
 
                                                 $scope.communityItems = data;
                                                 //console.log( $scope.communityItems);
-                                                
+
                                             });
-                                            
-                                             $('#s2id_communityList > a > span:first').html("");
+
+                                            $('#s2id_communityList > a > span:first').html("");
                                         }
                                     });
 
@@ -163,13 +165,13 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
                                         $scope.countryItems = data;
                                         //console.log( $scope.countryItems);
                                     });
-                                    
+
                                     DataProviderService.getCommunities().success(function (data) {
                                         var data = data["data"]["community"];
                                         $scope.communityItems = data;
                                         //console.log( $scope.communityItems);
                                     });
-                                    
+
                                     $scope.$watch('subdistribution.community_id', function (newVal, oldVal) {
                                         console.log($scope.communityItems);
                                         if (newVal != oldVal) {
@@ -178,7 +180,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
                                                     $scope.communityItems.forEach(function (entry) {
                                                         if (entry.id == newVal)
                                                             $scope.subdistributionNameLocation = entry.code;
-                                                            $scope.subdistribution.code = $scope.subdistributionNameLocation + "-" + $scope.subdistributionDatePart;
+                                                        $scope.subdistribution.code = $scope.subdistributionNameLocation + "-" + $scope.subdistributionDatePart;
                                                     });
                                                 } else {
 
@@ -186,7 +188,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
                                             }
                                         }
                                     });
-                                    
+
                                     // Status
                                     DataProviderService.getStatus().success(function (data) {
                                         var data = data["data"]["distributionStatus"];
@@ -194,8 +196,15 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
                                         $scope.statusItems = distribution_status.parseArray(data);
                                     });
 
-                                    var id = ($stateParams) ? $stateParams.subdist_id : null;
+                                    // *** Build Tree by existing distribution id ***
                                     var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+                                    if ((dist_id && !SharedPropertiesService.getTreeBuildStatus(true)) ||
+                                            (dist_id && dist_id != SharedPropertiesService.getDistributionId())) {
+                                        SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
+                                    }
+                                    // **********************************************
+
+                                    var id = ($stateParams) ? $stateParams.subdist_id : null;
                                     if (id)
                                     {
                                         DataProviderService.getSubdistributions(id).success(function (data) {
@@ -217,7 +226,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
                                                         // Country
                                                         DataProviderService.getCountries(governorate["country_id"]).success(function (data) {
                                                             var country = data["data"]["country"];
-                
+
 //                                                            $scope.country = country;
 //                                                            $scope.governorate = governorate;
 //                                                            $scope.district = district;
@@ -251,16 +260,12 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
                                             }
 
                                             $scope.dateRange = startDateString + (startDateString == "" && endDateString == "" ? "" : " - ") + endDateString;
-                                            // ******************************************************
-                                            
-                                            
-                                             
-                                            if (dist_id && !SharedPropertiesService.getTreeBuildStatus(true)){
-                                                SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
-                                                SharedPropertiesService.getTree().SelectTreeNodeByWizardModel({subdistribution:  $scope.subdistribution});
-                                            }
+                                            // ******************************************************                                                                                                                                                                         
+
+
+                                            SharedPropertiesService.getTree().SelectTreeNodeByWizardModel({subdistribution: $scope.subdistribution});
                                         });
-                                       
+
                                     }
 
                                     $scope.Save = function (subdistributionForm, subdistribution) {

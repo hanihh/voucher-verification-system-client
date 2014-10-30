@@ -11,7 +11,6 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
         $scope.beneficiary = {};
         $scope.filter = {};
         var subdist_id = ($stateParams) ? $stateParams.subdist_id : null;
-        var dist_id = ($stateParams) ? $stateParams.dist_id : null;
         //$scope.subdistributionId = SharedPropertiesService.getSubdistributionIdForBeneficiary();
         $scope.subdistributionId = subdist_id;
 
@@ -118,9 +117,13 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
             console.log(canceledBenesIds);
         }
 
-        if (dist_id && !SharedPropertiesService.getTreeBuildStatus(true)) {
-            SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
-        }
+           // *** Build Tree by existing distribution id ***
+                                    var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+                                    if ((dist_id && !SharedPropertiesService.getTreeBuildStatus(true)) ||
+                                            (dist_id && dist_id != SharedPropertiesService.getDistributionId())) {
+                                        SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
+                                    }
+                                    // **********************************************
 
         $scope.Save = function () {
             var addObject = $.param({subdistribution_id: $scope.subdistributionId,

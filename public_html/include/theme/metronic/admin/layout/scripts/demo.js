@@ -247,7 +247,6 @@ var Demo = function() {
 
         //main function to initiate the theme
         init: function() {
-
             handleTheme(); // handles style customer tool
         }
     };

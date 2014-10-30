@@ -11,7 +11,6 @@ app.controller('beneficiaryVendorController', ['$scope', '$stateParams', 'DataPr
         $scope.beneficiary = {};
         $scope.filter = {};
         var vendor_id = ($stateParams) ? $stateParams.vendor_id : null;
-        var dist_id = ($stateParams) ? $stateParams.dist_id : null;
         //$scope.subdistributionId = SharedPropertiesService.getSubdistributionIdForBeneficiary();
         $scope.vendorId = vendor_id;
 
@@ -123,12 +122,16 @@ app.controller('beneficiaryVendorController', ['$scope', '$stateParams', 'DataPr
             console.log(canceledBenesIds);
         }
 
-        if (dist_id && !SharedPropertiesService.getTreeBuildStatus(true)) {
+        // *** Build Tree by existing distribution id ***
+        var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+        if ((dist_id && !SharedPropertiesService.getTreeBuildStatus(true)) ||
+                (dist_id && dist_id != SharedPropertiesService.getDistributionId())) {
             SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
         }
+        // **********************************************
 
         $scope.Save = function () {
-            var addObject = $.param({subdistribution_id: $scope.subdistributionId,
+            var addObject = $.param({_id: $scope.subdistributionId,
                 beneficiaries: checkedBenesIds,
                 check_all: 0});
             DataProviderService.createVoucher(addObject).success(function (data) {

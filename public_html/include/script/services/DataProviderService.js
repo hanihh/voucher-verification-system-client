@@ -98,6 +98,9 @@ app.factory('DataProviderService', ['$http', function ($http) {
             var _id = (id) ? id : "";
             return $http({method: 'GET', url: server_url + 'api/Vendor/' + _id});
         };
+        dataFactory.getVendorsMobileByFilterURL  = function (params){
+            return server_url + 'api/vendormobile/?filter='+ JSON.stringify(GetFilter(params));
+        };
         dataFactory.getVendorMobile = function (id) {
             var _id = (id) ? id : "";
             return $http({method: 'GET', url: server_url + 'api/vendormobile/' + _id});

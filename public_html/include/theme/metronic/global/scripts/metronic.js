@@ -15,6 +15,10 @@ var Metronic = function() {
 
     var globalImgPath = assetsPath + 'global/img/';
 
+    var globalPluginsPath = assetsPath + 'global/plugins/';
+
+    var loadedResources = {};
+
     // theme layout color set
 
     var brandColors = {
@@ -86,10 +90,36 @@ var Metronic = function() {
 
     // Handles portlet tools & actions
     var handlePortletTools = function() {
+        // handle portlet remove
         $('body').on('click', '.portlet > .portlet-title > .tools > a.remove', function(e) {
             e.preventDefault();
             $(this).closest(".portlet").remove();
+            if ($('body').hasClass('page-portlet-fullscreen')) {
+                $('body').removeClass('page-portlet-fullscreen');
+            }
         });
+
+        // handle portlet fullscreen
+        $('body').on('click', '.portlet > .portlet-title .fullscreen', function(e) {
+            e.preventDefault();
+            var portlet = $(this).closest(".portlet");
+            if (portlet.hasClass('portlet-fullscreen')) {
+                $(this).removeClass('on');
+                portlet.removeClass('portlet-fullscreen');
+                $('body').removeClass('page-portlet-fullscreen');
+                portlet.children('.portlet-body').css('height', 'auto');
+            } else {
+                var height = Metronic.getViewPort().height - 
+                    portlet.children('.portlet-title').outerHeight() - 
+                    parseInt(portlet.children('.portlet-body').css('padding-top')) - 
+                    parseInt(portlet.children('.portlet-body').css('padding-bottom'));
+                
+                $(this).addClass('on');
+                portlet.addClass('portlet-fullscreen');
+                $('body').addClass('page-portlet-fullscreen');                
+                portlet.children('.portlet-body').css('height', height);
+            }
+        }); 
 
         $('body').on('click', '.portlet > .portlet-title > .tools > a.reload', function(e) {
             e.preventDefault();
@@ -99,7 +129,8 @@ var Metronic = function() {
             if (url) {
                 Metronic.blockUI({
                     target: el,
-                    iconOnly: true
+                    animate: true,
+                    overlayColor: 'none'
                 });
                 $.ajax({
                     type: "GET",
@@ -130,7 +161,8 @@ var Metronic = function() {
                 // for demo purpose
                 Metronic.blockUI({
                     target: el,
-                    iconOnly: true
+                    animate: true,
+                    overlayColor: 'none'
                 });
                 window.setTimeout(function() {
                     Metronic.unblockUI(el);
@@ -159,7 +191,7 @@ var Metronic = function() {
         if (!$().uniform) {
             return;
         }
-        var test = $("input[type=checkbox]:not(.toggle, .make-switch), input[type=radio]:not(.toggle, .star, .make-switch)");
+        var test = $("input[type=checkbox]:not(.toggle, .make-switch, .icheck), input[type=radio]:not(.toggle, .star, .make-switch, .icheck)");
         if (test.size() > 0) {
             test.each(function() {
                 if ($(this).parents(".checker").size() === 0) {
@@ -170,6 +202,32 @@ var Metronic = function() {
         }
     };
 
+    // Handles custom checkboxes & radios using jQuery iCheck plugin
+    var handleiCheck = function() {
+        if (!$().iCheck) {
+            return;
+        }
+
+        $('.icheck').each(function() {
+            var checkboxClass = $(this).attr('data-checkbox') ? $(this).attr('data-checkbox') : 'icheckbox_minimal-grey';
+            var radioClass = $(this).attr('data-radio') ? $(this).attr('data-radio') : 'iradio_minimal-grey';
+
+            if (checkboxClass.indexOf('_line') > -1 || radioClass.indexOf('_line') > -1) {
+                $(this).iCheck({
+                    checkboxClass: checkboxClass,
+                    radioClass: radioClass,
+                    insert: '<div class="icheck_line-icon"></div>' + $(this).attr("data-label")
+                });
+            } else {
+                $(this).iCheck({
+                    checkboxClass: checkboxClass,
+                    radioClass: radioClass
+                });
+            }
+        });
+    };
+
+    // Handles Bootstrap switches
     var handleBootstrapSwitch = function() {
         if (!$().bootstrapSwitch) {
             return;
@@ -221,7 +279,15 @@ var Metronic = function() {
 
     // Handles Bootstrap Tooltips.
     var handleTooltips = function() {
+        // global tooltips
         $('.tooltips').tooltip();
+
+        // portlet tooltips
+        $('.portlet > .portlet-title .fullscreen').tooltip({container: 'body', title: 'Fullscreen'}); 
+        $('.portlet > .portlet-title > .tools > .reload').tooltip({container: 'body', title: 'Reload'});
+        $('.portlet > .portlet-title > .tools > .remove').tooltip({container: 'body', title: 'Remove'});
+        $('.portlet > .portlet-title > .tools > .config').tooltip({container: 'body', title: 'Settings'});
+        $('.portlet > .portlet-title > .tools > .collapse, .portlet > .portlet-title > .tools > .expand').tooltip({container: 'body', title: 'Collapse/Expand'});          
     };
 
     // Handles Bootstrap Dropdowns
@@ -343,6 +409,7 @@ var Metronic = function() {
 
             //UI Component handlers            
             handleUniform(); // hanfle custom radio & checkboxes
+            handleiCheck(); // handles custom icheck radio and checkboxes
             handleBootstrapSwitch(); // handle bootstrap switch plugin
             handleScrollers(); // handles slim scrolling contents 
             handleFancybox(); // handle fancy box
@@ -362,15 +429,17 @@ var Metronic = function() {
 
         //main function to initiate core javascript after ajax complete
         initAjax: function() {
+            handleUniform(); // handles custom radio & checkboxes     
+            handleiCheck(); // handles custom icheck radio and checkboxes
+            handleBootstrapSwitch(); // handle bootstrap switch plugin
+            handleDropdownHover(); // handles dropdown hover       
             handleScrollers(); // handles slim scrolling contents 
             handleSelect2(); // handle custom Select2 dropdowns
+            handleFancybox(); // handle fancy box
             handleDropdowns(); // handle dropdowns
             handleTooltips(); // handle bootstrap tooltips
             handlePopovers(); // handles bootstrap popovers
             handleAccordions(); //handles accordions 
-            handleUniform(); // hanfle custom radio & checkboxes     
-            handleBootstrapSwitch(); // handle bootstrap switch plugin
-            handleDropdownHover(); // handles dropdown hover       
         },
 
         //public function to remember last opened popover that needs to be closed on click
@@ -485,7 +554,9 @@ var Metronic = function() {
         blockUI: function(options) {
             options = $.extend(true, {}, options);
             var html = '';
-            if (options.iconOnly) {
+            if (options.animate) {
+                html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '">' + '<div class="block-spinner-bar"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>' + '</div>';
+            } else if (options.iconOnly) {
                 html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><img src="' + this.getGlobalImgPath() + 'loading-spinner-grey.gif" align=""></div>';
             } else if (options.textOnly) {
                 html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><span>&nbsp;&nbsp;' + (options.message ? options.message : 'LOADING...') + '</span></div>';
@@ -509,7 +580,7 @@ var Metronic = function() {
                         backgroundColor: 'none'
                     },
                     overlayCSS: {
-                        backgroundColor: options.overlayColor ? options.overlayColor : '#000',
+                        backgroundColor: options.overlayColor ? options.overlayColor : '#555',
                         opacity: options.boxed ? 0.05 : 0.1,
                         cursor: 'wait'
                     }
@@ -524,7 +595,7 @@ var Metronic = function() {
                         backgroundColor: 'none'
                     },
                     overlayCSS: {
-                        backgroundColor: options.overlayColor ? options.overlayColor : '#000',
+                        backgroundColor: options.overlayColor ? options.overlayColor : '#555',
                         opacity: options.boxed ? 0.05 : 0.1,
                         cursor: 'wait'
                     }
@@ -546,13 +617,18 @@ var Metronic = function() {
             }
         },
 
-        startPageLoading: function(message) {
-            $('.page-loading').remove();
-            $('body').append('<div class="page-loading"><img src="' + this.getGlobalImgPath() + 'loading-spinner-grey.gif"/>&nbsp;&nbsp;<span>' + (message ? message : 'Loading...') + '</span></div>');
+        startPageLoading: function(options) {
+            if (options && options.animate) {
+                $('.page-spinner-bar').remove();
+                $('body').append('<div class="page-spinner-bar"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>');                
+            } else {
+                $('.page-loading').remove();
+                $('body').append('<div class="page-loading"><img src="' + this.getGlobalImgPath() + 'loading-spinner-grey.gif"/>&nbsp;&nbsp;<span>' + (options && options.message ? options.message : 'Loading...') + '</span></div>');
+            }
         },
 
         stopPageLoading: function() {
-            $('.page-loading').remove();
+            $('.page-loading, .page-spinner-bar').remove();
         },
 
         alert: function(options) {
@@ -715,6 +791,14 @@ var Metronic = function() {
             return globalImgPath;
         },
 
+        setGlobalPluginsPath: function(path) {
+            globalPluginsPath = assetsPath + path;
+        },
+
+        getGlobalPluginsPath: function() {
+            return globalPluginsPath;
+        },
+
         // get layout color code by color name
         getBrandColor: function(name) {
             if (brandColors[name]) {
@@ -722,8 +806,46 @@ var Metronic = function() {
             } else {
                 return '';
             }
-        }
+        },
 
+        loadResources: function(resources, callback) {
+            var counter = 0;
+            var loaded = 0;
+
+            for(var i in resources) {
+                var resource = resources[i];
+
+                if (!loadedResources[resource.path]) {
+                    var el;
+                    loadedResources[resource.path] = true;
+                    if (resource.type === 'js') {                        
+                        counter++;
+                        var body = document.getElementsByTagName("body")[0];
+                        el = document.createElement("script");
+                        el.type = "text/javascript";
+                        el.src = resource.path;
+                        // do callback only based on scripts
+                        if (callback) {
+                            el.onload = function(){
+                                loaded++;
+                                if (loaded === counter) {
+                                    callback();
+                                }
+                            };
+                        }
+                        body.appendChild(el);
+                    } else if (resource.type === 'css') {
+                        var head = document.getElementsByTagName("head")[0];
+                        el = document.createElement("link");
+                        el.type = "text/css";
+                        el.href = resource.path;
+                        head.appendChild(el);
+                    }
+
+                   
+                }
+            }
+        }
     };
 
 }();

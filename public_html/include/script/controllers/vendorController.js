@@ -82,9 +82,15 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
                         InitImeiTypeahead($scope.phones, SharedPropertiesService.getDistributionStatus());
                     });
 
+                      // *** Build Tree by existing distribution id ***
+                                    var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+                                    if ((dist_id && !SharedPropertiesService.getTreeBuildStatus(true)) ||
+                                            (dist_id && dist_id != SharedPropertiesService.getDistributionId())) {
+                                        SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
+                                    }
+                                    // **********************************************
+
                     var id = ($stateParams) ? $stateParams.vendormobile_id : null;
-//                    var dist_id = ($stateParams) ? $stateParams.dist_id : null;
-//                    var vendor_id = ($stateParams) ? $stateParams.vendor_id : null;
                     if (id)
                     {
                        // var filterString = [["distribution_id", dist_id, "="], ["vendor_id", vendor_id, "="]];
@@ -93,20 +99,17 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
                             console.log(data);
                             var data = data["data"]["vendorMobile"];
                             var vendor_mobile = new Vendor_mobile();
-                            $scope.vendor_mobile = vendor_mobile.parse(data[0]);
-                            $('#s2id_vendorList > a > span:first').html(data[0].vendor.en_name);
-                            
-                            
-                            if (dist_id && !SharedPropertiesService.getTreeBuildStatus(true)){
-                                 SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
-                            }
+                                  
+                            $scope.vendor_mobile = vendor_mobile.parse( (data.length ? data[0] : data) );
+                            $('#s2id_vendorList > a > span:first').html( (data.length ? data[0].vendor.en_name : data.vendor.en_name) );
+                                                                         
                         });
                     }
 
                     $scope.Save = function (vendor_mobile) {
                         vendor_mobile.distribution_id = SharedPropertiesService.getDistributionId();
                         vendor_mobile.phones = addPhones;                        
-                        var vendor_mobiles = vendor_mobile.Split();
+                        var vendor_mobiles = vendor_mobile.SplitPhonesToSeperatedObjects();
                         console.log(vendor_mobiles);
                         for(i=0; i< vendor_mobiles.length; i++)
                         {
@@ -115,7 +118,7 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
 //                                vendor_mobile.id = id;
                                 var vendor = $.grep($scope.vendorItems, function(e){ return e.id === vendor_mobile.vendor_id}); 
                                 console.log(vendor);
-                                SharedPropertiesService.getTree().AddVendor({vendor: vendor[0], distribution_id:  vendor_mobile.distribution_id}, true);
+                                SharedPropertiesService.getTree().AddVendor({vendor: vendor[0], distribution_id:  vendor_mobile.distribution_id}, false);
                             });
                         }
                     }
