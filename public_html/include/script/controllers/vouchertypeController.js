@@ -9,13 +9,18 @@
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
 app.controller('VoucherTypeController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
 
-
         $.getScript('include/ViewModels/Core/Voucher_type.js', function ()
         {
             $.getScript('include/ViewModels/Relational/subdistributionVoucherType.js', function ()
             {
-                // script is now loaded and executed.
-                // put your dependent JS here.
+                // *** Build Tree by existing distribution id ***
+                var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+                if ( dist_id && (SharedPropertiesService.getTreeBuildStatus() === false ||
+                        dist_id !== SharedPropertiesService.getDistributionId())) {
+                    SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
+                }
+                // **********************************************
+                
                 DataProviderService.getVoucherTypes().success(function (data) {
                     var data = data["data"]["voucherType"];
                     var voucher_type = new Voucher_type();
@@ -25,7 +30,8 @@ app.controller('VoucherTypeController', ['$scope', '$stateParams', 'DataProvider
 
 
                 $scope.subdistributionVoucherType = new SubdistributionVoucherType();
-                $scope.subdistributionVoucherType.expiration_date = SharedPropertiesService.getDistributionEndDate();
+                $scope.subdistributionVoucherType.expiration_date = SharedPropertiesService.getDistributionEndDate();   
+                console.log($scope.subdistributionVoucherType.expiration_date);
                 var expireDate = new Date($scope.subdistributionVoucherType.expiration_date);
                 console.log(expireDate);
                 $( "#datepicker" ).datepicker( 
@@ -33,15 +39,8 @@ app.controller('VoucherTypeController', ['$scope', '$stateParams', 'DataProvider
                            
                     maxDate: expireDate
                 });
-                $('#expiredate').data('datepicker').setDate(expireDate);              
-                 
-                   // *** Build Tree by existing distribution id ***
-                                    var dist_id = ($stateParams) ? $stateParams.dist_id : null;
-                                    if ((dist_id && !SharedPropertiesService.getTreeBuildStatus(true)) ||
-                                            (dist_id && dist_id != SharedPropertiesService.getDistributionId())) {
-                                        SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
-                                    }
-                                    // **********************************************
+                $('#expiredate').data('datepicker').setDate(expireDate);                                                    
+                var subdist_id = ($stateParams) ? $stateParams.subdist_id : null;
                 
                 var id = ($stateParams) ? $stateParams.vouchertype_id : null;
                 if (id) {
@@ -66,7 +65,7 @@ app.controller('VoucherTypeController', ['$scope', '$stateParams', 'DataProvider
                 }
                 
                 $scope.Save = function (subdistributionVoucherType) {
-                    subdistributionVoucherType.subdistribution_id = SharedPropertiesService.getSubdistributionIdForNewVoucherValue()
+                    subdistributionVoucherType.subdistribution_id = subdist_id;
                     DataProviderService.createSubdistributionVoucher(subdistributionVoucherType).success(function (data) {
                         var id = data["data"]["distributionVoucher"]["id"];
                         subdistributionVoucherType.id = id;

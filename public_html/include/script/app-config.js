@@ -29,19 +29,19 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($
         }).state('vendor', {            
             url: '/distributions/:dist_id/vendor/:vendormobile_id',
                controller: 'VendorController',
-                templateUrl: 'views/wizardviews/vendor.html'
+                templateUrl: 'views/wizardviews/Vendor.html'
         }).state('vendorsreport', {
             url: '/distributions/:dist_id/vendorsreport',
             controller: 'VendorReportController',
-            templateUrl: 'views/wizardviews/vendorsReport.html'
+            templateUrl: 'views/wizardviews/VendorsReport.html'
         }).state('vouchertype', {
             url: '/distributions/:dist_id/subdistribution/:subdist_id/vouchertype/:vouchertype_id',   
             controller: 'VoucherTypeController',
-            templateUrl: 'views/wizardviews/vouchertype.html' 
-        }).state('vouchertypereport', {
-            url: '/distributions/:dist_id/subdistribution/:subdist_id/vouchertypereport',            
+            templateUrl: 'views/wizardviews/VoucherType.html' 
+        }).state('vouchertypesreport', {
+            url: '/distributions/:dist_id/subdistribution/:subdist_id/vouchertypesreport',            
             controller: 'VoucherTypeReportController',
-            templateUrl: 'views/wizardviews/vouchertypereport.html'            
+            templateUrl: 'views/wizardviews/VoucherTypesReport.html'            
         }).state('beneficiaryDist', {
             url: '/distributions/:dist_id/subdistribution/:subdist_id/beneficiaryDist',
             controller:'beneficiaryDistController',

@@ -14,6 +14,14 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
             $.getScript('include/ViewModels/Relational/Vendor_mobile.js', function () {
                 $.getScript('include/ViewModels/Vendor/Phone.js', function () {
 
+   // *** Build Tree by existing distribution id ***
+                var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+                if ( dist_id && (SharedPropertiesService.getTreeBuildStatus() === false ||
+                        dist_id !== SharedPropertiesService.getDistributionId())) {
+                    SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
+                }
+                // **********************************************
+                
                     $scope.vendor_mobile = new Vendor_mobile();
                      addPhones = [];
                      
@@ -80,15 +88,7 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
 
                         //Function exists in the view file (html file)
                         InitImeiTypeahead($scope.phones, SharedPropertiesService.getDistributionStatus());
-                    });
-
-                      // *** Build Tree by existing distribution id ***
-                                    var dist_id = ($stateParams) ? $stateParams.dist_id : null;
-                                    if ((dist_id && !SharedPropertiesService.getTreeBuildStatus(true)) ||
-                                            (dist_id && dist_id != SharedPropertiesService.getDistributionId())) {
-                                        SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
-                                    }
-                                    // **********************************************
+                    });                   
 
                     var id = ($stateParams) ? $stateParams.vendormobile_id : null;
                     if (id)
@@ -99,7 +99,7 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
                             console.log(data);
                             var data = data["data"]["vendorMobile"];
                             var vendor_mobile = new Vendor_mobile();
-                                  
+                            console.log(data);
                             $scope.vendor_mobile = vendor_mobile.parse( (data.length ? data[0] : data) );
                             $('#s2id_vendorList > a > span:first').html( (data.length ? data[0].vendor.en_name : data.vendor.en_name) );
                                                                          

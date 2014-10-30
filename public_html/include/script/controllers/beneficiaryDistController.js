@@ -7,7 +7,7 @@ var checkedBenesIds = [];
 var addedBenesIds = [];
 var canceledBenesIds = [];
 
-app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
+app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {                               
         $scope.beneficiary = {};
         $scope.filter = {};
         var subdist_id = ($stateParams) ? $stateParams.subdist_id : null;
@@ -16,6 +16,13 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
 
         $.getScript('include/ViewModels/Beneficiary/Beneficiary.js', function ()
         {
+              // *** Build Tree by existing distribution id ***
+                var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+                if ( dist_id && (SharedPropertiesService.getTreeBuildStatus() === false ||
+                        dist_id !== SharedPropertiesService.getDistributionId())) {
+                    SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
+                }
+                // **********************************************
             // script is now loaded and executed.
             // put your dependent JS here.
             //   DataProviderService.getBeneficiariesBySubdistributionId($scope.subdistributionId).success(function (data) {
@@ -117,13 +124,7 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
             console.log(canceledBenesIds);
         }
 
-           // *** Build Tree by existing distribution id ***
-                                    var dist_id = ($stateParams) ? $stateParams.dist_id : null;
-                                    if ((dist_id && !SharedPropertiesService.getTreeBuildStatus(true)) ||
-                                            (dist_id && dist_id != SharedPropertiesService.getDistributionId())) {
-                                        SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
-                                    }
-                                    // **********************************************
+  
 
         $scope.Save = function () {
             var addObject = $.param({subdistribution_id: $scope.subdistributionId,

@@ -5,13 +5,13 @@
  */
 
 app.controller('SubdistributionReportController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
-            // *** Build Tree by existing distribution id ***
-                                    var dist_id = ($stateParams) ? $stateParams.dist_id : null;
-                                    if ((dist_id && !SharedPropertiesService.getTreeBuildStatus(true)) ||
-                                            (dist_id && dist_id != SharedPropertiesService.getDistributionId())) {
-                                        SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
-                                    }
-                                    // **********************************************
+           // *** Build Tree by existing distribution id ***
+                var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+                if ( dist_id && (SharedPropertiesService.getTreeBuildStatus() === false ||
+                        dist_id !== SharedPropertiesService.getDistributionId())) {
+                    SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
+                }
+                // **********************************************
         var grid = new Datatable();
         grid.init({
             "src": $("#datatable_ajax"),

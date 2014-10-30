@@ -13,6 +13,15 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
                         $.getScript('include/ViewModels/Location/District.js', function () {
                             $.getScript('include/ViewModels/Location/Subdistrict.js', function () {
                                 $.getScript('include/ViewModels/Location/Community.js', function () {
+                                    
+                                                        // *** Build Tree by existing distribution id ***
+                var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+                if ( dist_id && (SharedPropertiesService.getTreeBuildStatus() === false ||
+                        dist_id !== SharedPropertiesService.getDistributionId())) {
+                    SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
+                }
+                // **********************************************
+                
                                     $scope.subdistributionNameLocation = "";
                                     $scope.subdistributionDatePart = "";
                      
@@ -195,14 +204,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
                                         var distribution_status = new Distribution_status();
                                         $scope.statusItems = distribution_status.parseArray(data);
                                     });
-
-                                    // *** Build Tree by existing distribution id ***
-                                    var dist_id = ($stateParams) ? $stateParams.dist_id : null;
-                                    if ((dist_id && !SharedPropertiesService.getTreeBuildStatus(true)) ||
-                                            (dist_id && dist_id != SharedPropertiesService.getDistributionId())) {
-                                        SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
-                                    }
-                                    // **********************************************
+                
 
                                     var id = ($stateParams) ? $stateParams.subdist_id : null;
                                     if (id)

@@ -145,22 +145,12 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                         if (distribution.id == null) {
                             DataProviderService.createDistribution(distribution).success(function (data) {
                                 var id = data["data"]["distribution"]["id"];
-                                distribution.id = id;
-                                SharedPropertiesService.setDistributionId(id);
-                                SharedPropertiesService.setDistributionStatus(distribution.online);
-                                SharedPropertiesService.setDistributionEndDate(distribution.end_date);
-                                SharedPropertiesService.setDistributionStartDate(distribution.start_date);
-                                SharedPropertiesService.getTree().AddDistribution(distribution, false);
+                                SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(id);
                             });
                         } else {
                             DataProviderService.updateDistribution(distribution).success(function (data) {
                                 var id = data["data"]["distribution"]["id"];
-                                distribution.id = id;
-                                SharedPropertiesService.setDistributionId(id);
-                                SharedPropertiesService.setDistributionStatus(distribution.online);
-                                SharedPropertiesService.setDistributionEndDate(distribution.end_date);
-                                SharedPropertiesService.setDistributionStartDate(distribution.start_date);
-                                SharedPropertiesService.getTree().AddDistribution(distribution);
+                                SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(id);
                             });
                         }
                     }

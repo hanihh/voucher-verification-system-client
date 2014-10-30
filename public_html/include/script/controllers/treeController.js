@@ -255,16 +255,6 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                     }
                 });
             },
-            BulidTreeBySubdistribution: function (subdistribution) {
-                this.AddSubdistribution(subdistribution, false);
-                var currentThis = this;
-                DataProviderService.getSubdistributionVoucherByFilter(getSubdistributionVoucherByFilter).success(function (data) {
-                    var relatedVoucherTypes = data["data"]["distributionVoucher"];
-                    for (j = 0; j < relatedVoucherTypes.length; j++) {
-                        currentThis.BulidTreeByVoucherType(relatedVoucherTypes[j]);
-                    }
-                });
-            },
             BulidTreeBySubdistributionWithFunc: function (response) {
                 //  console.log(response);
                 this.AddSubdistribution(response.subdistribution, response.WithSelectMethodology);
@@ -280,23 +270,18 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 this.AddType(voucherType, false);
             },
             BuildTreeWithDistributionIdByQueryString: function (dist_id) {
-                var currentThis = this;
-                $.getScript('include/ViewModels/Core/Distribution.js', function () {
+                var currentThis = this;                        
+                DataProviderService.getDistributions(dist_id).success(function (data) {
+                    var currentDistribution = data["data"]["distribution"];
 
-                    DataProviderService.getDistributions(dist_id).success(function (data) {
-                        var data = data["data"]["distribution"];
-                        var distribution = new Distribution();
-                        var currentDistribution = distribution.parse(data);
+                    SharedPropertiesService.setTreeBuildStatus(true);          
+                    SharedPropertiesService.setDistributionId(dist_id);
+                    SharedPropertiesService.setDistributionStatus(currentDistribution.online);
+                    SharedPropertiesService.setDistributionEndDate(currentDistribution.end_date);
+                    SharedPropertiesService.setDistributionStartDate(currentDistribution.start_date);
 
-                        SharedPropertiesService.setTreeBuildStatus(true);
-                        SharedPropertiesService.setDistributionId(dist_id);
-                        SharedPropertiesService.setDistributionStatus(distribution.online);
-                        SharedPropertiesService.setDistributionEndDate(distribution.end_date);
-                        SharedPropertiesService.setDistributionStartDate(distribution.start_date);
-
-                        currentThis.BulidAllTreeByDistribution(currentDistribution);
-                    });
-                });
+                    currentThis.BulidAllTreeByDistribution(currentDistribution);
+                });              
             },
             LoadSubdistributions: function () {
                 DataProviderService.getSubdistributions().success(function (data) {

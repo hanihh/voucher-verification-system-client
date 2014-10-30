@@ -75,9 +75,11 @@ app.factory('DataProviderService', ['$http', function ($http) {
             return $http({method: 'GET', url: server_url + 'api/distributionvoucher/' + _id});
         };
          dataFactory.getSubdistributionVoucherByFilter = function (params){
-             //console.log(JSON.stringify(GetFilter(params)));
             return $http({method: 'GET', url: server_url + 'api/distributionvoucher/?filter='+ JSON.stringify(GetFilter(params))});
         };
+        dataFactory.getSubdistributionVoucherByFilterURL = function (params) {    
+                return server_url + 'api/distributionvoucher/?filter='+ JSON.stringify(GetFilter(params));
+        };    
         dataFactory.getBeneficiaries = function () {    
             return $http({method: 'GET', url: server_url + 'api/Beneficiary'});
         };      

@@ -4,22 +4,24 @@
  * and open the template in the editor.
  */
 
-app.controller('VendorReportController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
-            // *** Build Tree by existing distribution id ***
-                var dist_id = ($stateParams) ? $stateParams.dist_id : null;
-                if ( dist_id && (SharedPropertiesService.getTreeBuildStatus() === false ||
-                        dist_id !== SharedPropertiesService.getDistributionId())) {
-                    SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
-                }
-                // **********************************************
+app.controller('VoucherTypeReportController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
+    // *** Build Tree by existing distribution id ***
+        var subdist_id = ($stateParams) ? $stateParams.subdist_id : null;
+    
+        var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+        if ( dist_id && (SharedPropertiesService.getTreeBuildStatus() === false ||
+                dist_id !== SharedPropertiesService.getDistributionId())) {
+            SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
+        }
+        // **********************************************
         var grid = new Datatable();
         grid.init({
             "src": $("#datatable_ajax"),
             // loadingMessage: 'Loading...',
             dataTable: {
                 "pageLength": 10, // default record count per page
-                "ajax": DataProviderService.getVendorsMobileByFilterURL([["distribution_id", dist_id, "="]]),
-                "sAjaxDataProp": "data.vendorMobile",
+                "ajax": DataProviderService.getSubdistributionVoucherByFilterURL([["subdistribution_id", subdist_id, "="]]),
+                "sAjaxDataProp": "data.distributionVoucher",
                 "columns": [
                     {"data": "id"},
                     {"data": "distribution.name"},
