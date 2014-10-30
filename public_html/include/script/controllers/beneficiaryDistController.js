@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var checkedBenesIds = [];
-var addedBenesIds = [];
-var canceledBenesIds = [];
 
-app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {                               
+app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
+        var checkedBenesIds = [];
+        var addedBenesIds = [];
+        var canceledBenesIds = [];
+        
+        $scope.chooseCheckBoxItems = {};
         $scope.beneficiary = {};
         $scope.filter = {};
         var subdist_id = ($stateParams) ? $stateParams.subdist_id : null;
@@ -16,13 +18,13 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
 
         $.getScript('include/ViewModels/Beneficiary/Beneficiary.js', function ()
         {
-              // *** Build Tree by existing distribution id ***
-                var dist_id = ($stateParams) ? $stateParams.dist_id : null;
-                if ( dist_id && (SharedPropertiesService.getTreeBuildStatus() === false ||
-                        dist_id !== SharedPropertiesService.getDistributionId())) {
-                    SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
-                }
-                // **********************************************
+            // *** Build Tree by existing distribution id ***
+            var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+            if (dist_id && (SharedPropertiesService.getTreeBuildStatus() === false ||
+                    dist_id !== SharedPropertiesService.getDistributionId())) {
+                SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
+            }
+            // **********************************************
             // script is now loaded and executed.
             // put your dependent JS here.
             //   DataProviderService.getBeneficiariesBySubdistributionId($scope.subdistributionId).success(function (data) {
@@ -50,53 +52,50 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
                 autoclose: true
             });
 
-            var dataSource;
-            DataProviderService.getBeneficiariesBySubdistributionId($scope.subdistributionId, true, true).success(function (data) {
-                var dataProp = "Beneficiaries";
-                console.log(DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId, true, true));
 
 
-                var grid = new Datatable();
-                grid.init({
-                    "src": $("#datatable_ajax"),
-                    // loadingMessage: 'Loading...',
+            var grid = new Datatable();
+            grid.init({
+                "src": $("#datatable_ajax"),
+                // loadingMessage: 'Loading...',
 
-                    dataTable: {              
-                        "pageLength": 10, // default record count per page
-                        "ajax": DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId, true, true),
-                        "sAjaxDataProp": "Beneficiaries",
-                        "columns": [
-                            {"data": "id",
-                                "render": function (data, type, full) {
-                                    var checkedAttr = "";
-                                    if (full.available == "false")
-                                    {
-                                        checkedAttr = 'checked';
-                                        if ($.inArray(full.id, checkedBenesIds) == -1) {
-                                            checkedBenesIds.push(full.id);
-                                            addedBenesIds.push(full.id);
-                                            $('#tagsChosen').addTag(full.registration_code);
-                                        }
-
-                                    } else {
-                                        checkedAttr = '';
+                dataTable: {
+                    "pageLength": 10, // default record count per page
+                    "ajax": DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId, true, true),
+                    "sAjaxDataProp": "Beneficiaries",
+                    "columns": [
+                        {"data": "id",
+                            "render": function (data, type, full) {
+                                var checkedAttr = "";
+                                if (full.available == "false")
+                                {
+                                    checkedAttr = 'checked';
+                                    if ($.inArray(full.id, checkedBenesIds) == -1) {
+                                        checkedBenesIds.push(full.id);
+                                        addedBenesIds.push(full.id);
+                                        $('#tagsChosen').addTag(full.registration_code);
                                     }
-                                    return "<input type='checkbox' class='ChooseCheckBox' id=" + full.registration_code + " idValue = " + full.id + " " + checkedAttr + " >";
+
+                                } else {
+                                    checkedAttr = '';
                                 }
-                            },
-                            {"data": "registration_code"},
-                            {"data": "en_name"},
-                            {"data": "father_name"},
-                            {"data": "birth_year"},
-                            {"render": function (data, type, full) {
-                                    return "";
-                                }}
-                        ]
-                    },
-                });
+                                return "<input type='checkbox' class='ChooseCheckBox' id=" + full.registration_code + " idValue = " + full.id + " " + checkedAttr + " >";
+                            }
+                        },
+                        {"data": "registration_code"},
+                        {"data": "en_name"},
+                        {"data": "father_name"},
+                        {"data": "birth_year"},
+                        {"render": function (data, type, full) {
+                                return "";
+                            }}
+                    ]
+                },
             });
 
-            $(".ChooseCheckBox").live("click", function () {
+            $scope.chooseCheckBoxItems = $(".ChooseCheckBox");
+            $scope.chooseCheckBoxItems.die( "click" );
+            $scope.chooseCheckBoxItems.live("click", function () {
                 if ($(this).is(':checked'))
                 {
                     $('#tagsChosen').addTag($(this).attr("id"));
@@ -124,20 +123,17 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
             console.log(canceledBenesIds);
         }
 
-  
+
 
         $scope.Save = function () {
             var addObject = $.param({subdistribution_id: $scope.subdistributionId,
                 beneficiaries: checkedBenesIds,
                 check_all: 0});
-            DataProviderService.createVoucher(addObject).success(function (data) {
-                alert(console.log(data));
-
+            DataProviderService.createVoucher(addObject).success(function (data) {             
                 if (canceledBenesIds.length != 0) {
                     var cancelObject = $.param({subdistribution_id: $scope.subdistributionId,
                         beneficiaries: canceledBenesIds});
-                    DataProviderService.RemoveVoucher(cancelObject).success(function (data) {
-                        alert(console.log(data));
+                    DataProviderService.RemoveVoucher(cancelObject).success(function (data) {                     
                     });
                 }
 

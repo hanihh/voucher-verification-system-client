@@ -282,6 +282,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
                                             subdistribution.id = id;
                                             console.log(subdistribution);
                                             SharedPropertiesService.getTree().AddSubdistribution(subdistribution, false);
+                                             subdistribution.id  = null;
                                         });
 //                                        }
 //                                        else

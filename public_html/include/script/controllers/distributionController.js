@@ -124,16 +124,10 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                                         $scope.distributionNameProgramPart = entry.code;
                                 });
                             }
-                            
-                            SharedPropertiesService.setDistributionId(id);
-                            SharedPropertiesService.setDistributionStatus(distribution.online);
-                            SharedPropertiesService.setDistributionEndDate(distribution.end_date);
-                            SharedPropertiesService.setDistributionStartDate(distribution.start_date);    
-
+       
                             if (!SharedPropertiesService.getTreeBuildStatus())
                             {
-                                SharedPropertiesService.getTree().BulidAllTreeByDistribution($scope.distribution);
-                                SharedPropertiesService.setTreeBuildStatus(true);
+                                 SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(id);
                             }
 
                         });

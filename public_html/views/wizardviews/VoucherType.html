@@ -7,26 +7,26 @@
             <div class="form-group">
                 <label class="control-label col-md-3">Type</label>
                 <div class="col-md-4">
-                    <select class="form-control input-medium select2me" data-placeholder="Select..." ng-model='subdistributionVoucherType.type_id' ng-options='voucherTypeItem.id as voucherTypeItem.name for voucherTypeItem in voucherTypeItems'>
+                    <select id="typeList" class="form-control input-medium select2me" data-placeholder="Select..." ng-model='subdistributionVoucherType.type_id' ng-options='voucherTypeItem.id as voucherTypeItem.name for voucherTypeItem in voucherTypeItems'>
                         <option value="" ng-hide="subdistributionVoucherType.type_id">Select...</option>
                     </select><!--track by voucherTypeItem.id-->
                 </div>
             </div>
 
-            <div class="form-group">
+<!--            <div class="form-group">
                 <label class="control-label col-md-3">Expiration Date</label>
                 <div class="col-md-3">
-                    <div id="expiredate" class="input-group input-medium date date-picker" data-date-format="dd-mm-yyyy" data-date-start-date="+0d">
+                    <div id="expiredate" class="input-group input-medium date" data-date-format="yyyy-mm-dd" data-date-start-date="+0d">
                         <input type="text" class="form-control" readonly  ng-model='subdistributionVoucherType.expiration_date'>
                         <span class="input-group-btn">
                             <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
                         </span>
                     </div>
-                    <!-- /input-group -->
+                     /input-group 
                     <span class="help-block">
                         Select date </span>
                 </div>
-            </div>
+            </div>-->
             <div class="form-group">
                 <label class="control-label col-md-3">Value</label>
                 <div class="col-md-3">

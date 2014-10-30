@@ -30,7 +30,7 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
                             'interactive': false,
                             'onRemoveTag': function (data) {
                                 tagsNum--;      
-                                addPhones.pop($.grep($scope.phones, function(e){ return e.imei === data}));                          
+                                addPhones.pop($.grep($scope.phones, function(e){ return e.imei === data})[0]);                          
                             },
                             'onAddTag': function (data) {
                                 tagsNum++;
@@ -38,15 +38,16 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
                         });
                         
                     $('#typeahead_imei').on('typeahead:selected', function (e, data) {                      
-                        addMoreThanOne = false;
+                        var addMoreThanOne = SharedPropertiesService.getDistributionStatus();
+                        console.log(addMoreThanOne);
                         if ($('#tagsChosen').attr('value').indexOf(data.value) < 0) {
                             if (addMoreThanOne){
                                 $('#tagsChosen').addTag(data.value);
-                                addPhones.push($.grep($scope.phones, function(e){ return e.imei === data.value}));    
+                                addPhones.push($.grep($scope.phones, function(e){ return e.imei === data.value})[0]);    
                             }
                             else if (tagsNum == 0) {
                                 $('#tagsChosen').addTag(data.value);
-                                 addPhones.push($.grep($scope.phones, function(e){ return e.imei === data.value}));                              
+                                 addPhones.push($.grep($scope.phones, function(e){ return e.imei === data.value})[0]);                              
                             } else
                                 $.notific8('You can\'t add more than one phone when the distribution status is Offline.',
                                         {
@@ -111,6 +112,7 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
                         vendor_mobile.phones = addPhones;                        
                         var vendor_mobiles = vendor_mobile.SplitPhonesToSeperatedObjects();
                         console.log(vendor_mobiles);
+                        console.log(addPhones);
                         for(i=0; i< vendor_mobiles.length; i++)
                         {
                             DataProviderService.createVendorMobile(vendor_mobiles[i]).success(function (data) {

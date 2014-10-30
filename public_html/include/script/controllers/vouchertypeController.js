@@ -30,16 +30,22 @@ app.controller('VoucherTypeController', ['$scope', '$stateParams', 'DataProvider
 
 
                 $scope.subdistributionVoucherType = new SubdistributionVoucherType();
-                $scope.subdistributionVoucherType.expiration_date = SharedPropertiesService.getDistributionEndDate();   
-                console.log($scope.subdistributionVoucherType.expiration_date);
-                var expireDate = new Date($scope.subdistributionVoucherType.expiration_date);
-                console.log(expireDate);
-                $( "#datepicker" ).datepicker( 
-                        {
-                           
-                    maxDate: expireDate
-                });
-                $('#expiredate').data('datepicker').setDate(expireDate);                                                    
+//                var startDate = SharedPropertiesService.getDistributionStartDate(); 
+//                var minDate = new Date(startDate);
+         //       console.log($scope.subdistributionVoucherType.expiration_date);
+           //     var expireDate = new Date($scope.subdistributionVoucherType.expiration_date);
+             //   console.log(expireDate);
+//                $( "#expiredate" ).datepicker({
+//                    rtl: Metronic.isRTL(),
+//                    orientation: "left",
+//                    autoclose: true,
+//                    changeMonth: true,
+//                    changeYear: true,
+//                    minDate: minDate,
+//                    maxDate: expireDate           
+//                });
+//                
+//                $('#expiredate').data('datepicker').setDate(expireDate);                                                    
                 var subdist_id = ($stateParams) ? $stateParams.subdist_id : null;
                 
                 var id = ($stateParams) ? $stateParams.vouchertype_id : null;
@@ -49,28 +55,35 @@ app.controller('VoucherTypeController', ['$scope', '$stateParams', 'DataProvider
                         var subdistributionVoucherType = new SubdistributionVoucherType();
                         $scope.subdistributionVoucherType = subdistributionVoucherType.parse(data);
                         console.log($scope.subdistributionVoucherType);
+                        
+                        
+                            $('#s2id_typeList > a > span:first').html(data.type.name);
+                            
                         // *** Checking dates and filling Date Range Control ***
 
-                        var expireDate = new Date($scope.subdistributionVoucherType.expiration_date);
+                        //var expireDate = new Date($scope.subdistributionVoucherType.expiration_date);
 
-                        var expireString = "";                 
-                        if (dates.check(expireDate)) {
-                            $('#expiredate').data('datepicker').setDate(expireDate);
-                            expireString = expireDate.toDateString();
-                        }
+//                        var expireString = "";                 
+//                        if (dates.check(expireDate)) {
+//                            $('#expiredate').data('datepicker').setDate(expireDate);
+//                            expireString = expireDate.toDateString();
+//                        }
 
-                        $scope.expireDate = expireString;
+                       // $scope.expireDate = expireString;
                         // ******************************************************
                     });
                 }
                 
                 $scope.Save = function (subdistributionVoucherType) {
                     subdistributionVoucherType.subdistribution_id = subdist_id;
+                    subdistributionVoucherType.expiration_date = SharedPropertiesService.getDistributionEndDate();  
+                    console.log(subdistributionVoucherType);
                     DataProviderService.createSubdistributionVoucher(subdistributionVoucherType).success(function (data) {
                         var id = data["data"]["distributionVoucher"]["id"];
                         subdistributionVoucherType.id = id;
 //                        model.type = vouchType.type;
                         SharedPropertiesService.getTree().AddType(subdistributionVoucherType, true);
+                           subdistributionVoucherType.id = null;
                     });
                 }
             });

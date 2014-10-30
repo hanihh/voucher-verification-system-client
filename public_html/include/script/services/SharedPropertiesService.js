@@ -30,7 +30,7 @@ app.factory('SharedPropertiesService', function () {
                return DistributionStatus;
         },
         setDistributionStatus: function(value) {
-              DistributionStatus = (value === 1 ? true : false) ;
+              DistributionStatus = (value === "1" ? true : false) ;
         },
         getDistributionEndDate: function() {
               return  DistributionEndDate; 

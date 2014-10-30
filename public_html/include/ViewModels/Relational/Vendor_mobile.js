@@ -35,7 +35,7 @@ var Vendor_mobile = Base.extend({
     SplitPhonesToSeperatedObjects: function() {       
         var splitedObjects = [];
         for(i=0; i<this.phones.length; i++) {     
-            splitedObjects.push({id:null, distribution_id: this.distribution_id, vendor_id: this.vendor_id, phone_id: this.phones[i][0].id});
+            splitedObjects.push({id:null, distribution_id: this.distribution_id, vendor_id: this.vendor_id, phone_id: this.phones[i].id});
         }
         return splitedObjects;
     }

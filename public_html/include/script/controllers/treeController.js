@@ -8,7 +8,7 @@ var IdPrefixString = {
     distribution: "maindist",
     subdistribution: "subdist",
     subdistributionsreport: "subdistreport",
-    vouchertypesreport: "vouchertypereport",
+    vouchertypesreport: "vouchertypesreport",
     vendor: "vendor",
     vendorsreport: "vendorreport",
     voucherType: "voucherType",
@@ -134,7 +134,7 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
 
                 tree.jstree(true).create_node(subdistributionNode, CreateNode(subdistribution.id + IdPrefixString.subdistribution + IdPrefixString.vouchertypesreport, "Voucher Types", "fa fa-money icon-state-success"));
                 var subdistributionTypesNode = tree.jstree(true).get_node(subdistribution.id + IdPrefixString.subdistribution + IdPrefixString.vouchertypesreport);
-                SetNodeRoute(subdistributionTypesNode, "vouchertypereport", {dist_id: subdistribution.distribution_id, subdist_id: subdistribution.id}, "Voucher Types");
+                SetNodeRoute(subdistributionTypesNode, "vouchertypesreport", {dist_id: subdistribution.distribution_id, subdist_id: subdistribution.id}, "Voucher Types");
 
                 tree.jstree(true).create_node(subdistributionTypesNode, CreateNode(subdistribution.id + IdPrefixString.subdistribution + this.addNewVoucherType, "Add New", "fa fa-plus-circle icon-state-danger"));
                 SetNodeRoute(tree.jstree(true).get_node(subdistribution.id + IdPrefixString.subdistribution + this.addNewVoucherType), "vouchertype", {dist_id: subdistribution.distribution_id, subdist_id: subdistribution.id, vouchertype_id: ""}, "Add New Voucher Type");
@@ -201,6 +201,8 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                     SetNodeRoute(tree.jstree(true).get_node(vendormobile.id + IdPrefixString.vendor + IdPrefixString.beneficiariesVendor), "beneficiaryVendor", {dist_id: vendormobile.distribution_id, vendormobile_id: vendormobile.id}, "Beneficiaries");
                 }
 
+                tree.jstree(true).open_node(vendorNode, false);
+                
                 if (WithSelectMethodology) {
                     tree.jstree(true).deselect_node(tree.jstree(true).get_selected(true)[0]);
                     tree.jstree(true).select_node(vendormobile.id + IdPrefixString.vendor + IdPrefixString.beneficiariesVendor);
@@ -273,7 +275,7 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 var currentThis = this;                        
                 DataProviderService.getDistributions(dist_id).success(function (data) {
                     var currentDistribution = data["data"]["distribution"];
-
+console.log(currentDistribution);
                     SharedPropertiesService.setTreeBuildStatus(true);          
                     SharedPropertiesService.setDistributionId(dist_id);
                     SharedPropertiesService.setDistributionStatus(currentDistribution.online);

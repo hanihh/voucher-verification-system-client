@@ -63,7 +63,7 @@
 
                     jQuery(document).ready(function () {
                         Metronic.init(); // init metronic core components
-                        ComponentsFormTools.init();
+                        //ComponentsFormTools.init();
                     });
 
 
@@ -85,7 +85,8 @@
                         $('#typeahead_imei').typeahead({
                             hint: true,
                             highlight: true,
-                            minLength: 1
+                            minLength: 1,
+                            ajax: ""
                         },
                         {
                             name: 'phones',

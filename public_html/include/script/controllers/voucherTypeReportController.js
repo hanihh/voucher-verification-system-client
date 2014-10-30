@@ -24,12 +24,10 @@ app.controller('VoucherTypeReportController', ['$scope', '$stateParams', 'DataPr
                 "sAjaxDataProp": "data.distributionVoucher",
                 "columns": [
                     {"data": "id"},
-                    {"data": "distribution.name"},
-                    {"data": "vendor.en_name"},
-                    {"data": "vendor.code"},
-                    {"data": "phone.imei"},
-                    {"data": "distribution.start_date"},
-                    {"data": "distribution.end_date"},
+                    {"data": "subdistribution.code"},
+                    {"data": "type.name"},
+                    {"data": "expiration_date"},
+                    {"data": "value"},                   
                      {"render": function (data, type, full) {
                                     return "";
                                 }}
