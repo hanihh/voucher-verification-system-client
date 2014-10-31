@@ -125,11 +125,13 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                                 });
                             }
        
-                            if (!SharedPropertiesService.getTreeBuildStatus())
-                            {
-                                 SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(id);
-                            }
-
+         // *** Build Tree by existing distribution id ***
+                var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+                if ( dist_id && (SharedPropertiesService.getTreeBuildStatus() === false ||
+                        dist_id !== SharedPropertiesService.getDistributionId())) {
+                    SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(id);
+                }
+                // **********************************************             
                         });
                     }
 

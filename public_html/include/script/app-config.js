@@ -27,7 +27,7 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($
             controller: 'SubdistributionReportController',
             templateUrl: 'views/wizardviews/SubdistributionsReport.html'
         }).state('vendor', {            
-            url: '/distributions/:dist_id/vendor/:vendormobile_id',
+            url: '/distributions/:dist_id/vendor/:vendor_id',
                controller: 'VendorController',
                 templateUrl: 'views/wizardviews/Vendor.html'
         }).state('vendorsreport', {
@@ -47,7 +47,7 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($
             controller:'beneficiaryDistController',
             templateUrl: 'views/wizardviews/BeneficiaryDist.html'
         }).state('beneficiaryVendor', {
-            url: '/distributions/:dist_id/vendor/:vendormobile_id/beneficiaryVendor',
+            url: '/distributions/:dist_id/vendor/:vendor_id/beneficiaryVendor',
             controller:'beneficiaryVendorController',
             templateUrl: 'views/wizardviews/BeneficiaryVendor.html'
         });

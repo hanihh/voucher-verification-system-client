@@ -189,23 +189,23 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 //console.log( tree.jstree(true).get_node(vouchType.subdistribution_id));
                 //tree.jstree(true).get_node(vouchType.subdistribution_id).state.opened = false;
             },
-            AddVendor: function (vendormobile, WithSelectMethodology) {
-                var vendorsNode = this.GetVendorsNode(vendormobile.distribution_id);
+            AddVendor: function (vendor, distribution_id, WithSelectMethodology) {
+                var vendorsNode = this.GetVendorsNode(distribution_id);
 
-                tree.jstree(true).create_node(vendorsNode, CreateNode(vendormobile.id + IdPrefixString.vendor, vendormobile.vendor.en_name, "fa fa-home icon-state-warning"));
-                var vendorNode = tree.jstree(true).get_node(vendormobile.id + IdPrefixString.vendor);
-                SetNodeRoute(vendorNode, "vendor", {dist_id: vendormobile.distribution_id, vendormobile_id: vendormobile.id}, "Vendor: " + vendormobile.vendor.en_name);
+                tree.jstree(true).create_node(vendorsNode, CreateNode(vendor.id + IdPrefixString.vendor, vendor.en_name, "fa fa-home icon-state-warning"));
+                var vendorNode = tree.jstree(true).get_node(vendor.id + IdPrefixString.vendor);
+                SetNodeRoute(vendorNode, "vendor", {dist_id: distribution_id, vendor_id: vendor.id}, "Vendor: " + vendor.en_name);
                 if (SharedPropertiesService.getDistributionStatus() == false)
                 {
-                    tree.jstree(true).create_node(vendorNode, CreateNode(vendormobile.id + IdPrefixString.vendor + IdPrefixString.beneficiariesVendor, "Beneficiaries", "fa fa-group icon-state-success"));
-                    SetNodeRoute(tree.jstree(true).get_node(vendormobile.id + IdPrefixString.vendor + IdPrefixString.beneficiariesVendor), "beneficiaryVendor", {dist_id: vendormobile.distribution_id, vendormobile_id: vendormobile.id}, "Beneficiaries");
+                    tree.jstree(true).create_node(vendorNode, CreateNode(vendor.id + IdPrefixString.vendor + IdPrefixString.beneficiariesVendor, "Beneficiaries", "fa fa-group icon-state-success"));
+                    SetNodeRoute(tree.jstree(true).get_node(vendor.id + IdPrefixString.vendor + IdPrefixString.beneficiariesVendor), "beneficiaryVendor", {dist_id: distribution_id, vendor_id: vendor.id}, "Beneficiaries");
                 }
 
                 tree.jstree(true).open_node(vendorNode, false);
                 
                 if (WithSelectMethodology) {
                     tree.jstree(true).deselect_node(tree.jstree(true).get_selected(true)[0]);
-                    tree.jstree(true).select_node(vendormobile.id + IdPrefixString.vendor + IdPrefixString.beneficiariesVendor);
+                    tree.jstree(true).select_node(vendor.id + IdPrefixString.vendor + IdPrefixString.beneficiariesVendor);
                 }
             },
             SelectTreeNodeByWizardModel: function (object) {
@@ -250,10 +250,16 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                         currentThis.BulidTreeBySubdistributionWithFunc(responses[j]);
                     }
                 });
-                DataProviderService.getVendorMobilesByFilter([["distribution_id", distributionId, "="]]).success(function (data) {
+                
+                DataProviderService.getVendorMobilesByFilter([["distribution_id", distributionId, "="], ["distribution_id", distributionId, "="]]).success(function (data) {
                     var relatedVendors = data["data"]["vendorMobile"];
+                    var addVendors = [];
                     for (i = 0; i < relatedVendors.length; i++) {
-                        currentThis.AddVendor(relatedVendors[i]);
+                        if ($.inArray(relatedVendors[i].vendor_id, addVendors) == -1)
+                        {
+                            addVendors.push(relatedVendors[i].vendor_id);
+                            currentThis.AddVendor(relatedVendors[i].vendor, distributionId);
+                        }
                     }
                 });
             },
@@ -323,12 +329,13 @@ console.log(currentDistribution);
         });
 
         $("#tree_1").bind("select_node.jstree", function (event, data)
-        {
+        {          
             if (data.node.a_attr['ui-sref-param'])
                 $state.go(data.node.a_attr['ui-sref'], data.node.a_attr['ui-sref-param']);
             else
 //                $state.transitionTo(data.node.a_attr['ui-sref']);               
                 $state.go(data.node.a_attr['ui-sref']);
+                        
             $scope.contentTitle = data.node.a_attr['ui-sref-tag'];
             if (data.node.parents) {
                 var breadCrumbData = [];
