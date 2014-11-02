@@ -34,8 +34,8 @@
                         <a href="#Distribution_management.html">
                             Distribution Management</a>
                     </li>
-                     <li>
-                        <a ui-sref="viewdistributions">
+                     <li ng-controller="ViewDistributionsController">
+                         <a href="#" ng-click="TriggerViewDistributionsState()">
                             View Distributions</a>
                     </li>
                 </ul>

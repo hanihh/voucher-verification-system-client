@@ -19,9 +19,9 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
         $.getScript('include/ViewModels/Beneficiary/Beneficiary.js', function ()
         {
             // *** Build Tree by existing distribution id ***
-            var dist_id = ($stateParams) ? $stateParams.dist_id : null;
-            if (dist_id && (SharedPropertiesService.getTreeBuildStatus() === false ||
-                    dist_id !== SharedPropertiesService.getDistributionId())) {
+             var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+                            if (dist_id && SharedPropertiesService.getIsDistributionsView() === false && (SharedPropertiesService.getTreeBuildStatus() === false ||
+                                    dist_id !== SharedPropertiesService.getDistributionId())) {       
                 SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
             }
             // **********************************************

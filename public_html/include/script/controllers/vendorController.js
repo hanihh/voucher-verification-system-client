@@ -8,8 +8,6 @@
 
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
 app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
-
-
         $.getScript('include/ViewModels/Vendor/Vendor.js', function () {
             $.getScript('include/ViewModels/Relational/Vendor_mobile.js', function () {
                 $.getScript('include/ViewModels/Vendor/Phone.js', function () {
@@ -17,18 +15,18 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
                     var addPhones = [];
 
                     // *** Build Tree by existing distribution id ***
-                    var dist_id = ($stateParams) ? $stateParams.dist_id : null;
-                    if (dist_id && (SharedPropertiesService.getTreeBuildStatus() === false ||
-                            dist_id !== SharedPropertiesService.getDistributionId())) {
+                   var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+                            if (dist_id && SharedPropertiesService.getIsDistributionsView() === false && (SharedPropertiesService.getTreeBuildStatus() === false ||
+                                    dist_id !== SharedPropertiesService.getDistributionId())) {       
                         SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
                     }
-                    // **********************************************
-                    console.log("What's going on!!!");
+                    // **********************************************            
                     $scope.vendor_mobile = new Vendor_mobile();
                     addPhones = [];
 
 //alert($("#tagsChosen_tagsinput").length);
 //                    if ($("#tagsChosen_tagsinput").length == 0)
+
                     $("#tagsChosen").tagsInput({
                         'minChars': 0,
                         'interactive': false,
@@ -102,15 +100,17 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
                         InitImeiTypeahead($scope.phones, SharedPropertiesService.getDistributionStatus());
                     });
 
-                    var id = ($stateParams) ? $stateParams.vendor_id : null;
+                    var id = ($stateParams) ? $stateParams.vendor_id : null;             
                     if (id)
                     {
                         DataProviderService.getVendorMobilesByFilter([["distribution_id", dist_id, "="], ["vendor_id", id, "="]]).success(function (data) {
-                            var data = data["data"]["vendorMobile"];
-                            var vendor_mobile = new Vendor_mobile();
-                            $scope.vendor_mobile = vendor_mobile.parse((data.length ? data[0] : data));
+                            var data = data["data"]["vendorMobile"]; 
+                            for (i = 0; i < data.length; i++) {
+                                var phone = data[i].phone;
+                                addPhones.push(phone);
+                                $('#tagsChosen').addTag(phone.imei);
+                            }                 
                             $('#s2id_vendorList > a > span:first').html((data.length ? data[0].vendor.en_name : data.vendor.en_name));
-
                         });
                     }
 

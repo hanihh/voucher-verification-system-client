@@ -82,25 +82,26 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
 //                tree.jstree(true).select_node(nodeObject.name + "Types" + "AddNew");
             },
             AddDistributionArray: function (distributions) {
-                this.__Clear();
+                currentThis = this;
+                currentThis.__Clear();
+                SharedPropertiesService.setIsDistributionsView(true);
                 for (i = 0; i < distributions.length; i++) {
                     var distributionIdString = distributions[i].id + IdPrefixString.distribution;
                     tree.jstree(true).create_node(tree, CreateNode(distributionIdString, distributions[i].name, "fa fa-cube"));
                     var distributionNode = tree.jstree(true).get_node(distributionIdString);
                     SetNodeRoute(distributionNode, "distributions", {dist_id: distributions[i].id}, "Distribution: " + distributions[i].name);
-
-
-                    this.AddDistributionChilds(distributions[i]);
+                    
+                    currentThis.AddDistributionChilds(distributions[i]);                   
                 }
 
-                var currentthis = this;
                 $("#tree_1").bind("open_node.jstree", function (e, data) {
-                    if (data.node.id.indexOf(IdPrefixString.distribution) > -1)
+                    if (data.node.id.indexOf(IdPrefixString.distribution) > -1 && ! data.node.loadedNote)
                     {
+                        data.node.loadedNote = true;
                         var distId = data.node.id.substr(0, data.node.id.indexOf(IdPrefixString.distribution));
-                        currentthis.BulidTreeByAddedDistribution(distId);
+                        currentThis.BulidTreeByAddedDistribution(distId);
                     }
-                    console.log(data.node.id);
+                 
                 });
             },
             AddDistributionChilds: function (distribution) {
@@ -195,6 +196,8 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 tree.jstree(true).create_node(vendorsNode, CreateNode(vendor.id + IdPrefixString.vendor, vendor.en_name, "fa fa-home icon-state-warning"));
                 var vendorNode = tree.jstree(true).get_node(vendor.id + IdPrefixString.vendor);
                 SetNodeRoute(vendorNode, "vendor", {dist_id: distribution_id, vendor_id: vendor.id}, "Vendor: " + vendor.en_name);
+
+                console.log(SharedPropertiesService.getDistributionStatus());
                 if (SharedPropertiesService.getDistributionStatus() == false)
                 {
                     tree.jstree(true).create_node(vendorNode, CreateNode(vendor.id + IdPrefixString.vendor + IdPrefixString.beneficiariesVendor, "Beneficiaries", "fa fa-group icon-state-success"));
@@ -202,7 +205,7 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 }
 
                 tree.jstree(true).open_node(vendorNode, false);
-                
+
                 if (WithSelectMethodology) {
                     tree.jstree(true).deselect_node(tree.jstree(true).get_selected(true)[0]);
                     tree.jstree(true).select_node(vendor.id + IdPrefixString.vendor + IdPrefixString.beneficiariesVendor);
@@ -221,7 +224,6 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                     alert("beneficiaryVendor");
 
             },
-           
             BulidAllTreeByDistribution: function (distribution, WithSelectMethodology) {
                 this.__Clear();
                 this.AddDistribution(distribution, WithSelectMethodology);
@@ -250,7 +252,7 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                         currentThis.BulidTreeBySubdistributionWithFunc(responses[j]);
                     }
                 });
-                
+
                 DataProviderService.getVendorMobilesByFilter([["distribution_id", distributionId, "="], ["distribution_id", distributionId, "="]]).success(function (data) {
                     var relatedVendors = data["data"]["vendorMobile"];
                     var addVendors = [];
@@ -278,18 +280,18 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 this.AddType(voucherType, false);
             },
             BuildTreeWithDistributionIdByQueryString: function (dist_id) {
-                var currentThis = this;                        
+                var currentThis = this;
                 DataProviderService.getDistributions(dist_id).success(function (data) {
                     var currentDistribution = data["data"]["distribution"];
-console.log(currentDistribution);
-                    SharedPropertiesService.setTreeBuildStatus(true);          
+                    console.log(currentDistribution);
+                    SharedPropertiesService.setTreeBuildStatus(true);
                     SharedPropertiesService.setDistributionId(dist_id);
                     SharedPropertiesService.setDistributionStatus(currentDistribution.online);
                     SharedPropertiesService.setDistributionEndDate(currentDistribution.end_date);
                     SharedPropertiesService.setDistributionStartDate(currentDistribution.start_date);
 
                     currentThis.BulidAllTreeByDistribution(currentDistribution);
-                });              
+                });
             },
             LoadSubdistributions: function () {
                 DataProviderService.getSubdistributions().success(function (data) {
@@ -329,13 +331,13 @@ console.log(currentDistribution);
         });
 
         $("#tree_1").bind("select_node.jstree", function (event, data)
-        {          
+        {
             if (data.node.a_attr['ui-sref-param'])
                 $state.go(data.node.a_attr['ui-sref'], data.node.a_attr['ui-sref-param']);
             else
 //                $state.transitionTo(data.node.a_attr['ui-sref']);               
                 $state.go(data.node.a_attr['ui-sref']);
-                        
+
             $scope.contentTitle = data.node.a_attr['ui-sref-tag'];
             if (data.node.parents) {
                 var breadCrumbData = [];

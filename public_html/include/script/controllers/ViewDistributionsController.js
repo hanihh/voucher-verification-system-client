@@ -4,12 +4,13 @@
  * and open the template in the editor.
  */
 
-app.controller('ViewDistributionsController', ['$scope', 'DataProviderService', 'SharedPropertiesService', function ($scope, DataProviderService, SharedPropertiesService) {
-
-            DataProviderService.getDistributions().success(function (data) {                
-                var distributions = data["data"]["distribution"];                             
-                SharedPropertiesService.getTree().AddDistributionArray(distributions);                              
-            })     
+app.controller('ViewDistributionsController', ['$scope', 'DataProviderService', 'SharedPropertiesService', function ($scope, DataProviderService, SharedPropertiesService) {                              
+             $scope.TriggerViewDistributionsState = function () {
+                DataProviderService.getDistributions().success(function (data) {                
+                   var distributions = data["data"]["distribution"];                             
+                   SharedPropertiesService.getTree().AddDistributionArray(distributions);                              
+               });             
+            }
     }]);
 
 

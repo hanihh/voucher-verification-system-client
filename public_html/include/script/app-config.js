@@ -14,6 +14,7 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($
         }).state('viewdistributions', {            
             url: "/viewdistributions",      
              controller: 'ViewDistributionsController',
+                templateUrl: 'views/wizardviews/Empty.html'          
         }).state('distributions', {
             url: '/distributions/:dist_id',                        
             controller: 'DistributionController',

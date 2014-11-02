@@ -47,7 +47,7 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                     DataProviderService.getPrograms().success(function (data) {
                         var data = data["data"]["program"];
                         var program = new Program();
-                        $scope.programItems = program.parseArray(data);                    
+                        $scope.programItems = program.parseArray(data);
                     });
 
                     //Donors            
@@ -65,7 +65,7 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                                 $('#online-switch').bootstrapSwitch('state', false);
                     });
 
-                    $scope.$watch('distribution.program_id', function (newVal, oldVal) {                      
+                    $scope.$watch('distribution.program_id', function (newVal, oldVal) {
                         if (newVal != oldVal) {
                             if (newVal != null) {
                                 if ($scope.programItems != null) {
@@ -124,14 +124,14 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                                         $scope.distributionNameProgramPart = entry.code;
                                 });
                             }
-       
-         // *** Build Tree by existing distribution id ***
-                var dist_id = ($stateParams) ? $stateParams.dist_id : null;
-                if ( dist_id && (SharedPropertiesService.getTreeBuildStatus() === false ||
-                        dist_id !== SharedPropertiesService.getDistributionId())) {
-                    SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(id);
-                }
-                // **********************************************             
+
+                            // *** Build Tree by existing distribution id ***
+                            var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+                            if (dist_id && SharedPropertiesService.getIsDistributionsView() === false && (SharedPropertiesService.getTreeBuildStatus() === false ||
+                                    dist_id !== SharedPropertiesService.getDistributionId())) {                    
+                                SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(id);
+                            }
+                            // **********************************************             
                         });
                     }
 
