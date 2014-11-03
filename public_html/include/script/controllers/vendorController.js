@@ -15,9 +15,9 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
                     var addPhones = [];
 
                     // *** Build Tree by existing distribution id ***
-                   var dist_id = ($stateParams) ? $stateParams.dist_id : null;
-                            if (dist_id && SharedPropertiesService.getIsDistributionsView() === false && (SharedPropertiesService.getTreeBuildStatus() === false ||
-                                    dist_id !== SharedPropertiesService.getDistributionId())) {       
+                    var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+                    if (dist_id && SharedPropertiesService.getIsDistributionsView() === false && (SharedPropertiesService.getTreeBuildStatus() === false ||
+                            dist_id !== SharedPropertiesService.getDistributionId())) {
                         SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
                     }
                     // **********************************************            
@@ -100,16 +100,16 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
                         InitImeiTypeahead($scope.phones, SharedPropertiesService.getDistributionStatus());
                     });
 
-                    var id = ($stateParams) ? $stateParams.vendor_id : null;             
+                    var id = ($stateParams) ? $stateParams.vendor_id : null;
                     if (id)
                     {
                         DataProviderService.getVendorMobilesByFilter([["distribution_id", dist_id, "="], ["vendor_id", id, "="]]).success(function (data) {
-                            var data = data["data"]["vendorMobile"]; 
+                            var data = data["data"]["vendorMobile"];
                             for (i = 0; i < data.length; i++) {
                                 var phone = data[i].phone;
                                 addPhones.push(phone);
                                 $('#tagsChosen').addTag(phone.imei);
-                            }                 
+                            }
                             $('#s2id_vendorList > a > span:first').html((data.length ? data[0].vendor.en_name : data.vendor.en_name));
                         });
                     }
