@@ -33,7 +33,8 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
                                     $scope.subdistribution = new Subdistribution();
                                     $scope.subdistribution.end_date = SharedPropertiesService.getDistributionEndDate();
                                     $scope.subdistribution.start_date = SharedPropertiesService.getDistributionStartDate();
-                                    
+                                    $('#defaultrange input').val($scope.subdistribution.start_date + ' to ' + $scope.subdistribution.end_date);
+                                               
                                     $("#status").val("Active");
                                     $scope.subdistribution.status_id = 2;
                                     console.log($scope.subdistribution);
@@ -42,20 +43,20 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
                                         opens: (Metronic.isRTL() ? 'left' : 'right'),
                                         format: 'YYYY-MM-DD',
                                         separator: ' to ',
-                                        startDate: moment(),
-                                        endDate: moment().add('days', 1),
-                                        minDate: moment(),
+                                        startDate: new Date($scope.subdistribution.start_date),
+                                        endDate: new Date($scope.subdistribution.end_date),
+                                        minDate: new Date($scope.subdistribution.start_date),
                                         maxDate: new Date($scope.subdistribution.end_date)
                                     },
                                     function (start, end) {
                                         console.log(start.format('YYYY-MM-DD'));
                                         console.log(end.format('YYYY-MM-DD'));
-                                        $('#defaultrange input').val(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
+                                        $('#defaultrange input').val(start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
                                         UpdateStatus(start, end);
                                         var datetime = start.format('YYYY-MM-DD');
                                         var dateParts = datetime.split("-");
-                                        $scope.subdistributionDatePart = dateParts[1] + "-" + dateParts[2];
-                                        $scope.subdistribution.code = $scope.subdistributionNameLocation + "-" + $scope.subdistributionDatePart;
+                                        $scope.subdistributionDatePart = dateParts[1] + "to" + dateParts[2];
+                                        $scope.subdistribution.code = $scope.subdistributionNameLocation + "to" + $scope.subdistributionDatePart;
                                         $("#subdistribution_code").val($scope.subdistribution.code);
                                     }
                                     );

@@ -8,7 +8,7 @@
 
 app.factory('DataProviderService', ['$http', function ($http) {
         var dataFactory = {};
-        var server_url = "http://localhost:8080/vvs_v2/index.php/";
+        var server_url = "http://localhost/vvs_v2/index.php/";
 
         //*** Gets Methods ***//
         dataFactory.getDistributions = function (id) {
@@ -121,6 +121,19 @@ app.factory('DataProviderService', ['$http', function ($http) {
         dataFactory.getStatus = function () {
             return $http({method: 'GET', url: server_url + 'api/distributionstatus'});
         };
+        dataFactory.getPrintVoucherURL = function(distributionId, subdistributionId) {
+            var _distributionId = (distributionId) ? distributionId : "";
+            var _subdistributionId = (subdistributionId) ? subdistributionId : "";
+            var controllerString = "";
+            if (_distributionId !== "") {
+                controllerString = "distribution/savePdf/" + _distributionId;
+            } else if (_subdistributionId !== ""){
+                controllerString = "subdistribution/savePdf/" + _subdistributionId;
+            }
+            
+//             return $http({header: "Content-Disposition: attachment;",method: 'GET', url: server_url + controllerString});
+            return server_url + controllerString;
+        }
         //*********************//
         //*** Create Methods ***//
         dataFactory.createDistribution = function (distribution) {

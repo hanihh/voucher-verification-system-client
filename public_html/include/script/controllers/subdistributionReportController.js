@@ -4,14 +4,14 @@
  * and open the template in the editor.
  */
 
-app.controller('SubdistributionReportController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
-           // *** Build Tree by existing distribution id ***
-                 var dist_id = ($stateParams) ? $stateParams.dist_id : null;
-                            if (dist_id && SharedPropertiesService.getIsDistributionsView() === false && (SharedPropertiesService.getTreeBuildStatus() === false ||
-                                    dist_id !== SharedPropertiesService.getDistributionId())) {       
-                    SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
-                }
-                // **********************************************
+app.controller('SubdistributionReportController', ['$scope', '$stateParams', '$window', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, $window, DataProviderService, SharedPropertiesService) {
+        // *** Build Tree by existing distribution id ***
+        var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+        if (dist_id && SharedPropertiesService.getIsDistributionsView() === false && (SharedPropertiesService.getTreeBuildStatus() === false ||
+                dist_id !== SharedPropertiesService.getDistributionId())) {
+            SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
+        }
+        // **********************************************
         var grid = new Datatable();
         grid.init({
             "src": $("#datatable_ajax"),
@@ -29,12 +29,24 @@ app.controller('SubdistributionReportController', ['$scope', '$stateParams', 'Da
                     {"data": "start_date"},
                     {"data": "end_date"},
                     {"data": "note"},
-                     {"render": function (data, type, full) {
-                                    return "";
-                                }}
+                    {"render": function (data, type, full) {
+                             return '<button style="width:140px" type="button" class="btn printVouchersBySubdistribution"  url="' + DataProviderService.getPrintVoucherURL("", full.id) + ' ><i class="fa fa-download"></i> Print Vouchers</button>';
+                        }}
 //                    {"data": "community"}                   
                 ]
             },
         });
+        
+        $("#PrintVouchersByDistribution").live("click", function() {            
+            var win = window.open( DataProviderService.getPrintVoucherURL(dist_id, ""), '_blank');
+            win.focus();           
+        });
+        
+        $(".printVouchersBySubdistribution").live("click", function(e) {
+    
+                     var win = window.open(    $(this).attr("url"), '_blank');
+            win.focus();
+        });
+        
     }]);
 

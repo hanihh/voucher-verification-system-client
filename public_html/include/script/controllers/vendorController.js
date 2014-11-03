@@ -4,15 +4,12 @@
  * and open the template in the editor.
  */
 
-
-
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
 app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
         $.getScript('include/ViewModels/Vendor/Vendor.js', function () {
             $.getScript('include/ViewModels/Relational/Vendor_mobile.js', function () {
                 $.getScript('include/ViewModels/Vendor/Phone.js', function () {
 
-                    var addPhones = [];
 
                     // *** Build Tree by existing distribution id ***
                    var dist_id = ($stateParams) ? $stateParams.dist_id : null;
@@ -22,67 +19,8 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
                     }
                     // **********************************************            
                     $scope.vendor_mobile = new Vendor_mobile();
-                    addPhones = [];
 
-//alert($("#tagsChosen_tagsinput").length);
-//                    if ($("#tagsChosen_tagsinput").length == 0)
-
-                    $("#tagsChosen").tagsInput({
-                        'minChars': 0,
-                        'interactive': false,
-                        'onRemoveTag': function (data) {
-                            tagsNum--;
-                            addPhones.pop($.grep($scope.phones, function (e) {
-                                return e.imei === data
-                            })[0]);
-                        },
-                        'onAddTag': function (data) {
-                            tagsNum++;
-                        }
-                    });
-
-
-                    $('#typeahead_imei').on('typeahead:selected', function (e, data) {
-                        var addMoreThanOne = SharedPropertiesService.getDistributionStatus();
-                        console.log(addMoreThanOne);
-                        if ($('#tagsChosen').attr('value').indexOf(data.value) < 0) {
-                            if (addMoreThanOne) {
-                                $('#tagsChosen').addTag(data.value);
-                                addPhones.push($.grep($scope.phones, function (e) {
-                                    return e.imei === data.value;
-                                })[0]);
-                            }
-                            else if (tagsNum === 0) {
-                                $('#tagsChosen').addTag(data.value);
-                                addPhones.push($.grep($scope.phones, function (e) {
-                                    return e.imei === data.value;
-                                })[0]);
-                            } else
-                                $.notific8('You can\'t add more than one phone when the distribution status is Offline.',
-                                        {
-                                            life: 5000,
-                                            theme: "lemon",
-                                            icon: 'check-mark-2',
-                                            sticky: false,
-                                            horizontalEdge: 'bottom',
-                                            verticalEdge: 'right',
-                                            zindex: 9999
-                                        });
-                        }
-                        else {
-                            $.notific8('This phone has been already entered.',
-                                    {
-                                        life: 5000,
-                                        theme: "lemon",
-                                        icon: 'check-mark-2',
-                                        sticky: false,
-                                        horizontalEdge: 'bottom',
-                                        verticalEdge: 'right',
-                                        zindex: 9999
-                                    });
-                        }
-                    });
-
+                 
                     //Vendor
                     DataProviderService.getVendors().success(function (data) {
                         var data = data["data"]["vendor"];
@@ -133,8 +71,8 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
 
                         var vendor = $.grep($scope.vendorItems, function (e) {
                             return e.id === vendor_mobile.vendor_id
-                        });
-                        console.log(vendor);
+                        })[0];
+                        
                         SharedPropertiesService.getTree().AddVendor(vendor, dist_id, false);
                     }
                 });
