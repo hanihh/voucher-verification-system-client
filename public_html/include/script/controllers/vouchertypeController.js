@@ -7,7 +7,7 @@
 
 
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
-app.controller('VoucherTypeController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
+app.controller('VoucherTypeController', ['$scope', '$stateParams','$state', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams,$state, DataProviderService, SharedPropertiesService) {
 
         $.getScript('include/ViewModels/Core/Voucher_type.js', function ()
         {
@@ -84,8 +84,15 @@ app.controller('VoucherTypeController', ['$scope', '$stateParams', 'DataProvider
 //                        model.type = vouchType.type;
                         SharedPropertiesService.getTree().AddType(subdistributionVoucherType, true);
                            subdistributionVoucherType.id = null;
+                           
+                           toastr.success('Voucher Type has been added successfully!');
                     });
                 }
+                
+                  $scope.Reset = function(){       
+                        $state.transitionTo($state.current, angular.copy($stateParams), { reload: true, inherit: true, notify: true });
+                        toastr.warning('Form has been reset!');                       
+                    }
             });
         });
     }]);

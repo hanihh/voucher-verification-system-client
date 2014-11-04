@@ -4,11 +4,11 @@
  * and open the template in the editor.
  */
 
-app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
+app.controller('beneficiaryDistController', ['$scope', '$stateParams', '$state', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, $state, DataProviderService, SharedPropertiesService) {
         var checkedBenesIds = [];
         var addedBenesIds = [];
         var canceledBenesIds = [];
-        
+
         $scope.chooseCheckBoxItems = {};
         $scope.beneficiary = {};
         $scope.filter = {};
@@ -19,9 +19,9 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
         $.getScript('include/ViewModels/Beneficiary/Beneficiary.js', function ()
         {
             // *** Build Tree by existing distribution id ***
-             var dist_id = ($stateParams) ? $stateParams.dist_id : null;
-                            if (dist_id && SharedPropertiesService.getIsDistributionsView() === false && (SharedPropertiesService.getTreeBuildStatus() === false ||
-                                    dist_id !== SharedPropertiesService.getDistributionId())) {       
+            var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+            if (dist_id && SharedPropertiesService.getIsDistributionsView() === false && (SharedPropertiesService.getTreeBuildStatus() === false ||
+                    dist_id !== SharedPropertiesService.getDistributionId())) {
                 SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
             }
             // **********************************************
@@ -52,15 +52,38 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
                 autoclose: true
             });
 
-
-
             var grid = new Datatable();
             grid.init({
                 "src": $("#datatable_ajax"),
-                // loadingMessage: 'Loading...',
-
+                  onSuccess: function (grid) {
+                // execute some code after table records loaded
+            },
+            onError: function (grid) {
+                // execute some code on network or other general error  
+            },
+            loadingMessage: 'Loading...',
+                filterApplyAction: "filter",
+                filterCancelAction: "filter_cancel",
                 dataTable: {
-                    "pageLength": 10, // default record count per page
+                                   "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+
+                 "lengthMenu": [
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] // change per page values here
+            ],
+            // set the initial value
+            "pageLength": 5,            
+            "pagingType": "bootstrap_full_number",
+            "language": {
+                "search": "My search: ",
+                "lengthMenu": "  _MENU_ records",
+                "paginate": {
+                    "previous":"Prev",
+                    "next": "Next",
+                    "last": "Last",
+                    "first": "First"
+                }
+            },
                     "ajax": DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId, true, true),
                     "sAjaxDataProp": "Beneficiaries",
                     "columns": [
@@ -89,12 +112,14 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
                         {"render": function (data, type, full) {
                                 return "";
                             }}
-                    ]
+                    ],
+                        "orderCellsTop": true,
+                         "pagingType": "bootstrap_extended", 
                 },
             });
 
             $scope.chooseCheckBoxItems = $(".ChooseCheckBox");
-            $scope.chooseCheckBoxItems.die( "click" );
+            $scope.chooseCheckBoxItems.die("click");
             $scope.chooseCheckBoxItems.live("click", function () {
                 if ($(this).is(':checked'))
                 {
@@ -123,21 +148,25 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', 'DataProv
             console.log(canceledBenesIds);
         }
 
-
-
         $scope.Save = function () {
             var addObject = $.param({subdistribution_id: $scope.subdistributionId,
                 beneficiaries: checkedBenesIds,
                 check_all: 0});
-            DataProviderService.createVoucher(addObject).success(function (data) {             
+            DataProviderService.createVoucher(addObject).success(function (data) {
                 if (canceledBenesIds.length != 0) {
                     var cancelObject = $.param({subdistribution_id: $scope.subdistributionId,
                         beneficiaries: canceledBenesIds});
-                    DataProviderService.RemoveVoucher(cancelObject).success(function (data) {                     
+                    DataProviderService.RemoveVoucher(cancelObject).success(function (data) {
+                        toastr.success('Beneficiaries have been deleted successfully!');
                     });
                 }
-
+                toastr.success('Beneficiaries have been added successfully!');
             });
+        }
+
+        $scope.Reset = function () {
+            $state.transitionTo($state.current, angular.copy($stateParams), {reload: true, inherit: true, notify: true});
+            toastr.warning('Form has been reset!');
         }
 
         $scope.Filter = function (filter) {

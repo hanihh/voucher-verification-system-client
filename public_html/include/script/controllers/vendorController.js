@@ -5,11 +5,11 @@
  */
 
 //app.controller('DistributionsController', ['$scope', '$http', 'sharedProperties', function ($scope, $http, sharedProperties) {
-app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
+app.controller('VendorController', ['$scope', '$stateParams','$state', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams,$state, DataProviderService, SharedPropertiesService) {
         $.getScript('include/ViewModels/Vendor/Vendor.js', function () {
             $.getScript('include/ViewModels/Relational/Vendor_mobile.js', function () {
                 $.getScript('include/ViewModels/Vendor/Phone.js', function () {
-
+       
 
                     // *** Build Tree by existing distribution id ***
                     var dist_id = ($stateParams) ? $stateParams.dist_id : null;
@@ -20,9 +20,16 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
                     // **********************************************            
                     $scope.vendor_mobile = new Vendor_mobile();
 
-                 
+                    var vendorIds = SharedPropertiesService.getTree().GetAddedVendorsIds(dist_id);
+
+                    var filterString = [];
+                    for (i = 0; i < vendorIds.length; i++) {
+                        filterString.push(["id", vendorIds[i], "!="]); 
+                    }
+                    console.log(filterString);
                     //Vendor
-                    DataProviderService.getVendors().success(function (data) {
+                    DataProviderService.getVendorsByFilter(filterString).success(function (data) {
+                        console.log(data);
                         var data = data["data"]["vendor"];
                         var vendor = new Vendor();
                         $scope.vendorItems = vendor.parseArray(data);
@@ -48,11 +55,13 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
                                 addPhones.push(phone);
                                 $('#tagsChosen').addTag(phone.imei);
                             }
+                            if( data.length > 0)
                             $('#s2id_vendorList > a > span:first').html((data.length ? data[0].vendor.en_name : data.vendor.en_name));
                         });
                     }
 
                     $scope.Save = function (vendor_mobile) {
+                        var successfulAddition = false;
                         vendor_mobile.distribution_id = dist_id;
                         vendor_mobile.phones = addPhones;
                         var vendor_mobiles = vendor_mobile.SplitPhonesToSeperatedObjects();
@@ -60,12 +69,13 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
                         console.log(addPhones);
                         for (i = 0; i < vendor_mobiles.length; i++)
                         {
-                            DataProviderService.createVendorMobile(vendor_mobiles[i]).success(function (data) {
+                            DataProviderService.createVendorMobile(vendor_mobiles[i]).success(function (data) {                               
 //                                var id = data["data"]["vendorMobile"]["id"];
 //                                vendor_mobile.id = id;
 //                                var vendor = $.grep($scope.vendorItems, function(e){ return e.id === vendor_mobile.vendor_id}); 
 //                                console.log(vendor);
 //                                SharedPropertiesService.getTree().AddVendor({vendor: vendor[0], distribution_id:  vendor_mobile.distribution_id}, false);
+                                toastr.success('Vendor Mobile has been added successfully!');
                             });
                         }
 
@@ -74,6 +84,12 @@ app.controller('VendorController', ['$scope', '$stateParams', 'DataProviderServi
                         })[0];
                         
                         SharedPropertiesService.getTree().AddVendor(vendor, dist_id, false);
+                    }
+                    
+                      $scope.Reset = function(){       
+                    
+                        $state.transitionTo($state.current, angular.copy($stateParams), { reload: true, inherit: true, notify: true });
+                        toastr.warning('Form has been reset!');                       
                     }
                 });
             });

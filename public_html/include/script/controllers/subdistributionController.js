@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
+app.controller('subdistributionController', ['$scope', '$stateParams','$state', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams,$state, DataProviderService, SharedPropertiesService) {
         //Initializing Models for cascade select lists
         $.getScript('include/ViewModels/Core/Subdistribution.js', function () {
             $.getScript('include/ViewModels/Core/Distribution_status.js', function () {
@@ -13,28 +13,49 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
                         $.getScript('include/ViewModels/Location/District.js', function () {
                             $.getScript('include/ViewModels/Location/Subdistrict.js', function () {
                                 $.getScript('include/ViewModels/Location/Community.js', function () {
-                                    
-                                                        // *** Build Tree by existing distribution id ***
-                 var dist_id = ($stateParams) ? $stateParams.dist_id : null;
-                            if (dist_id && SharedPropertiesService.getIsDistributionsView() === false && (SharedPropertiesService.getTreeBuildStatus() === false ||
-                                    dist_id !== SharedPropertiesService.getDistributionId())) {       
-                    SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
-                }
-                // **********************************************
-                
+
+                                    // *** Build Tree by existing distribution id ***
+                                    var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+                                    if (dist_id && SharedPropertiesService.getIsDistributionsView() === false && (SharedPropertiesService.getTreeBuildStatus() === false ||
+                                            dist_id !== SharedPropertiesService.getDistributionId())) {
+                                        SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
+                                    }
+                                    // **********************************************
+
                                     $scope.subdistributionNameLocation = "";
                                     $scope.subdistributionDatePart = "";
-                     
+
                                     $scope.country = null;
                                     $scope.governorate = null;
                                     $scope.district = null;
                                     $scope.subdistrict = null;
-                                    
+
                                     $scope.subdistribution = new Subdistribution();
                                     $scope.subdistribution.end_date = SharedPropertiesService.getDistributionEndDate();
                                     $scope.subdistribution.start_date = SharedPropertiesService.getDistributionStartDate();
-                                    $('#defaultrange input').val($scope.subdistribution.start_date + ' to ' + $scope.subdistribution.end_date);
-                                               
+                                    // *** Checking dates and filling Date Range Control ***
+                                    var startDate = new Date($scope.subdistribution.start_date);
+                                    var endDate = new Date($scope.subdistribution.end_date);
+                
+                                    var startDateString = "";
+                                    var endDateString = "";
+                                    if (dates.check(startDate) && startDate) {
+                                        $('#defaultrange').data('daterangepicker').setStartDate(startDate);
+                                        startDateString = startDate.toDateString();                                                                           
+                                         
+//                                        var datetime = new Date(startDate);
+                                        var dateParts = $scope.subdistribution.start_date.replace("00:00:00","").split("-");
+                                        $scope.subdistributionDatePart = dateParts[1] + "-" + dateParts[2];
+                                        $scope.subdistribution.code = $scope.subdistributionNameLocation + "-" + $scope.subdistributionDatePart;
+                                         
+                                    }
+                                    if (dates.check(endDate) && endDate) {
+                                        $('#defaultrange').data('daterangepicker').setEndDate(endDate);
+                                        endDateString = endDate.toDateString();                                           
+                                    }
+
+                                    $scope.dateRange = startDateString + (startDateString == "" && endDateString == "" ? "" : " - ") + endDateString;
+                                    // ******************************************************                                            
                                     $("#status").val("Active");
                                     $scope.subdistribution.status_id = 2;
                                     console.log($scope.subdistribution);
@@ -51,12 +72,12 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
                                     function (start, end) {
                                         console.log(start.format('YYYY-MM-DD'));
                                         console.log(end.format('YYYY-MM-DD'));
-                                        $('#defaultrange input').val(start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                                        $('#defaultrange input').val(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
                                         UpdateStatus(start, end);
                                         var datetime = start.format('YYYY-MM-DD');
                                         var dateParts = datetime.split("-");
-                                        $scope.subdistributionDatePart = dateParts[1] + "to" + dateParts[2];
-                                        $scope.subdistribution.code = $scope.subdistributionNameLocation + "to" + $scope.subdistributionDatePart;
+                                        $scope.subdistributionDatePart = dateParts[1] + "-" + dateParts[2];
+                                        $scope.subdistribution.code = $scope.subdistributionNameLocation + "-" + $scope.subdistributionDatePart;
                                         $("#subdistribution_code").val($scope.subdistribution.code);
                                     }
                                     );
@@ -205,7 +226,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
                                         var distribution_status = new Distribution_status();
                                         $scope.statusItems = distribution_status.parseArray(data);
                                     });
-                
+
 
                                     var id = ($stateParams) ? $stateParams.subdist_id : null;
                                     if (id)
@@ -283,11 +304,18 @@ app.controller('subdistributionController', ['$scope', '$stateParams', 'DataProv
                                             subdistribution.id = id;
                                             console.log(subdistribution);
                                             SharedPropertiesService.getTree().AddSubdistribution(subdistribution, false);
-                                             subdistribution.id  = null;
+                                            subdistribution.id = null;
+
+                                            toastr.success('Sub distribution has been added successfully!');
                                         });
 //                                        }
 //                                        else
 //                                            alert("not valid");
+                                    }
+                                    
+                                      $scope.Reset = function(){       
+                                        $state.transitionTo($state.current, angular.copy($stateParams), { reload: true, inherit: true, notify: true });
+                                        toastr.warning('Form has been reset!');                       
                                     }
 
                                 });

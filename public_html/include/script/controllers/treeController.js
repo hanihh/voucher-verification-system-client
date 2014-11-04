@@ -90,18 +90,18 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                     tree.jstree(true).create_node(tree, CreateNode(distributionIdString, distributions[i].name, "fa fa-cube"));
                     var distributionNode = tree.jstree(true).get_node(distributionIdString);
                     SetNodeRoute(distributionNode, "distributions", {dist_id: distributions[i].id}, "Distribution: " + distributions[i].name);
-                    
-                    currentThis.AddDistributionChilds(distributions[i]);                   
+
+                    currentThis.AddDistributionChilds(distributions[i]);
                 }
 
                 $("#tree_1").bind("open_node.jstree", function (e, data) {
-                    if (data.node.id.indexOf(IdPrefixString.distribution) > -1 && ! data.node.loadedNote)
+                    if (data.node.id.indexOf(IdPrefixString.distribution) > -1 && !data.node.loadedNote)
                     {
                         data.node.loadedNote = true;
                         var distId = data.node.id.substr(0, data.node.id.indexOf(IdPrefixString.distribution));
                         currentThis.BulidTreeByAddedDistribution(distId);
                     }
-                 
+
                 });
             },
             AddDistributionChilds: function (distribution) {
@@ -291,6 +291,7 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                     SharedPropertiesService.setDistributionStartDate(currentDistribution.start_date);
 
                     currentThis.BulidAllTreeByDistribution(currentDistribution);
+                                                           
                 });
             },
             LoadSubdistributions: function () {
@@ -318,6 +319,19 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
             GetDistributionId: function (node) {
                 var distIdString = node.parents[node.parents.length - 2];
                 return distIdString.substr(0, distIdString.indexOf(IdPrefixString.distribution));
+            },
+            GetVendorId: function(vendorIdString) {
+                 return vendorIdString.substr(0, vendorIdString.indexOf(IdPrefixString.vendor));
+            },
+            GetAddedVendorsIds: function (distributionId) {
+                var vendorIds = [];
+                var vendorsNode = this.GetVendorsNode(distributionId);       
+                // i = 0 is for Add new vendor node
+                for (i = 1; i < vendorsNode.children.length; i++) {
+                    var vendorNodeId = vendorsNode.children[i];
+                    vendorIds.push(this.GetVendorId(vendorNodeId));
+                }
+                return vendorIds;
             }
         }
 
@@ -332,11 +346,16 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
 
         $("#tree_1").bind("select_node.jstree", function (event, data)
         {
+            //The third parameter in $state.go in for reload the state when using Reset function
             if (data.node.a_attr['ui-sref-param'])
-                $state.go(data.node.a_attr['ui-sref'], data.node.a_attr['ui-sref-param']);
+                $state.go(data.node.a_attr['ui-sref'], data.node.a_attr['ui-sref-param'], {reload: true,
+                    inherit: false,
+                    notify: true});
             else
 //                $state.transitionTo(data.node.a_attr['ui-sref']);               
-                $state.go(data.node.a_attr['ui-sref']);
+                $state.go(data.node.a_attr['ui-sref'], "", {reload: true,
+                    inherit: false,
+                    notify: true});
 
             $scope.contentTitle = data.node.a_attr['ui-sref-tag'];
             if (data.node.parents) {

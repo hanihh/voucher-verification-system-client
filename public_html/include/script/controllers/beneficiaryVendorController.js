@@ -5,7 +5,7 @@
  */
 
 
-app.controller('beneficiaryVendorController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
+app.controller('beneficiaryVendorController', ['$scope', '$stateParams', '$state','DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams,$state, DataProviderService, SharedPropertiesService) {
         var checkedBenesIds = [];
         var addedBenesIds = [];
         var canceledBenesIds = [];
@@ -13,8 +13,8 @@ app.controller('beneficiaryVendorController', ['$scope', '$stateParams', 'DataPr
         $scope.chooseCheckBoxItems = {};
         $scope.beneficiary = {};
         $scope.filter = {};
-        var vendormobile_id = ($stateParams) ? $stateParams.vendormobile_id : null;
-        var vendor_id = "";
+
+        var vendor_id = ($stateParams) ? $stateParams.vendor_id : null;;
         //$scope.subdistributionId = SharedPropertiesService.getSubdistributionIdForBeneficiary();        
 
         $.getScript('include/ViewModels/Beneficiary/Beneficiary.js', function ()
@@ -25,26 +25,6 @@ app.controller('beneficiaryVendorController', ['$scope', '$stateParams', 'DataPr
                                     dist_id !== SharedPropertiesService.getDistributionId())) {       
                 SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
             }
-            // **********************************************
-            // 
-            // script is now loaded and executed.
-            // put your dependent JS here.
-            //   DataProviderService.getBeneficiariesBySubdistributionId($scope.subdistributionId).success(function (data) {
-            //     var data = data["Beneficiaries"];
-            //var beneficiary = new Beneficiary();
-//                $scope.beneficiaries = beneficiary.parseArray(data);
-            //  $scope.beneficiaries = data;
-
-
-
-            DataProviderService.getVendorMobile(vendormobile_id).success(function(data){
-                var vendorMobile = data["data"]["vendorMobile"];
-                console.log(vendorMobile);
-                vendor_id = vendorMobile.vendor_id;
-            });
-    
-    
-    
 
             $("#tagsChosen").tagsInput({
                 'height': '100px',
@@ -72,13 +52,14 @@ app.controller('beneficiaryVendorController', ['$scope', '$stateParams', 'DataPr
 
                 dataTable: {
                     "pageLength": 10, // default record count per page
-                    "ajax": DataProviderService.getBeneficiariesByDistributionIdURL(dist_id, true, false),
+                    "ajax": DataProviderService.getBeneficiariesByDistributionIdURL(dist_id, true, false, true),
                     "sAjaxDataProp": "Beneficiaries",
                     "columns": [
                         {"data": "id",
                             "render": function (data, type, full) {
+                                console.log(full);
                                 var checkedAttr = "";
-                                if (full.available == "false")
+                                if (full.vendor > 0 && vendor_id == full.vendor)
                                 {
                                     checkedAttr = 'checked';
                                     if ($.inArray(full.id, checkedBenesIds) == -1) {
@@ -87,8 +68,10 @@ app.controller('beneficiaryVendorController', ['$scope', '$stateParams', 'DataPr
                                         $('#tagsChosen').addTag(full.registration_code);
                                     }
 
-                                } else {
-                                    checkedAttr = '';
+                                } else if (full.vendor > 0 && vendor_id != full.vendor){
+                                    checkedAttr = 'checked disabled';
+                                }else {
+                                     checkedAttr = '';
                                 }
                                 return "<input type='checkbox' class='ChooseCheckBox' id=" + full.registration_code + " idValue = " + full.id + " " + checkedAttr + " >";
                             }
@@ -116,18 +99,14 @@ app.controller('beneficiaryVendorController', ['$scope', '$stateParams', 'DataPr
                         canceledBenesIds.pop(idvalue);
                     }
                     checkedBenesIds.push($(this).attr("idvalue"));
-
-                    console.log(canceledBenesIds);
                 } else {
                     $('#tagsChosen').removeTag($(this).attr("id"));
-
-                    var idvalue = $(this).attr("idvalue");
-                    if ($.inArray(idvalue, addedBenesIds) != -1) {
-                        canceledBenesIds.push(idvalue);
-                    }
-                    checkedBenesIds.pop($(this).attr("idvalue"));
-
-                    console.log(canceledBenesIds);
+//
+//                    var idvalue = $(this).attr("idvalue");
+//                    if ($.inArray(idvalue, addedBenesIds) != -1) {
+//                        canceledBenesIds.push(idvalue);
+//                    }
+//                    checkedBenesIds.pop($(this).attr("idvalue"));
                 }
             });
             //});
@@ -145,19 +124,25 @@ app.controller('beneficiaryVendorController', ['$scope', '$stateParams', 'DataPr
                 vendor_id: vendor_id,
                 beneficiaries: checkedBenesIds
                 });
-                alert(vendor_id);
+            
             DataProviderService.updateVoucherVendor(updateObject).success(function (data) {
                 if (canceledBenesIds.length != 0) {
-                    var cancelObject = $.param({subdistribution_id: $scope.subdistributionId,
-                        beneficiaries: canceledBenesIds});
+                    var cancelObject = $.param({distribution_id: dist_id, subdistribution_id: "",
+                        beneficiaries: canceledBenesIds,
+                        removevendor: "1"});
                     DataProviderService.RemoveVoucher(cancelObject).success(function (data) {
-                      
+                         toastr.success('Vendor beneficiaries have been deleted successfully!');
                     });
                 }
-
+                toastr.success('Vendor beneficiaries have been added successfully!');
             });
         }
 
+         $scope.Reset = function(){         
+                        $state.transitionTo($state.current, angular.copy($stateParams), { reload: true, inherit: true, notify: true });
+                        toastr.warning('Form has been reset!');                       
+                    }
+                    
         $scope.Filter = function (filter) {
             console.log(filter);
             /*

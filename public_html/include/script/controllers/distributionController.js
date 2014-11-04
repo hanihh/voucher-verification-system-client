@@ -1,15 +1,14 @@
-/* 
+ /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-app.controller('DistributionController', ['$scope', '$stateParams', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, DataProviderService, SharedPropertiesService) {
+app.controller('DistributionController', ['$scope', '$stateParams', '$state', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, $state, DataProviderService, SharedPropertiesService) {
 
         $.getScript('include/ViewModels/Core/Distribution.js', function () {
             $.getScript('include/ViewModels/Core/Program.js', function () {
-                $.getScript('include/ViewModels/Core/Donor.js', function () {
-
+                $.getScript('include/ViewModels/Core/Donor.js', function () {     
                     $scope.distribution = new Distribution();
                     $scope.distributionNameProgramPart = "";
                     $scope.distributionDatePart = "";
@@ -142,15 +141,21 @@ app.controller('DistributionController', ['$scope', '$stateParams', 'DataProvide
                             DataProviderService.createDistribution(distribution).success(function (data) {
                                 var id = data["data"]["distribution"]["id"];
                                 SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(id);
+                                toastr.success('Distribution has been added successfully!');
                             });
                         } else {
                             DataProviderService.updateDistribution(distribution).success(function (data) {
                                 var id = data["data"]["distribution"]["id"];
                                 SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(id);
+                                toastr.success('Distribution has been added successfully!');
                             });
-                        }
+                        }                        
                     }
 
+                    $scope.Reset = function(){         
+                        $state.transitionTo($state.current, angular.copy($stateParams), { reload: true, inherit: true, notify: true });
+                        toastr.warning('Form has been reset!');                       
+                    }
                 });
             });
         });

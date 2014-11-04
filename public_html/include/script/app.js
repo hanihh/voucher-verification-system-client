@@ -8,6 +8,24 @@ var app = angular.module('app', ['ui.router']);
 var _BaseOutterHtmlPath = "views/wizardviews/";
 
 
+var toastr = {
+    options : {
+  "closeButton": false,
+  "debug": false,
+  "positionClass": "toast-top-right",
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+    }
+}
+
+
 function GetHTML(htmlPage) {
     var fullPath = _BaseOutterHtmlPath + htmlPage;
     $.get(fullPath, function (data) {
@@ -22,7 +40,7 @@ function replaceElement(el) {
     parent.appendChild(el);
 }
 
-$(document).ready(function () {
+$(document).ready(function () { 
 /*
         console.log(ParseFilter([
             ["id", "1", "="],

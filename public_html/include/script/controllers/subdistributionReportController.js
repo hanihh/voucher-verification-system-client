@@ -30,7 +30,7 @@ app.controller('SubdistributionReportController', ['$scope', '$stateParams', '$w
                     {"data": "end_date"},
                     {"data": "note"},
                     {"render": function (data, type, full) {
-                             return '<button style="width:140px" type="button" class="btn printVouchersBySubdistribution"  url="' + DataProviderService.getPrintVoucherURL("", full.id) + ' ><i class="fa fa-download"></i> Print Vouchers</button>';
+                             return '<button style="width:140px" type="button" class="btn red printVouchersBySubdistribution"  url="' + DataProviderService.getPrintVoucherURL("", full.id) + '"><i class="fa fa-download"></i> Print Vouchers</button>';
                         }}
 //                    {"data": "community"}                   
                 ]
