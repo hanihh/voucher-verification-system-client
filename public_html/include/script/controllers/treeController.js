@@ -50,9 +50,9 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
             addNewSubdistributionsId: "addnew" + IdPrefixString.subdistribution,
             addNewVendorsId: "addnew" + IdPrefixString.vendor,
             addNewVoucherType: "addnew" + IdPrefixString.voucherType,
-            __Init: function (_tree, treeDivId) {
+            __Init: function (_tree, _treeDivId) {
                 tree = _tree;
-                treeDivId = treeDivId;
+                treeDivId = _treeDivId;
                 tree.jstree(true).create_node(tree, CreateNode("AddNewDistribution", "Add Distribution", "fa fa-plus-circle icon-state-danger"));
                 var distributionsNode = tree.jstree(true).get_node("AddNewDistribution")
                 SetNodeRoute(distributionsNode, "distributions", {dist_id: ""}, "Add New Distribution");
@@ -93,7 +93,8 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
 
                     currentThis.AddDistributionChilds(distributions[i]);
                 }
-
+                
+                $("#tree_1").unbind("open_node.jstree", function(){});
                 $("#tree_1").bind("open_node.jstree", function (e, data) {
                     if (data.node.id.indexOf(IdPrefixString.distribution) > -1 && !data.node.loadedNote)
                     {

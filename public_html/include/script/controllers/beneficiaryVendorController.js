@@ -94,7 +94,7 @@ app.controller('beneficiaryVendorController', ['$scope', '$stateParams', '$state
                 {
                     $('#tagsChosen').addTag($(this).attr("id"));
 
-                    var idvalue = $(this).attr("idvalue");
+                    var idvalue = $(this).attr("idvalue");alert(idvalue)
                     if ($.inArray(idvalue, canceledBenesIds) != -1) {
                         canceledBenesIds.pop(idvalue);
                     }
@@ -127,14 +127,15 @@ app.controller('beneficiaryVendorController', ['$scope', '$stateParams', '$state
             
             DataProviderService.updateVoucherVendor(updateObject).success(function (data) {
                 if (canceledBenesIds.length != 0) {
-                    var cancelObject = $.param({distribution_id: dist_id, subdistribution_id: "",
+                    var cancelObject = $.param({distribution_id: dist_id, subdistribution_id: "", vendor_id: vendor_id,
                         beneficiaries: canceledBenesIds,
                         removevendor: "1"});
-                    DataProviderService.RemoveVoucher(cancelObject).success(function (data) {
+                    DataProviderService.RemoveVoucherVendor(cancelObject).success(function (data) {
                          toastr.success('Vendor beneficiaries have been deleted successfully!');
                     });
                 }
-                toastr.success('Vendor beneficiaries have been added successfully!');
+ 
+                    toastr.success('Vendor beneficiaries have been added successfully!');
             });
         }
 

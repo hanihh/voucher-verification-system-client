@@ -44,7 +44,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams','$state', 
                                         startDateString = startDate.toDateString();                                                                           
                                          
 //                                        var datetime = new Date(startDate);
-                                        var dateParts = $scope.subdistribution.start_date.replace("00:00:00","").split("-");
+                                        var dateParts = $scope.subdistribution.start_date.substring(0, $scope.subdistribution.start_date.indexOf(" ")).split("-");
                                         $scope.subdistributionDatePart = dateParts[1] + "-" + dateParts[2];
                                         $scope.subdistribution.code = $scope.subdistributionNameLocation + "-" + $scope.subdistributionDatePart;
                                          

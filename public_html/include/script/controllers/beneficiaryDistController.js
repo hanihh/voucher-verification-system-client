@@ -4,11 +4,11 @@
  * and open the template in the editor.
  */
 
-app.controller('beneficiaryDistController', ['$scope', '$stateParams', '$state', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, $state, DataProviderService, SharedPropertiesService) {
+app.controller('beneficiaryDistController', ['$scope', '$stateParams','$state', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams,$state, DataProviderService, SharedPropertiesService) {
         var checkedBenesIds = [];
         var addedBenesIds = [];
         var canceledBenesIds = [];
-
+        
         $scope.chooseCheckBoxItems = {};
         $scope.beneficiary = {};
         $scope.filter = {};
@@ -19,9 +19,9 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', '$state',
         $.getScript('include/ViewModels/Beneficiary/Beneficiary.js', function ()
         {
             // *** Build Tree by existing distribution id ***
-            var dist_id = ($stateParams) ? $stateParams.dist_id : null;
-            if (dist_id && SharedPropertiesService.getIsDistributionsView() === false && (SharedPropertiesService.getTreeBuildStatus() === false ||
-                    dist_id !== SharedPropertiesService.getDistributionId())) {
+             var dist_id = ($stateParams) ? $stateParams.dist_id : null;
+                            if (dist_id && SharedPropertiesService.getIsDistributionsView() === false && (SharedPropertiesService.getTreeBuildStatus() === false ||
+                                    dist_id !== SharedPropertiesService.getDistributionId())) {       
                 SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
             }
             // **********************************************
@@ -37,8 +37,8 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', '$state',
                 'height': '100px',
                 'width': '100%',
                 'interactive': false,
-                'onRemoveTag': function (data) {
-                    var checkboxObj = $('#' + data);
+                'onRemoveTag': function (data) {           
+                    var checkboxObj = $('#' + data);      
                     checkboxObj.attr('checked', false);
                     var checkboxObj_idvalue = checkboxObj.attr('idvalue');
                     checkedBenesIds.pop(checkboxObj_idvalue);
@@ -53,6 +53,45 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', '$state',
             });
 
             var grid = new Datatable();
+            grid.init({
+                "src": $("#datatable_ajax"),
+                // loadingMessage: 'Loading...',
+
+                dataTable: {
+                    "pageLength": 10, // default record count per page
+                    "ajax": DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId, true, true),
+                    "sAjaxDataProp": "Beneficiaries",
+                    "columns": [
+                        {"data": "id",
+                            "render": function (data, type, full) {
+                                var checkedAttr = "";
+                                if (full.available == "false")
+                                {
+                                    checkedAttr = 'checked';
+                                    if ($.inArray(full.id, checkedBenesIds) == -1) {
+                                        checkedBenesIds.push(full.id);
+                                        addedBenesIds.push(full.id);
+                                        $('#tagsChosen').addTag(full.registration_code);
+                                    }
+
+                                } else {
+                                    checkedAttr = '';
+                                }
+                                return "<input type='checkbox' class='ChooseCheckBox' id=" + full.registration_code + " idValue = " + full.id + " " + checkedAttr + " >";
+                            }
+                        },
+                        {"data": "registration_code"},
+                        {"data": "en_name"},
+                        {"data": "father_name"},
+                        {"data": "birth_year"},
+                        {"render": function (data, type, full) {
+                                return "";
+                            }}
+                    ]
+                },
+            });
+/*
+var grid = new Datatable();
             grid.init({
                 "src": $("#datatable_ajax"),
                   onSuccess: function (grid) {
@@ -117,9 +156,9 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', '$state',
                          "pagingType": "bootstrap_extended", 
                 },
             });
-
+            */
             $scope.chooseCheckBoxItems = $(".ChooseCheckBox");
-            $scope.chooseCheckBoxItems.die("click");
+            $scope.chooseCheckBoxItems.die( "click" );
             $scope.chooseCheckBoxItems.live("click", function () {
                 if ($(this).is(':checked'))
                 {
@@ -148,26 +187,28 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', '$state',
             console.log(canceledBenesIds);
         }
 
+
+
         $scope.Save = function () {
             var addObject = $.param({subdistribution_id: $scope.subdistributionId,
                 beneficiaries: checkedBenesIds,
                 check_all: 0});
-            DataProviderService.createVoucher(addObject).success(function (data) {
+            DataProviderService.createVoucher(addObject).success(function (data) {             
                 if (canceledBenesIds.length != 0) {
                     var cancelObject = $.param({subdistribution_id: $scope.subdistributionId,
                         beneficiaries: canceledBenesIds});
-                    DataProviderService.RemoveVoucher(cancelObject).success(function (data) {
-                        toastr.success('Beneficiaries have been deleted successfully!');
+                    DataProviderService.RemoveVoucher(cancelObject).success(function (data) {    
+                         toastr.success('Beneficiaries have been deleted successfully!');
                     });
                 }
                 toastr.success('Beneficiaries have been added successfully!');
             });
         }
-
-        $scope.Reset = function () {
-            $state.transitionTo($state.current, angular.copy($stateParams), {reload: true, inherit: true, notify: true});
-            toastr.warning('Form has been reset!');
-        }
+        
+                 $scope.Reset = function(){         
+                        $state.transitionTo($state.current, angular.copy($stateParams), { reload: true, inherit: true, notify: true });
+                        toastr.warning('Form has been reset!');                       
+                    }
 
         $scope.Filter = function (filter) {
             console.log(filter);

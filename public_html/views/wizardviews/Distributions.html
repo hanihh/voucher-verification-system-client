@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 
 <div class="portlet-body form">
+       <div style="float:right;">
+                    <button style="width:160px" type="button" class="btn red" id="PrintVouchersByDistribution"><i class="fa fa-download"></i> Print All Vouchers</button>
+                </div>
     <form action="#" class="form-horizontal form-bordered" name="DistributionForm">
         <div class="form-body">  
             <div class="form-group">
@@ -11,13 +14,15 @@
             </div>
             <div class="form-group">
                 <label class="control-label col-md-3">Title in English</label>
-                <div class="col-md-4">                  
-                    <input type="text" class="form-control" ng-model="distribution.title_en" placeholder="Title...">
+                <div class="col-md-4 input-group input-icon left">         
+                     <i class="fa fa-info-circle tooltips" data-original-title="This text will be shown in each voucher instead of the voucher types default name" data-container="body"></i> 
+                    <input type="text" class="form-control" ng-model="distribution.title_en" placeholder="Title...">                   
                 </div>
             </div>
             <div class="form-group">    
                 <label class="control-label col-md-3">Title in Arabic</label>
-                <div class="col-md-4">                  
+                <div class="col-md-4 input-group input-icon left">          
+                    <i class="fa fa-info-circle tooltips" data-original-title="This text will be shown in each voucher instead of the voucher types default name" data-container="body"></i> 
                     <input type="text" class="form-control" ng-model="distribution.title_ar" placeholder="Title...">
                 </div>
             </div>
