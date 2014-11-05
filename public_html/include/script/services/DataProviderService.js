@@ -8,8 +8,8 @@
 
 app.factory('DataProviderService', ['$http', function ($http) {
         var dataFactory = {};
+        //var server_url = "http://hani.darkcomets.com/vvs_v2/";
         var server_url = "http://localhost/vvs_v2/index.php/";
-
         //*** Gets Methods ***//
         dataFactory.getDistributions = function (id) {
             var _id = (id) ? id : "";
@@ -72,13 +72,13 @@ app.factory('DataProviderService', ['$http', function ($http) {
         };
         dataFactory.getSubdistributionVoucher = function (id) {
             var _id = (id) ? id : "";
-            return $http({method: 'GET', url: server_url + 'api/distributionvoucher/' + _id});
+            return $http({method: 'GET', url: server_url + 'api/distributionVoucher/' + _id});
         };
         dataFactory.getSubdistributionVoucherByFilter = function (params) {
-            return $http({method: 'GET', url: server_url + 'api/distributionvoucher/?filter=' + JSON.stringify(GetFilter(params))});
+            return $http({method: 'GET', url: server_url + 'api/distributionVoucher/?filter=' + JSON.stringify(GetFilter(params))});
         };
         dataFactory.getSubdistributionVoucherByFilterURL = function (params) {
-            return server_url + 'api/distributionvoucher/?filter=' + JSON.stringify(GetFilter(params));
+            return server_url + 'api/distributionVoucher/?filter=' + JSON.stringify(GetFilter(params));
         };
         dataFactory.getBeneficiaries = function () {
             return $http({method: 'GET', url: server_url + 'api/Beneficiary'});
@@ -110,20 +110,20 @@ app.factory('DataProviderService', ['$http', function ($http) {
             return $http({method: 'GET', url: server_url + 'api/Vendor/?filter=' + JSON.stringify(GetFilter(params))});
         };
         dataFactory.getVendorsMobileByFilterURL = function (params) {
-            return server_url + 'api/vendormobile/?filter=' + JSON.stringify(GetFilter(params));
+            return server_url + 'api/vendorMobile/?filter=' + JSON.stringify(GetFilter(params));
         };
         dataFactory.getVendorMobile = function (id) {
             var _id = (id) ? id : "";
-            return $http({method: 'GET', url: server_url + 'api/vendormobile/' + _id});
+            return $http({method: 'GET', url: server_url + 'api/vendorMobile/' + _id});
         };
         dataFactory.getVendorMobilesByFilter = function (params) {
-            return $http({method: 'GET', url: server_url + 'api/vendormobile/?filter=' + JSON.stringify(GetFilter(params))});
+            return $http({method: 'GET', url: server_url + 'api/vendorMobile/?filter=' + JSON.stringify(GetFilter(params))});
         };
         dataFactory.getPhones = function () {
             return $http({method: 'GET', url: server_url + 'api/phone'});
         };
         dataFactory.getStatus = function () {
-            return $http({method: 'GET', url: server_url + 'api/distributionstatus'});
+            return $http({method: 'GET', url: server_url + 'api/distributionStatus'});
         };
         dataFactory.getPrintVoucherURL = function(distributionId, subdistributionId) {
             var _distributionId = (distributionId) ? distributionId : "";
