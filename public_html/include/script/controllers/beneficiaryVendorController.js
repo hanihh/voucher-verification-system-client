@@ -94,7 +94,7 @@ app.controller('beneficiaryVendorController', ['$scope', '$stateParams', '$state
                 {
                     $('#tagsChosen').addTag($(this).attr("id"));
 
-                    var idvalue = $(this).attr("idvalue");alert(idvalue)
+                    var idvalue = $(this).attr("idvalue");
                     if ($.inArray(idvalue, canceledBenesIds) != -1) {
                         canceledBenesIds.pop(idvalue);
                     }

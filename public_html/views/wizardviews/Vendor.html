@@ -16,8 +16,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">Phone Imei Number</label>
-                <div class="col-sm-4">
+                <label class="col-md-3 control-label">Phone Imei Number</label>
+                <div class="col-md-4">
                     <div class="input-group" id="phoneNumValidation">
                         <span class="input-group-addon">
                             <i class="fa fa-search"></i>
@@ -25,7 +25,7 @@
                         <input type="text" id="typeahead_imei" class="form-control" />       
                     </div>
                     <p class="help-block">
-                        <code>E.g:</code>
+                        <code>E.g: 3xxxxxxxxxxxxxx</code>
                     </p>
                 </div>
             </div>
@@ -33,7 +33,7 @@
 
             <div class="form-group">
                 <label class="control-label col-md-3">Chosen Phones</label>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <input id="tagsChosen" type="text" class="form-control tags medium" value=""/>
                 </div>
             </div>
@@ -175,7 +175,7 @@
 //                                    });
                                    toastr.warning('This phone has been already entered!'); 
                         }
-                        $('#typeahead_imei').val("");
+                        $('#typeahead_imei').typeahead('val', '');
                     });
 
 </script>

@@ -2358,7 +2358,7 @@ Forms
 }
 
 .input-medium {
-  width: 240px !important;
+  /* width: 240px !important; */
 }
 
 .input-large {

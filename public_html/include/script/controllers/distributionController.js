@@ -140,7 +140,7 @@ app.controller('DistributionController', ['$scope', '$stateParams', '$state', 'D
                             });
                         });
                     }else{
-                          SharedPropertiesService.getTree().AddNewDistributionNode();
+                          //SharedPropertiesService.getTree().AddNewDistributionNode();
                     }
 
 

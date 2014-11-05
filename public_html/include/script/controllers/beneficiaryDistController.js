@@ -8,7 +8,11 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams','$state', 
         var checkedBenesIds = [];
         var addedBenesIds = [];
         var canceledBenesIds = [];
-        
+//        Metronic.blockUI({
+//                    target: $(".portlet-body").closest(".full-height-content-body"),
+//                    animate: true,
+//                    overlayColor: 'gray'
+//                });
         $scope.chooseCheckBoxItems = {};
         $scope.beneficiary = {};
         $scope.filter = {};
@@ -56,7 +60,12 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams','$state', 
             grid.init({
                 "src": $("#datatable_ajax"),
                 // loadingMessage: 'Loading...',
-
+            onSuccess: function (grid) {
+                // execute some code after table records loaded
+                alert(1);
+                var item = $("#portlet-body").closest(".full-height-content-body");
+                Metronic.unblockUI(item);
+            },
                 dataTable: {
                     "pageLength": 10, // default record count per page
                     "ajax": DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId, true, true),

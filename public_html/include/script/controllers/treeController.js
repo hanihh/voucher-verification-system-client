@@ -340,6 +340,7 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 var vendorIds = [];
                 var vendorsNode = this.GetVendorsNode(distributionId);
                 // i = 0 is for Add new vendor node
+                if (vendorsNode.children)
                 for (i = 1; i < vendorsNode.children.length; i++) {
                     var vendorNodeId = vendorsNode.children[i];
                     vendorIds.push(this.GetVendorId(vendorNodeId));
