@@ -25,18 +25,19 @@
                     <span class="title">Distribution</span>
                     <span class="arrow "></span>
                 </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a href="#distribution_wizard.html">
-                            Distribution Wizard</a>
-                    </li>
-                    <li>
-                        <a href="#Distribution_management.html">
-                            Distribution Management</a>
-                    </li>
-                    <li ng-controller="ViewDistributionsController">
+                <ul class="sub-menu">   
+<!--                    <li >
+                         <a ui-sref="viewdistributions" >
+                            View Distributions</a>
+                    </li>-->
+                    <li  ng-controller="ViewDistributionsController">
                          <a href="#" ng-click="TriggerViewDistributionsState()">
                             View Distributions</a>
+                    </li>
+                    <li>
+                        <a ui-sref="distributions">
+                            Add Distribution
+                        </a>
                     </li>
                 </ul>
             </li>

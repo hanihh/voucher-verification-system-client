@@ -139,6 +139,8 @@ app.controller('DistributionController', ['$scope', '$stateParams', '$state', 'D
                                 win.focus();
                             });
                         });
+                    }else{
+                          SharedPropertiesService.getTree().AddNewDistributionNode();
                     }
 
 

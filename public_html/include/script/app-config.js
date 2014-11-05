@@ -12,9 +12,9 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($
             url: "/home",
             templateUrl: 'views/home.html'             
         }).state('viewdistributions', {            
-            url: "/viewdistributions",      
-             controller: 'ViewDistributionsController',
-                templateUrl: 'views/wizardviews/Empty.html'          
+            url: "/viewdistributions/",      
+            controller: 'ViewDistributionsController',
+            templateUrl: 'views/wizardviews/Empty.html'          
         }).state('distributions', {
             url: '/distributions/:dist_id',                        
             controller: 'DistributionController',
