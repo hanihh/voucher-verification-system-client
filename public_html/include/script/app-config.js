@@ -12,9 +12,21 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($
             url: "/home",
             templateUrl: 'views/home.html'             
         }).state('viewdistributions', {            
-            url: "/viewdistributions/",      
+            url: "/viewdistributions",      
             controller: 'ViewDistributionsController',
             templateUrl: 'views/wizardviews/Empty.html'          
+        }).state('viewvouchertypes', {            
+            url: "/viewvouchertypes",      
+            controller: 'ViewVoucherTypesController',
+            templateUrl: 'views/wizardviews/ViewVoucherTypes.html'          
+        }).state('viewvendors', {            
+            url: "/viewvendors",      
+            controller: 'ViewVendorsController',
+            templateUrl: 'views/wizardviews/ViewVendors.html'          
+        }).state('viewmobiles', {            
+            url: "/viewmobiles",      
+            controller: 'ViewMobilesController',
+            templateUrl: 'views/wizardviews/ViewMobiles.html'          
         }).state('distributions', {
             url: '/distributions/:dist_id',                        
             controller: 'DistributionController',

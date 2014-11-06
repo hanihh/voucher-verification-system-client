@@ -70,6 +70,9 @@ app.factory('DataProviderService', ['$http', function ($http) {
         dataFactory.getVoucherTypes = function () {
             return $http({method: 'GET', url: server_url + 'api/VoucherType'});
         };
+        dataFactory.getVoucherTypesURL = function () {
+             return server_url + 'api/VoucherType';
+        };
         dataFactory.getSubdistributionVoucher = function (id) {
             var _id = (id) ? id : "";
             return $http({method: 'GET', url: server_url + 'api/distributionVoucher/' + _id});
@@ -106,6 +109,9 @@ app.factory('DataProviderService', ['$http', function ($http) {
             var _id = (id) ? id : "";
             return $http({method: 'GET', url: server_url + 'api/Vendor/' + _id});
         };
+        dataFactory.getVendorsURL = function () {
+            return server_url + 'api/Vendor';
+        };
         dataFactory.getVendorsByFilter = function (params) {
             return $http({method: 'GET', url: server_url + 'api/Vendor/?filter=' + JSON.stringify(GetFilter(params))});
         };
@@ -121,6 +127,9 @@ app.factory('DataProviderService', ['$http', function ($http) {
         };
         dataFactory.getPhones = function () {
             return $http({method: 'GET', url: server_url + 'api/phone'});
+        };
+         dataFactory.getPhonesURL = function () {
+            return server_url + 'api/phone';
         };
         dataFactory.getStatus = function () {
             return $http({method: 'GET', url: server_url + 'api/distributionStatus'});
