@@ -34,10 +34,12 @@ app.controller('beneficiaryVendorController', ['$scope', '$stateParams', '$state
                 'interactive': false,
                 'onRemoveTag': function (data) {
                     var checkboxObj = $('#' + data);
-                    checkboxObj.attr('checked', false);
+                    // Do not work here because the datatable control is depending on class called "Checked" to check the checkox
+                    //checkboxObj.attr('checked', false);
+                    checkboxObj.parent("span").removeClass("checked");
                     var checkboxObj_idvalue = checkboxObj.attr('idvalue');
-                    checkedBenesIds.pop(checkboxObj_idvalue);
-                    if ($.inArray(checkboxObj_idvalue, canceledBenesIds) == -1)
+                     checkedBenesIds = RemoveFromArray(checkedBenesIds, checkboxObj_idvalue);
+                    if ($.inArray(checkboxObj_idvalue, canceledBenesIds) == -1 && $.inArray(checkboxObj_idvalue, addedBenesIds) > -1)
                         canceledBenesIds.push(checkboxObj_idvalue);
                 },
             });
@@ -98,7 +100,7 @@ app.controller('beneficiaryVendorController', ['$scope', '$stateParams', '$state
 
                     var idvalue = $(this).attr("idvalue");
                     if ($.inArray(idvalue, canceledBenesIds) != -1) {
-                        canceledBenesIds.pop(idvalue);
+                         checkedBenesIds = RemoveFromArray(checkedBenesIds, idvalue);
                     }
                     checkedBenesIds.push($(this).attr("idvalue"));
                 } else {

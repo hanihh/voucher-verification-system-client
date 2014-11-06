@@ -31,25 +31,19 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams','$state', 
                                     dist_id !== SharedPropertiesService.getDistributionId())) {       
                 SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
             }
-            // **********************************************
-            // script is now loaded and executed.
-            // put your dependent JS here.
-            //   DataProviderService.getBeneficiariesBySubdistributionId($scope.subdistributionId).success(function (data) {
-            //     var data = data["Beneficiaries"];
-            //var beneficiary = new Beneficiary();
-//                $scope.beneficiaries = beneficiary.parseArray(data);
-            //  $scope.beneficiaries = data;          
- 
+
             $("#tagsChosen").tagsInput({
                 'height': '100px',
                 'width': '100%',
                 'interactive': false,
                 'onRemoveTag': function (data) {           
-                    var checkboxObj = $('#' + data);      
-                    checkboxObj.attr('checked', false);
+                    var checkboxObj = $('#' + data);   
+                    // Do not work here because the datatable control is depending on class called "Checked" to check the checkox
+                    //checkboxObj.attr('checked', false);
+                    checkboxObj.parent("span").removeClass("checked");
                     var checkboxObj_idvalue = checkboxObj.attr('idvalue');
-                    checkedBenesIds.pop(checkboxObj_idvalue);
-                    if ($.inArray(checkboxObj_idvalue, canceledBenesIds) == -1)
+                    checkedBenesIds = RemoveFromArray(checkedBenesIds, checkboxObj_idvalue);
+                    if ($.inArray(checkboxObj_idvalue, canceledBenesIds) == -1 && $.inArray(checkboxObj_idvalue, addedBenesIds) > -1)
                         canceledBenesIds.push(checkboxObj_idvalue);
                 },
             });
@@ -58,7 +52,7 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams','$state', 
                 rtl: Metronic.isRTL(),
                 autoclose: true
             });
-
+/*
             var grid = new Datatable();
             grid.init({
                 "src": $("#datatable_ajax"),
@@ -102,7 +96,7 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams','$state', 
                     ]
                 },
             });
-/*
+*/
 var grid = new Datatable();
             grid.init({
                 "src": $("#datatable_ajax"),
@@ -115,26 +109,46 @@ var grid = new Datatable();
             loadingMessage: 'Loading...',
                 filterApplyAction: "filter",
                 filterCancelAction: "filter_cancel",
+                    "bProcessing": true,
+        "bServerSide": true,
+           paging: true,               
                 dataTable: {
+                     paging: true,
                                    "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+    "bProcessing": true,
+        "bServerSide": true,
 
+            "processing": true,
+        "serverSide": true,
                  "lengthMenu": [
                 [5, 15, 20, -1],
                 [5, 15, 20, "All"] // change per page values here
             ],
             // set the initial value
             "pageLength": 5,            
-            "pagingType": "bootstrap_full_number",
+            "pagingType": "bootstrap_extended",
             "language": {
-                "search": "My search: ",
-                "lengthMenu": "  _MENU_ records",
-                "paginate": {
-                    "previous":"Prev",
-                    "next": "Next",
-                    "last": "Last",
-                    "first": "First"
-                }
-            },
+        processing:     "Traitement en cours...",
+        search:         "Rechercher&nbsp;:",
+        lengthMenu:    "Afficher _MENU_ &eacute;l&eacute;ments",
+        info:           "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+        infoEmpty:      "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+        infoFiltered:   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+        infoPostFix:    "",
+        loadingRecords: "Chargement en cours...",
+        zeroRecords:    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+        emptyTable:     "Aucune donnée disponible dans le tableau",
+        paginate: {
+            first:      "Premier",
+            previous:   "Pr&eacute;c&eacute;dent",
+            next:       "Suivant",
+            last:       "Dernier"
+        },
+        aria: {
+            sortAscending:  ": activer pour trier la colonne par ordre croissant",
+            sortDescending: ": activer pour trier la colonne par ordre décroissant"
+        }
+    },
                     "ajax": DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId, true, true),
                     "sAjaxDataProp": "Beneficiaries",
                     "columns": [
@@ -165,10 +179,10 @@ var grid = new Datatable();
                             }}
                     ],
                         "orderCellsTop": true,
-                         "pagingType": "bootstrap_extended", 
+                         "pagingType": "bootstrap_extended",    
                 },
             });
-            */
+            
             $scope.chooseCheckBoxItems = $(".ChooseCheckBox");
             $scope.chooseCheckBoxItems.die( "click" );
             $scope.chooseCheckBoxItems.live("click", function () {
@@ -178,17 +192,17 @@ var grid = new Datatable();
 
                     var idvalue = $(this).attr("idvalue");
                     if ($.inArray(idvalue, canceledBenesIds) != -1) {
-                        canceledBenesIds.pop(idvalue);
+                         checkedBenesIds = RemoveFromArray(checkedBenesIds, idvalue);
                     }
                     checkedBenesIds.push($(this).attr("idvalue"));
                 } else {
                     $('#tagsChosen').removeTag($(this).attr("id"));
 
-                    var idvalue = $(this).attr("idvalue");
-                    if ($.inArray(idvalue, addedBenesIds) != -1) {
-                        canceledBenesIds.push(idvalue);
-                    }
-                    checkedBenesIds.pop($(this).attr("idvalue"));
+//                    var idvalue = $(this).attr("idvalue");
+//                    if ($.inArray(idvalue, addedBenesIds) != -1) {
+//                        canceledBenesIds.push(idvalue);
+//                    }
+//                    checkedBenesIds.pop($(this).attr("idvalue"));
                 }
             });
         });

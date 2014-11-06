@@ -228,3 +228,11 @@ var dates = {
         return date.toString() == "Invalid Date" ? false : true;        
     }
 }
+
+function RemoveFromArray(array, el) {
+    array = $.grep(array, function(value) {
+        return value != el;
+    });
+    
+    return array;
+}
