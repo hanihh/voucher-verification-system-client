@@ -8,7 +8,7 @@ app.controller('DistributionController', ['$scope', '$stateParams', '$state', 'D
 
         $.getScript('include/ViewModels/Core/Distribution.js', function () {
             $.getScript('include/ViewModels/Core/Program.js', function () {
-                $.getScript('include/ViewModels/Core/Donor.js', function () {
+                $.getScript('include/ViewModels/Core/Donor.js', function () {                                                             
                     $scope.distribution = new Distribution();
                     $scope.distributionNameProgramPart = "";
                     $scope.distributionDatePart = "";
@@ -94,6 +94,8 @@ app.controller('DistributionController', ['$scope', '$stateParams', '$state', 'D
                             var distribution = new Distribution();
                             $scope.distribution = distribution.parse(data);
 
+                            $scope.contentTitle.title = "Distribution: " + $scope.distribution.name;
+
                             $('#s2id_programList > a > span:first').html(data.program.name);
                             $('#s2id_donorList > a > span:first').html(data.donor.name);
 
@@ -140,7 +142,8 @@ app.controller('DistributionController', ['$scope', '$stateParams', '$state', 'D
                             });
                         });
                     }else{
-                          //SharedPropertiesService.getTree().AddNewDistributionNode();
+                          SharedPropertiesService.getTree().AddNewDistributionNode();
+                          $scope.contentTitle.title = "Add New Distribution";
                     }
 
 

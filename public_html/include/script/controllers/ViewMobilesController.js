@@ -34,6 +34,9 @@ app.controller('ViewMobilesController', ['$scope', 'DataProviderService', 'Share
                 },
             });
         }
+        
+        SharedPropertiesService.getTree().__Clear();
+        $scope.contentTitle.title = "Mobiles";
         $scope.TriggerViewMobilesState();
     }]);
 

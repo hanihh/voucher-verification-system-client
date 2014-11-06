@@ -54,7 +54,8 @@ app.controller('VoucherTypeController', ['$scope', '$stateParams','$state', 'Dat
                         var data = data["data"]["distributionVoucher"];
                         var subdistributionVoucherType = new SubdistributionVoucherType();
                         $scope.subdistributionVoucherType = subdistributionVoucherType.parse(data);
-                        console.log($scope.subdistributionVoucherType);
+                        
+                         $scope.contentTitle.title = "Voucher Type: " + $scope.subdistributionVoucherType.value;
                         
                         
                             $('#s2id_typeList > a > span:first').html(data.type.name);
@@ -72,6 +73,8 @@ app.controller('VoucherTypeController', ['$scope', '$stateParams','$state', 'Dat
                        // $scope.expireDate = expireString;
                         // ******************************************************
                     });
+                }else{
+                               $scope.contentTitle.title = "Add New Voucher Type";
                 }
                 
                 $scope.Save = function (subdistributionVoucherType) {

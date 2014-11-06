@@ -13,6 +13,8 @@ app.controller('ViewDistributionsController', ['$scope', 'DataProviderService', 
                });             
             }
             $scope.TriggerViewDistributionsState();
+            
+             $scope.contentTitle.title = "";
     }]);
 
 

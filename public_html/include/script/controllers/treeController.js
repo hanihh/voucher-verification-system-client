@@ -60,7 +60,6 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
             __Clear: function () {
 //                var distributionsNode = tree.jstree(true).get_node("AddNewDistribution");
 //                tree.jstree(true).delete_node(distributionsNode);
-                console.log("Cleared");
                 $("#" + treeDivId + " ul li").each(function () {
                     var id = $(this).attr('id');
                     tree.jstree(true).delete_node(id);
@@ -371,7 +370,7 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                     inherit: false,
                     notify: true});
 
-            $scope.contentTitle = data.node.a_attr['ui-sref-tag'];
+//            $scope.contentTitle = data.node.a_attr['ui-sref-tag'];
             if (data.node.parents) {
                 var breadCrumbData = [];
                 for (i = data.node.parents.length - 1; i >= 0; i--) {

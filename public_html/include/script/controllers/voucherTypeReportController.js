@@ -14,6 +14,8 @@ app.controller('VoucherTypeReportController', ['$scope', '$stateParams', 'DataPr
             SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
         }
         // **********************************************
+                   $scope.contentTitle.title = "Voucher Types Report";
+                   
         var grid = new Datatable();
         grid.init({
             "src": $("#datatable_ajax"),

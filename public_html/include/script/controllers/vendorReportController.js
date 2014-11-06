@@ -12,6 +12,8 @@ app.controller('VendorReportController', ['$scope', '$stateParams', 'DataProvide
                     SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
                 }
                 // **********************************************
+                           $scope.contentTitle.title = "Vendors Report";
+                           
         var grid = new Datatable();
         grid.init({
             "src": $("#datatable_ajax"),

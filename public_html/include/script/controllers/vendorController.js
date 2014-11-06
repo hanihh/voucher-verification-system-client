@@ -55,9 +55,14 @@ app.controller('VendorController', ['$scope', '$stateParams','$state', 'DataProv
                                 addPhones.push(phone);
                                 $('#tagsChosen').addTag(phone.imei);
                             }
-                            if( data.length > 0)
-                            $('#s2id_vendorList > a > span:first').html((data.length ? data[0].vendor.en_name : data.vendor.en_name));
+                            if( data.length > 0){
+                                var vendor_name = (data.length ? data[0].vendor.en_name : data.vendor.en_name);
+                                $('#s2id_vendorList > a > span:first').html(vendor_name);
+                                $scope.contentTitle.title = "Vendor: " + vendor_name;
+                            }
                         });
+                    }else{
+                        $scope.contentTitle.title = "Add New Vendor";
                     }
 
                     $scope.Save = function (vendor_mobile) {

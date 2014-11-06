@@ -6,6 +6,8 @@
 
 
 app.controller('beneficiaryVendorController', ['$scope', '$stateParams', '$state','DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams,$state, DataProviderService, SharedPropertiesService) {
+        $scope.contentTitle.title = "Beneficiaries";
+        
         var checkedBenesIds = [];
         var addedBenesIds = [];
         var canceledBenesIds = [];
@@ -25,7 +27,7 @@ app.controller('beneficiaryVendorController', ['$scope', '$stateParams', '$state
                                     dist_id !== SharedPropertiesService.getDistributionId())) {       
                 SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
             }
-
+ 
             $("#tagsChosen").tagsInput({
                 'height': '100px',
                 'width': '100%',

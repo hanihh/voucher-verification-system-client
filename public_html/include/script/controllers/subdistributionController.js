@@ -235,6 +235,9 @@ app.controller('subdistributionController', ['$scope', '$stateParams','$state', 
                                             var data = data["data"]["subdistribution"];
                                             var subdistribution = new Subdistribution();
                                             $scope.subdistribution = subdistribution.parse(data);
+                                            
+                                            $scope.contentTitle.title = "Subdistribution: " + $scope.subdistribution.code;
+                                            
                                             var community = data["community"];
                                             $scope.status = data["status"].name;
                                             // Subdistricts
@@ -290,6 +293,8 @@ app.controller('subdistributionController', ['$scope', '$stateParams','$state', 
                                             SharedPropertiesService.getTree().SelectTreeNodeByWizardModel({subdistribution: $scope.subdistribution});
                                         });
 
+                                    }else{
+                                         $scope.contentTitle.title = "Add New Subdistribution";
                                     }
 
                                     $scope.Save = function (subdistributionForm, subdistribution) {

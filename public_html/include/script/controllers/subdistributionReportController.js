@@ -12,6 +12,9 @@ app.controller('SubdistributionReportController', ['$scope', '$stateParams', '$w
             SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(dist_id);
         }
         // **********************************************
+        
+        $scope.contentTitle.title = "Subdistributions Report";
+        
         var grid = new Datatable();
         grid.init({
             "src": $("#datatable_ajax"),

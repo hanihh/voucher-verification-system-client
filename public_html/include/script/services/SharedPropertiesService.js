@@ -13,6 +13,8 @@ app.factory('SharedPropertiesService', function () {
     var DistributionStartDate = "";
     var TreeBuildStatus = false;
     var IsDistributionsView = false;
+    var ContentTitle = "";
+    
     return {
         getTree: function () {
             return tree;
@@ -57,12 +59,17 @@ app.factory('SharedPropertiesService', function () {
         setTreeBuildStatus: function(value) {
               TreeBuildStatus = value; 
         },  
-          getIsDistributionsView: function() {
+        getIsDistributionsView: function() {
               return  IsDistributionsView; 
         },
         setIsDistributionsView: function(value) {
               IsDistributionsView = value; 
         }, 
-        
+        getContentTitle: function() {
+              return  ContentTitle; 
+        },
+        setContentTitle: function(value) {
+              ContentTitle = value; 
+        }, 
     };
 });

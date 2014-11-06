@@ -5,6 +5,9 @@
  */
 
 app.controller('beneficiaryDistController', ['$scope', '$stateParams','$state', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams,$state, DataProviderService, SharedPropertiesService) {
+        
+        $scope.contentTitle.title = "Beneficiaries";
+         
         var checkedBenesIds = [];
         var addedBenesIds = [];
         var canceledBenesIds = [];
@@ -35,8 +38,8 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams','$state', 
             //     var data = data["Beneficiaries"];
             //var beneficiary = new Beneficiary();
 //                $scope.beneficiaries = beneficiary.parseArray(data);
-            //  $scope.beneficiaries = data;
-
+            //  $scope.beneficiaries = data;          
+ 
             $("#tagsChosen").tagsInput({
                 'height': '100px',
                 'width': '100%',

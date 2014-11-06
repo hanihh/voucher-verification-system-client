@@ -32,6 +32,9 @@ app.controller('ViewVoucherTypesController', ['$scope', 'DataProviderService', '
                     },
                 });         
             }
+            
+            SharedPropertiesService.getTree().__Clear();
+            $scope.contentTitle.title = "Voucher Types";           
             $scope.TriggerViewVoucherTypesState();
     }]);
 

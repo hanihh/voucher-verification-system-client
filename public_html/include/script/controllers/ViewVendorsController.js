@@ -34,6 +34,8 @@ app.controller('ViewVendorsController', ['$scope', 'DataProviderService', 'Share
             });
         }
 
+        SharedPropertiesService.getTree().__Clear();
+        $scope.contentTitle.title = "Vendors";
         $scope.TriggerViewVendorsState();
     }]);
 
