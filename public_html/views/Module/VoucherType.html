@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<div id="portlet-body" class="portlet-body form">
+       <div style="float:right;">
+                    <button style="width:160px" type="button" class="btn red" id="PrintVouchersByDistribution"><i class="fa fa-download"></i> Print All Vouchers</button>
+                </div>
+    <form action="#" class="form-horizontal form-bordered" name="DistributionForm">
+        <div class="form-body">  
+            <div class="form-group">
+                <label class="control-label col-md-3">Name</label>
+                <div class="col-md-4">                  
+                    <input type="text" class="form-control" ng-model="vouchertype.name" placeholder="Name...">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">Text in English</label>
+                <div class="col-md-4 input-group">                          
+                    <input type="text" class="form-control" ng-model="vouchertype.english_text" placeholder="Title...">                   
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="control-label col-md-3">Text in Arabic</label>
+                <div class="col-md-4 input-group">                             
+                    <input type="text" class="form-control" ng-model="vouchertype.arabic_text" placeholder="Title...">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">Program</label>
+                <div class="col-md-4">                  
+                    <select  id="programList" class="form-control input-medium select2me" data-placeholder="Select..." ng-model='distribution.program_id' ng-options='programItem.id as programItem.name for programItem in programItems' required>
+                        <option value=""  ng-hide="vouchertype.program_id">Select...</option>
+                    </select>										
+                </div>
+            </div>    
+            <div class="form-group" style="float:right">
+                <button style="width:100px" type="button" class="btn red" ng-click="Reset()"><i class="fa fa-times"></i> Cancel</button>
+                <button  style="width:100px" type="button" class="btn green" data-toggle="modal" href="#save"><i class="fa fa-floppy-o"></i> Save</button>
+            </div>
+        </div>   
+    </form>
+</div>
+
+<div class="modal fade" id="save" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Confirmation Message</h4>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to save the changes?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn green" data-dismiss="modal" ng-click="Save(distribution)">Save changes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- Datetimepickers related PLUGINS -->
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/clockface/js/clockface.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-daterangepicker/moment.min.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+<script type="text/javascript" src="include/theme/metronic/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="include/theme/metronic/admin/pages/scripts/components-pickers.js"></script>
+<!-- END PLUGINS -->
+
+<script>
+                    jQuery(document).ready(function () {
+                        Metronic.init();
+                        ComponentsPickers.init();
+                        $('#online-switch').bootstrapSwitch();
+
+                    });
+
+</script>

@@ -27,6 +27,10 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($
             url: "/viewmobiles",      
             controller: 'ViewMobilesController',
             templateUrl: 'views/wizardviews/ViewMobiles.html'          
+        }).state('addvouchertype', {            
+            url: "/addvouchertype",      
+            controller: 'AddVoucherTypeController',
+            templateUrl: 'views/wizardviews/AddVoucherType.html'          
         }).state('distributions', {
             url: '/distributions/:dist_id',                        
             controller: 'DistributionController',
