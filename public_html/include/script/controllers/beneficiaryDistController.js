@@ -55,18 +55,20 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams','$state', 
 
             var grid = new Datatable();
             grid.init({
-                "src": $("#datatable_ajax"),
-                // loadingMessage: 'Loading...',
+                "src": $("#datatable_ajax"),                
+               loadingMessage: 'Loading...',
+             
             onSuccess: function (grid) {
                 // execute some code after table records loaded
                 //alert(1);
 //                var item = $("#portlet-body").closest(".full-height-content-body");
 //                Metronic.unblockUI(item);
-            },
+            },            
                 dataTable: {
                     "pageLength": 10, // default record count per page
                     "ajax": DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId, true, true),
                     "sAjaxDataProp": "Beneficiaries",
+                        "bProcessing": false,
                     "columns": [
                         {"data": "id",
                             "render": function (data, type, full) {
