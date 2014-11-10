@@ -210,7 +210,7 @@ app.controller('subdistributionController', ['$scope', '$stateParams','$state', 
                                                 if ($scope.communityItems != null) {
                                                     $scope.communityItems.forEach(function (entry) {
                                                         if (entry.id == newVal)
-                                                            $scope.subdistributionNameLocation = entry.code;
+                                                            $scope.subdistributionNameLocation = entry.en_name;
                                                         $scope.subdistribution.code = $scope.subdistributionNameLocation + "-" + $scope.subdistributionDatePart;
                                                     });
                                                 } else {
