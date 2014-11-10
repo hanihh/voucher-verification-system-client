@@ -44,13 +44,10 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
             treeDivId: "",
             dist_id: null,
             distributionIdString: "",
-            //distributionsNode: "",
-            //subdistributionsNode: "",
-            //vendorsNode: "",
             addNewSubdistributionsId: "addnew" + IdPrefixString.subdistribution,
             addNewVendorsId: "addnew" + IdPrefixString.vendor,
             addNewVoucherType: "addnew" + IdPrefixString.voucherType,
-            isBindEventInit: false,
+            
             __Init: function (_tree, _treeDivId) {
                 tree = _tree;
                 treeDivId = _treeDivId;
@@ -58,8 +55,6 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 this.AddNewDistributionNode();
             },
             __Clear: function () {
-//                var distributionsNode = tree.jstree(true).get_node("AddNewDistribution");
-//                tree.jstree(true).delete_node(distributionsNode);
                 $("#" + treeDivId + " ul li").each(function () {
                     var id = $(this).attr('id');
                     tree.jstree(true).delete_node(id);
@@ -104,8 +99,6 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                     currentThis.AddDistributionChilds(distributions[i]);
                 }
 
-                if (currentThis.isBindEventInit == false)
-                    currentThis.isBindEventInit = true;
                 $("#tree_1").bind("open_node.jstree", function (e, data) {
                     if (data.node.id.indexOf(IdPrefixString.distribution) > -1 && !data.node.loadedNote)
                     {
@@ -125,7 +118,6 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
 
                 tree.jstree(true).create_node(subdistributionsNode, CreateNode(distributionIdString + this.addNewSubdistributionsId, "Add New", "fa fa-plus-circle icon-state-danger"));
                 SetNodeRoute(tree.jstree(true).get_node(distributionIdString + this.addNewSubdistributionsId), "subdistribution", {dist_id: distribution.id, subdist_id: ""}, "Add New Subdistribution");
-                //this.LoadSubdistributions();
 
                 tree.jstree(true).create_node(distributionNode, CreateNode(distributionIdString + IdPrefixString.vendorsreport, "Vendors", "fa fa-building icon-state-warning"));
                 var vendorsNode = tree.jstree(true).get_node(distributionIdString + IdPrefixString.vendorsreport);
@@ -133,7 +125,6 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
 
                 tree.jstree(true).create_node(vendorsNode, CreateNode(distributionIdString + this.addNewVendorsId, "Add New", "fa fa-plus-circle icon-state-danger"));
                 SetNodeRoute(tree.jstree(true).get_node(distributionIdString + this.addNewVendorsId), "vendor", {dist_id: distribution.id, vendormobile_id: ""}, "Add New Vendor");
-
 
                 tree.jstree(true).open_node(subdistributionsNode);
                 tree.jstree(true).open_node(vendorsNode);
@@ -304,17 +295,6 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
 
                     currentThis.BulidAllTreeByDistribution(currentDistribution);
 
-                });
-            },
-            LoadSubdistributions: function () {
-                DataProviderService.getSubdistributions().success(function (data) {
-                    var data = data["data"]["subdistribution"];
-                    console.log(data);
-                    for (i = 0; i < data["length"]; i++) {
-
-                        tree.jstree(true).create_node(subdistributionsNode, CreateNode("Subdistribution" + data[i].id, data[i].code));
-                        //SetNodeRoute(tree.jstree(true).get_node("Subdistribution" + subdistributions[i].id), "subdistribution/" + subdistributions[i].id);
-                    }
                 });
             },
             GetSubdistributionsNode: function (distributionId) {
