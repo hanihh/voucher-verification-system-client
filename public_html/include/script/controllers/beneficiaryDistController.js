@@ -52,16 +52,16 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams','$state', 
                 rtl: Metronic.isRTL(),
                 autoclose: true
             });
-/*
+
             var grid = new Datatable();
             grid.init({
                 "src": $("#datatable_ajax"),
                 // loadingMessage: 'Loading...',
             onSuccess: function (grid) {
                 // execute some code after table records loaded
-                alert(1);
-                var item = $("#portlet-body").closest(".full-height-content-body");
-                Metronic.unblockUI(item);
+                //alert(1);
+//                var item = $("#portlet-body").closest(".full-height-content-body");
+//                Metronic.unblockUI(item);
             },
                 dataTable: {
                     "pageLength": 10, // default record count per page
@@ -96,7 +96,8 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams','$state', 
                     ]
                 },
             });
-*/
+
+/*
 var grid = new Datatable();
             grid.init({
                 "src": $("#datatable_ajax"),
@@ -182,7 +183,7 @@ var grid = new Datatable();
                          "pagingType": "bootstrap_extended",    
                 },
             });
-            
+            */
             $scope.chooseCheckBoxItems = $(".ChooseCheckBox");
             $scope.chooseCheckBoxItems.die( "click" );
             $scope.chooseCheckBoxItems.live("click", function () {
