@@ -89,7 +89,7 @@ app.factory('DataProviderService', ['$http', function ($http) {
         dataFactory.getBeneficiariesBySubdistributionId = function (subdist_id, include, withall) {
             var _include = include ? 1 : 0;
             var _withall = withall ? 1 : 0;
-            return $http({method: 'GET', url: server_url + 'api/Beneficiary/GetBeneficiaryFordistribution?subdistribution_id=' + subdist_id + '&include=' + _include + '&withall=' + _withall});
+            return $http({method: 'GET', url: server_url + 'api/Beneficiary/GetBeneficiaryFordistribution?subdistribution_id=' + subdist_id + '&include=' + _include + '&withall=' + _withall}); 
         };
         dataFactory.getBeneficiariesBySubdistributionIdURL = function (subdist_id, include, withall) {
             var _include = include ? 1 : 0;

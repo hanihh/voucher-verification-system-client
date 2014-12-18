@@ -1,0 +1,46 @@
+<!-- BEGIN CONTENT -->
+<div class="page-full-width" ng-controller="LoginController">
+    <div class="page-content">
+        <div class="login">
+            <div  class="content">
+                <div class="portlet box yellow-lemon">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-user"></i> Sign in
+                        </div>                            
+                    </div>
+
+                    <iframe src="sink.html" name="sink" style="display:none"></iframe>
+
+                    <div class="portlet-body form full-height-content-body">
+                        <form name="loginForm" class="form-horizontal form-bordered" action="sink.html" target="sink" method="post" 
+                              ng-submit="login(credentials)" novalidate formautofillfix>                                                       
+                            <div class="form-body">    
+                                <br />
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Username</label>
+                                    <div class="col-md-8">                  
+                                        <input id="distribution_name" type="text" class="form-control" ng-model="credentials.username" placeholder="Username...">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Password</label>
+                                    <div class="col-md-8">                  
+                                        <input id="distribution_name" type="text" class="form-control" ng-model="credentials.password" placeholder="Password...">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div style="float: right">
+                                        <button  style="width:100px" type="submit" class="btn green"><i class="fa fa-sign-in"></i> Sign in</button>
+                                    </div>
+                                </div>
+                            </div>   
+                        </form>
+                        <!--<button ng-click="debug()">debug</button>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END CONTENT -->

@@ -1,8 +1,8 @@
 <!-- BEGIN SIDEBAR -->
-<div>
+<div class="page-sidebar-wrapper" ng-if="currentUser">
     <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
     <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-        <!-- BEGIN SIDEBAR MENU -->
+    <div class="page-sidebar navbar-collaps">
         <ul class="page-sidebar-menu " data-auto-scroll="true" data-slide-speed="200">
             <li class="sidebar-toggler-wrapper">
                 <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
@@ -26,7 +26,7 @@
                 </a>
                 <ul class="sub-menu">   
                     <li>
-                         <a href="#/viewdistributions">
+                        <a href="#/viewdistributions">
                             View Distributions</a>
                     </li>                                
                     <li>
@@ -37,7 +37,7 @@
                 </ul>                                
             </li>
             <li>
-                 <a href="javascript:;">
+                <a href="javascript:;">
                     <i class="fa fa-money"></i>
                     <span class="title">Voucher Type</span>
                     <span class="arrow "></span>
@@ -56,45 +56,70 @@
                 </ul>
             </li>
             <li>
-                 <a href="javascript:;">
+                <a href="javascript:;">
                     <i class="fa fa-home"></i>
                     <span class="title">Vendors</span>
                     <span class="arrow "></span>
                 </a>
                 <ul class="sub-menu">
-                     <li>
+                    <li>
                         <a href="#/viewvendors">
                             View Vendors
                         </a>
                     </li>
-                     <li>
+                    <li>
                         <a href="#/viewvendors">
                             Add Vendor
                         </a>
                     </li>
                 </ul>
             </li>
-              <li>
-                 <a href="javascript:;">
+            <li>
+                <a href="javascript:;">
                     <i class="fa fa-mobile"></i>
                     <span class="title">Mobiles</span>
                     <span class="arrow "></span>
                 </a>
                 <ul class="sub-menu">
-                       <li>
+                    <li>
                         <a href="#/viewmobiles">
                             View Mobiles
                         </a>
                     </li>
-                       <li>
+                    <li>
                         <a href="#/viewmobiles">
                             Add Mobile
                         </a>
                     </li>
                 </ul>
             </li>        
-                      
+
         </ul>
+
+        <!--        <ul ng-if="!currentUser" class="page-sidebar-menu " data-auto-scroll="true" data-slide-speed="200">
+                    <li class="sidebar-toggler-wrapper">
+                         BEGIN SIDEBAR TOGGLER BUTTON 
+                        <div class="sidebar-toggler">
+                        </div>
+                         END SIDEBAR TOGGLER BUTTON 
+                    </li><br />
+                    <li class="start active open">
+                        <a href="javascript:;">
+                            <i class="fa fa-sign-in"></i>
+                            <span class="title">Login</span>
+                            <span class="selected"></span>
+                        </a>
+                    </li>
+                </ul>-->
         <!-- END SIDEBAR MENU -->
+    </div>
 </div>
 <!-- END SIDEBAR -->
+
+
+
+<script ng-if="currentUser">
+    jQuery(document).ready(function () {     
+        Layout.init(); // init current layout          
+    });
+</script>

@@ -5,15 +5,97 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <!-- BEGIN HEADER -->
-<div class="page-header navbar navbar-fixed-top">
+<div class="page-header navbar navbar-fixed-top" ng-controller="HeaderController">
     <!-- BEGIN HEADER INNER -->
     <div class="page-header-inner">
         <div class="page-logo">
-                <a href="index.html">
-                    <img style="height:45px; margin-top: 0px;" src="views/resources/logo.PNG" alt="logo" class="logo-default"/>
-                </a>
+            <a href="index.html">
+                <img style="height:45px; margin-top: 0px;" src="views/resources/logo-clipped.PNG" alt="logo" class="logo-default"/>
+            </a>
         </div>
     </div>
     <!-- END HEADER INNER -->
+
+    <!-- BEGIN TOP NAVIGATION MENU -->
+    <div ng-if="currentUser" class="top-menu">
+        <ul class="nav navbar-nav pull-right">       
+            <!-- BEGIN USER LOGIN DROPDOWN -->
+            <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+            <li class="dropdown dropdown-user">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                    <img alt="" class="img-circle" src="include/theme/metronic/admin/layout/img/avatar.png"/>
+                    <span class="username username-hide-on-mobile">
+                        {{currentUser.id}} </span>
+                    <i class="fa fa-angle-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-default">
+                    <li>
+                        <a href="extra_profile.html">
+                            <i class="icon-user"></i> My Profile </a>
+                    </li>
+                    <li>
+                        <a href="page_calendar.html">
+                            <i class="icon-calendar"></i> My Calendar </a>
+                    </li>
+                    <li>
+                        <a href="inbox.html">
+                            <i class="icon-envelope-open"></i> My Inbox <span class="badge badge-danger">
+                                3 </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="page_todo.html">
+                            <i class="icon-rocket"></i> My Tasks <span class="badge badge-success">
+                                7 </span>
+                        </a>
+                    </li>
+                    <li class="divider">
+                    </li>
+                    <li>
+                        <a href="extra_lock.html">
+                            <i class="icon-lock"></i> Lock Screen </a>
+                    </li>
+                    <li>
+                        <a href="#logout" data-toggle="modal">
+                            <i class="icon-key"></i> Log Out </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- END USER LOGIN DROPDOWN -->
+            <!-- BEGIN QUICK SIDEBAR TOGGLER -->
+            <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+            <li class="dropdown dropdown-quick-sidebar-toggler" style="padding-top: 9%;">       
+                <i class="dropdown-toggle" data-toggle="modal" href="#logout">
+                     <i class="icon-logout" ></i>
+                </i>
+            </li>
+            <!-- END QUICK SIDEBAR TOGGLER -->
+        </ul>
+    </div>
+    <!-- END TOP NAVIGATION MENU -->
+
+   
 </div>
 <!-- END HEADER -->
+
+
+ <div class="modal fade" id="logout" tabindex="-1" role="basic" aria-hidden="true" ng-controller="HeaderController">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Confirmation Message</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to logout?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn red" data-dismiss="modal" ng-click="logout()">Logout</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->

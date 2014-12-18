@@ -68,8 +68,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
         <!-- END PAGE LEVEL SCRIPTS -->
 
-        <!-- END GLOBAL MANDATORY STYLES -->
-
+        <!-- END GLOBAL MANDATORY STYLES -->       
         <link href="include/theme/metronic/global/css/components.css" rel="stylesheet" type="text/css"/>
         <link href="include/theme/metronic/global/css/plugins.css" rel="stylesheet" type="text/css"/>
         <link href="include/theme/metronic/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
@@ -92,104 +91,43 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- DOC: Apply "page-sidebar-reversed" class to put the sidebar on the right side -->
     <!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
     <body ng-app="app" class="page-header-fixed page-quick-sidebar-over-content ">
-        <!-- BEGIN HEADER -->
-        <header ng-include="'views/templates/header.html'"></header>
+        <div ng-controller="AppController">
+            <!-- BEGIN HEADER -->
+            <header ng-include="'views/templates/header.html'"></header>
 
-        <!-- END HEADER -->
-        <div class="clearfix">
-        </div>
-
-        <!-- BEGIN CONTAINER -->
-        <div class="page-container">
-            <!-- BEGIN SIDEBAR -->
-            <div class="page-sidebar-wrapper">
-                <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
-                <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-                <div class="page-sidebar navbar-collaps">
-                    <div ng-include="'views/templates/sidebar.html'"></div>
-                </div>
+            <!-- END HEADER -->
+            <div class="clearfix">
             </div>
-            <!-- END SIDEBAR -->
-            <!-- BEGIN CONTENT -->
 
-            <div class="page-content-wrapper">   
+            <!-- BEGIN CONTAINER -->
+            <div class="page-container">
+                <!-- BEGIN SIDEBAR -->                         
+                <div ng-include="'views/templates/sidebar.html'"></div>            
+                <!-- END SIDEBAR -->
+                <!-- BEGIN CONTENT -->
+                <!-- <div ng-include="'views/wizardviews/index.html'" auth>    
+                            <div ng-include="'Login.html'" auth>    
+                            </div>-->
+                <div ng-if="currentUser" class="page-content-wrapper" ng-include src="'views/wizardviews/index.html'"  ng-controller="ContentController"></div>
 
-                <div class="page-content" ng-controller="TreeController" >    
-                    <!-- Testing reloading Tree dynamically -->
-                    <!--
-                    <input type="button" id="btntreetest" value="testTree" />                    
-                    <script>
-                                $("#btntreetest").click(function () {
+                <div ng-if="!currentUser" class="page-content-wrapper" ng-include src="'views/Login.html'">   
+                    <!--<div ng-if="!currentUser && isLoginPage" class="page-content-wrapper" logindialog></div>-->              
 
-                                    // $('#tree_1').jstree({}) ;
-                                    //replaceElement(document.getElementById("tree_1"));
-                                    $("#tree_1").jstree("destroy");
-                                    $("#tree_1").html('<ul><li><a ui-sref="distributions"  class="SystemNode" SystemNodeType="Distribution" id="Distribution">Distributions</a><ul><li data-jstree=\'{ "opened" : false  }\' ><a   class="SystemNode"  SystemNodeType="Subdistributions" id="Subdistributions" >Subdistributions</a><ul  id="SubdistributionsList"><li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\' ><a ui-sref="newsubdistribution" href="#" id="newsubdistribution">Add New</a></li></ul></li><li data-jstree=\'{ "opened" : false }\'><a   class="SystemNode"  SystemNodeType="Subdistributions" id="vendors" >Vendors</a><ul><li data-jstree=\'{"icon" : "fa fa-plus-circle icon-state-danger"}\'><a  ui-sref="newvouchertype" class="SystemNode" SystemNodeType="NewSubdistribution"  id="NewSubdistribution" href="#">Add New</a></li></ul></li></ul></li></ul>');
-                                    UITree.init();
-
-                                });
-                    </script>
-                    -->
-                    <!-- End Test -->
-                    <div class="page-bar">                              
-                        <ul class="page-breadcrumb" id="breadcrumb">         
-                            <li>Please, Choose an Element from the Tree to Continue ...</li>
-                        </ul>                
+                    <!-- END CONTENT -->
+                </div> 
+                <!-- END CONTAINER -->
+                <!-- BEGIN FOOTER --> 
+                <div class="page-footer">
+                    <div class="page-footer-inner">
+                        2014 &copy; International Rescue Committee.
                     </div>
-
-			<div class="row">
-
-                    <div class="col-md-3">
-                        <div class="portlet box yellow-lemon box full-height-content full-height-content-scrollable">
-                            <div class="portlet-title">
-                                <div class="caption">
-                                    <i class="fa fa-cogs"></i>Distribution Tree
-                                </div>       
-                            </div>                            
-                            <div class="portlet-body">
-                                <div class="full-height-content-body">
-                                    <div id="tree_1" class="tree-demo">                                                                            
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="scroll-to-top">
+                        <i class="icon-arrow-up"></i>
                     </div>
-
-                    <div ng-controller="AppController" class="portlet box yellow-lemon col-md-9 full-height-content full-height-content-scrollable">
-                        <div class="portlet-title">
-                            <div class="caption">
-                                <i class="fa fa-gift"></i>{{contentTitle.title}}
-                            </div>                            
-                        </div>
-                        <div class="portlet-body">
-
-                            <div class="full-height-content-body">
-                                <!--<div ng-include="'views/wizardviews/Distributions.html'" ></div> -->
-
-                                <div ui-view>    
-
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div> 
-                            </div>
                 </div>
-            </div>
-            <!-- END CONTENT -->
-        </div>
-        <!-- END CONTAINER -->
-        <!-- BEGIN FOOTER -->
-        <div class="page-footer">
-            <div class="page-footer-inner">
-                2014 &copy; International Rescue Committee.
-            </div>
-            <div class="scroll-to-top">
-                <i class="icon-arrow-up"></i>
+                <!-- END FOOTER -->
             </div>
         </div>
-        <!-- END FOOTER -->
         <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
         <!-- BEGIN CORE PLUGINS -->
         <!--[if lt IE 9]>
@@ -201,18 +139,23 @@ License: You must have a valid license purchased only from themeforest(the above
 
         <script src="include/core/angular.js" type="text/javascript"></script>
         <script src="include/core/angular-ui-router.js" type="text/javascript"></script>
-
+        <script src="include/core/angular-cookies.min.js" type="text/javascript"></script>
         <!-- Importing Angular JS Scripts -->
         <script src="include/script/app.js" type="text/javascript"></script>
         <script src="include/script/app-config.js" type="text/javascript"></script>
         <!-- Controllers -->
         <!-- Layout related controllers -->
         <script src="include/script/controllers/ViewDistributionsController.js" type="text/javascript"></script>
-         <script src="include/script/controllers/ViewMobilesController.js" type="text/javascript"></script>
-          <script src="include/script/controllers/ViewVendorsController.js" type="text/javascript"></script>
-           <script src="include/script/controllers/ViewVoucherTypesController.js" type="text/javascript"></script>
+        <script src="include/script/controllers/ViewMobilesController.js" type="text/javascript"></script>
+        <script src="include/script/controllers/ViewVendorsController.js" type="text/javascript"></script>
+        <script src="include/script/controllers/ViewVoucherTypesController.js" type="text/javascript"></script>
         <!-- View Models related controllers -->
-         <script src="include/script/controllers/appController.js" type="text/javascript"></script>
+        <script src="include/script/controllers/AppController.js" type="text/javascript"></script>
+        <script src="include/script/controllers/ContentController.js" type="text/javascript"></script>
+        <script src="include/script/controllers/HeaderController.js" type="text/javascript"></script>
+        <!--<script src="include/Security/controllers/LoginController.js" type="text/javascript"></script>-->
+        <script src="include/script/controllers/LoginController.js" type="text/javascript"></script>
+
         <script src="include/script/controllers/treeController.js" type="text/javascript"></script>
         <script src="include/script/controllers/distributionController.js" type="text/javascript"></script>
         <script src="include/script/controllers/subdistributionController.js" type="text/javascript"></script>
@@ -228,10 +171,20 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- Services -->
         <script src="include/script/services/DataProviderService.js" type="text/javascript"></script>
         <script src="include/script/services/SharedPropertiesService.js" type="text/javascript"></script>
+        <script src="include/script/services/AuthService.js" type="text/javascript"></script>
+        <script src="include/script/services/SessionService.js" type="text/javascript"></script>
+<!--        <script src="include/Security/services/AuthService.js" type="text/javascript"></script>
+        <script src="include/Security/services/SessionService.js" type="text/javascript"></script>-->
         <!----------------->
 
         <!-- Directives -->
-        <script src="include/script/directives/bsSwitch.js" type="text/javascript"></script>
+        <script src="include/script/directives/bsSwitch.js" type="text/javascript"></script>      
+           <script src="include/script/directives/formautofillfix.js" type="text/javascript"></script>
+        <script src="include/script/directives/logindialog.js" type="text/javascript"></script>
+        <script src="include/script/directives/authorizedialog.js" type="text/javascript"></script>
+<!--        <script src="include/Security/directives/formautofillfix.js" type="text/javascript"></script>
+        <script src="include/Security/directives/logindialog.js" type="text/javascript"></script>
+        <script src="include/Security/directives/authorizedialog.js" type="text/javascript"></script>-->
         <!----------------->
         <!----------------->
 
@@ -312,16 +265,16 @@ License: You must have a valid license purchased only from themeforest(the above
         <script src="include/theme/metronic/admin/pages/scripts/components-form-tools.js"></script>        
 
         <script>
-                                    jQuery(document).ready(function () {
-                                        // initiate layout and plugins
-                                        Metronic.init(); // init metronic core components
-                                        Layout.init(); // init current layout
-                                        QuickSidebar.init(); // init quick sidebar
-                                        //Demo.init(); // init demo features
-                                        Inbox.init();
-                                    });
+                    jQuery(document).ready(function () {
+                        // initiate layout and plugins
+                        Metronic.init(); // init metronic core components
+                        Layout.init(); // init current layout
+                        //QuickSidebar.init(); // init quick sidebar
+                        //Demo.init(); // init demo features
+                        Inbox.init();
+                    });
         </script>
-        <!-- END JAVASCRIPTS -->
+        <!-- END JAVASCRIPTS -->                               
     </body>
     <!-- END BODY -->
 </html>

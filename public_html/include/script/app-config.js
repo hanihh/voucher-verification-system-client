@@ -6,67 +6,114 @@
 
 
 
-app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($urlRouterProvider, $stateProvider, $httpProvider) {
-        $urlRouterProvider.otherwise('/home');
+app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', 'USER_ROLES', function ($urlRouterProvider, $stateProvider, $httpProvider, USER_ROLES) {
+        $urlRouterProvider.otherwise('/');
         $stateProvider.state('home', {            
             url: "/home",
             templateUrl: 'views/home.html'             
-        }).state('viewdistributions', {            
+        })
+//                .state('Login', {            
+//            url: "/Login",
+//            templateUrl: 'views/Login.html'          
+//        })
+                .state('viewdistributions', {            
             url: "/viewdistributions",      
             controller: 'ViewDistributionsController',
-            templateUrl: 'views/wizardviews/Empty.html'          
+            templateUrl: 'views/wizardviews/Empty.html',
+            data: {
+                authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor]
+              }
         }).state('viewvouchertypes', {            
             url: "/viewvouchertypes",      
             controller: 'ViewVoucherTypesController',
-            templateUrl: 'views/wizardviews/ViewVoucherTypes.html'          
+            templateUrl: 'views/wizardviews/ViewVoucherTypes.html',
+            data: {
+                authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor]
+              }          
         }).state('viewvendors', {            
             url: "/viewvendors",      
             controller: 'ViewVendorsController',
-            templateUrl: 'views/wizardviews/ViewVendors.html'          
+            templateUrl: 'views/wizardviews/ViewVendors.html',
+            data: {
+                authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor]
+              }          
         }).state('viewmobiles', {            
             url: "/viewmobiles",      
             controller: 'ViewMobilesController',
-            templateUrl: 'views/wizardviews/ViewMobiles.html'          
+            templateUrl: 'views/wizardviews/ViewMobiles.html',
+            data: {
+                authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor]
+              }          
         }).state('addvouchertype', {            
             url: "/addvouchertype",      
             controller: 'AddVoucherTypeController',
-            templateUrl: 'views/wizardviews/AddVoucherType.html'          
+            templateUrl: 'views/wizardviews/AddVoucherType.html',
+            data: {
+                authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor]
+              }          
         }).state('distributions', {
             url: '/distributions/:dist_id',                        
             controller: 'DistributionController',
             templateUrl: 'views/wizardviews/Distributions.html',
+             data: {
+                authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor]
+              }
         }).state('subdistribution', {
             url: '/distributions/:dist_id/subdistribution/:subdist_id',              
             controller: 'subdistributionController',
-            templateUrl: 'views/wizardviews/Subdistribution.html'
+            templateUrl: 'views/wizardviews/Subdistribution.html',
+            data: {
+                authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor]
+              }
         }).state('subdistributionsreport', {            
             url: '/distributions/:dist_id/subdistributionsreport',
             controller: 'SubdistributionReportController',
-            templateUrl: 'views/wizardviews/SubdistributionsReport.html'
+            templateUrl: 'views/wizardviews/SubdistributionsReport.html',
+            data: {
+                authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor]
+              }
         }).state('vendor', {            
             url: '/distributions/:dist_id/vendor/:vendor_id',
                controller: 'VendorController',
-                templateUrl: 'views/wizardviews/Vendor.html'
+                templateUrl: 'views/wizardviews/Vendor.html',
+            data: {
+                authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor]
+              }
         }).state('vendorsreport', {
             url: '/distributions/:dist_id/vendorsreport',
             controller: 'VendorReportController',
-            templateUrl: 'views/wizardviews/VendorsReport.html'
+            templateUrl: 'views/wizardviews/VendorsReport.html',
+            data: {
+                authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor]
+              }
         }).state('vouchertype', {
             url: '/distributions/:dist_id/subdistribution/:subdist_id/vouchertype/:vouchertype_id',   
             controller: 'VoucherTypeController',
-            templateUrl: 'views/wizardviews/VoucherType.html' 
+            templateUrl: 'views/wizardviews/VoucherType.html',
+            data: {
+                authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor]
+              } 
         }).state('vouchertypesreport', {
             url: '/distributions/:dist_id/subdistribution/:subdist_id/vouchertypesreport',            
             controller: 'VoucherTypeReportController',
-            templateUrl: 'views/wizardviews/VoucherTypesReport.html'            
+            templateUrl: 'views/wizardviews/VoucherTypesReport.html' ,
+            data: {
+                authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor]
+              }           
         }).state('beneficiaryDist', {
             url: '/distributions/:dist_id/subdistribution/:subdist_id/beneficiaryDist',
             controller:'beneficiaryDistController',
-            templateUrl: 'views/wizardviews/BeneficiaryDist.html'
+            templateUrl: 'views/wizardviews/BeneficiaryDist.html',
+            data: {
+                authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor]
+              }
         }).state('beneficiaryVendor', {
             url: '/distributions/:dist_id/vendor/:vendor_id/beneficiaryVendor',
             controller:'beneficiaryVendorController',
-            templateUrl: 'views/wizardviews/BeneficiaryVendor.html'
+            templateUrl: 'views/wizardviews/BeneficiaryVendor.html',
+            data: {
+                authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor]
+              }
         });
 
         $httpProvider.defaults.useXDomain = true;

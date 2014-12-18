@@ -55,7 +55,7 @@ app.controller("TreeController", ['$scope', '$state', 'DataProviderService', 'Sh
                 this.AddNewDistributionNode();
             },
             __Clear: function () {
-                $("#" + treeDivId + " ul li").each(function () {
+                $("#" + treeDivId + " ul > li").each(function () {
                     var id = $(this).attr('id');
                     tree.jstree(true).delete_node(id);
                 });
