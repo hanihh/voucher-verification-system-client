@@ -26,21 +26,21 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', 'USER_ROLES
         }).state('viewvouchertypes', {            
             url: "/viewvouchertypes",      
             controller: 'ViewVoucherTypesController',
-            templateUrl: 'views/wizardviews/ViewVoucherTypes.html',
+            templateUrl: 'views/voucherType/ViewVoucherTypes.html',
             data: {
                 authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor]
               }          
         }).state('viewvendors', {            
             url: "/viewvendors",      
             controller: 'ViewVendorsController',
-            templateUrl: 'views/wizardviews/ViewVendors.html',
+             templateUrl: 'views/vendor/ViewVendors.html' ,
             data: {
                 authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor]
               }          
         }).state('viewmobiles', {            
             url: "/viewmobiles",      
             controller: 'ViewMobilesController',
-            templateUrl: 'views/wizardviews/ViewMobiles.html',
+            templateUrl: 'views/mobile/ViewMobiles.html',
             data: {
                 authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor]
               }          
