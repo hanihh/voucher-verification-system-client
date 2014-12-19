@@ -52,71 +52,64 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', '$state',
                 rtl: Metronic.isRTL(),
                 autoclose: true
             });
-            
-             DataProviderService.getBeneficiariesBySubdistributionId($scope.subdistributionId, true, true).success(function(data){
-                   $("#datatable_ajax").dataTable({
-       
-                         "sAjaxSource":data
-                    });
-             });
-            
-          
-            /*
-             var grid = new Datatable();
-             grid.init({
-             "src": $("#datatable_ajax"),
-             // loadingMessage: 'Loading...',
-             onSuccess: function (grid) {
-             // execute some code after table records loaded
-             alert(1);
-             var item = $("#portlet-body").closest(".full-height-content-body");
-             Metronic.unblockUI(item);
-             },
-             dataTable: {
-             "pageLength": 10, // default record count per page
-             "ajax": DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId, true, true),
-             "sAjaxDataProp": "Beneficiaries",
-             "columns": [
-             {"data": "id",
-             "render": function (data, type, full) {
-             var checkedAttr = "";
-             if (full.available == "false")
-             {
-             checkedAttr = 'checked';
-             if ($.inArray(full.id, checkedBenesIds) == -1) {
-             checkedBenesIds.push(full.id);
-             addedBenesIds.push(full.id);
-             $('#tagsChosen').addTag(full.registration_code);
-             }
-             
-             } else {
-             checkedAttr = '';
-             }
-             return "<input type='checkbox' class='ChooseCheckBox' id=" + full.registration_code + " idValue = " + full.id + " " + checkedAttr + " >";
-             }
-             },
-             {"data": "registration_code"},
-             {"data": "en_name"},
-             {"data": "father_name"},
-             {"data": "birth_year"},
-             {"render": function (data, type, full) {
-             return "";
-             }}
-             ]
-             },
-             });
-             */
-            /*
+
             var grid = new Datatable();
             grid.init({
+                "src": $("#datatable_ajax"),                
+               loadingMessage: 'Loading...',
+             
+            onSuccess: function (grid) {
+                // execute some code after table records loaded
+                //alert(1);
+//                var item = $("#portlet-body").closest(".full-height-content-body");
+//                Metronic.unblockUI(item);
+            },            
+                dataTable: {
+                    "pageLength": 10, // default record count per page
+                    "ajax": DataProviderService.getBeneficiariesBySubdistributionIdURL($scope.subdistributionId, true, true),
+                    "sAjaxDataProp": "Beneficiaries",
+                        "bProcessing": false,
+                    "columns": [
+                        {"data": "id",
+                            "render": function (data, type, full) {
+                                var checkedAttr = "";
+                                if (full.available == "false")
+                                {
+                                    checkedAttr = 'checked';
+                                    if ($.inArray(full.id, checkedBenesIds) == -1) {
+                                        checkedBenesIds.push(full.id);
+                                        addedBenesIds.push(full.id);
+                                        $('#tagsChosen').addTag(full.registration_code);
+                                    }
+
+                                } else {
+                                    checkedAttr = '';
+                                }
+                                return "<input type='checkbox' class='ChooseCheckBox' id=" + full.registration_code + " idValue = " + full.id + " " + checkedAttr + " >";
+                            }
+                        },
+                        {"data": "registration_code"},
+                        {"data": "en_name"},
+                        {"data": "father_name"},
+                        {"data": "birth_year"},
+                        {"render": function (data, type, full) {
+                                return "";
+                            }}
+                    ]
+                },
+            });
+
+/*
+var grid = new Datatable();
+            grid.init({
                 "src": $("#datatable_ajax"),
-                onSuccess: function (grid) {
-                    // execute some code after table records loaded
-                },
-                onError: function (grid) {
-                    // execute some code on network or other general error  
-                },
-                loadingMessage: 'Loading...',
+                  onSuccess: function (grid) {
+                // execute some code after table records loaded
+            },
+            onError: function (grid) {
+                // execute some code on network or other general error  
+            },
+            loadingMessage: 'Loading...',
                 filterApplyAction: "filter",
                 filterCancelAction: "filter_cancel",
                 "bProcessing": true,
@@ -192,7 +185,7 @@ app.controller('beneficiaryDistController', ['$scope', '$stateParams', '$state',
                     "pagingType": "bootstrap_extended",
                 },
             });
-*/
+            */
             $scope.chooseCheckBoxItems = $(".ChooseCheckBox");
             $scope.chooseCheckBoxItems.die("click");
             $scope.chooseCheckBoxItems.live("click", function () {

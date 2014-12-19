@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-app.controller('DistributionController', ['$scope', '$stateParams', '$state', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, $state, DataProviderService, SharedPropertiesService) {
+app.controller('DistributionController', ['$scope', '$stateParams', '$state', '$location', 'DataProviderService', 'SharedPropertiesService', function ($scope, $stateParams, $state,$location, DataProviderService, SharedPropertiesService) {
 
         $.getScript('include/ViewModels/Core/Distribution.js', function () {
             $.getScript('include/ViewModels/Core/Program.js', function () {
@@ -93,7 +93,12 @@ app.controller('DistributionController', ['$scope', '$stateParams', '$state', 'D
                             var data = data["data"]["distribution"];
                             var distribution = new Distribution();
                             $scope.distribution = distribution.parse(data);
-
+                            if (new Date($scope.distribution.start_date).getTime() <= new Date().getTime()) {
+                                //$('button').attr("disabled='disabled'");
+                                //$('#s2id_donorList > a > span:first').disableSelection();
+                                //alert(1);
+                            }
+                            //alert(id);
                             $scope.contentTitle.title = "Distribution: " + $scope.distribution.name;
 
                             $('#s2id_programList > a > span:first').html(data.program.name);
@@ -136,10 +141,20 @@ app.controller('DistributionController', ['$scope', '$stateParams', '$state', 'D
 
 
 
-                            $("#PrintVouchersByDistribution").live("click", function () {
-                                var win = window.open(DataProviderService.getPrintVoucherURL(dist_id, ""), '_blank');
-                                win.focus();
-                            });
+                            $scope.printVouchers = function () {
+                                    var id = ($stateParams) ? $stateParams.dist_id : null;
+                                    var win = window.open(DataProviderService.getPrintVoucherURL(id, ""), '_blank');
+                                    win.focus();
+                            };
+                            $scope.printDistributionReport = function () {
+                                //alert(new Date(SharedPropertiesService.getDistributionEndDate()).getDate());
+//                                if (new Date(SharedPropertiesService.getDistributionEndDate()).getDate() >= new Date().getDate())
+//                                    toastr.error('You can\'t print the distribution report unless the distribution is over.');
+//                                else {
+                                    var win = window.open(DataProviderService.getDistributionReport(dist_id, ""), '_blank');
+                                    win.focus();
+//                                }
+                            };
                         });
                     }else{
                           SharedPropertiesService.getTree().AddNewDistributionNode();
@@ -154,14 +169,19 @@ app.controller('DistributionController', ['$scope', '$stateParams', '$state', 'D
                             DataProviderService.createDistribution(distribution).success(function (data) {
                                 var id = data["data"]["distribution"]["id"];
                                 SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(id);
+                                $location.path($location.path() + id);
                                 toastr.success('Distribution has been added successfully!');
                             });
                         } else {
-                            DataProviderService.updateDistribution(distribution).success(function (data) {
-                                var id = data["data"]["distribution"]["id"];
-                                SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(id);
-                                toastr.success('Distribution has been added successfully!');
-                            });
+                            if (new Date(distribution.start_date).getTime() <= new Date().getTime())
+                                toastr.error('Error! can\'t modify this distribution it\'s already started');
+                            else {
+                                DataProviderService.updateDistribution(distribution).success(function (data) {
+                                    var id = data["data"]["distribution"]["id"];
+                                    SharedPropertiesService.getTree().BuildTreeWithDistributionIdByQueryString(id);
+                                    toastr.success('Distribution has been updated successfully!');
+                                });
+                            }
                         }
                     }
 

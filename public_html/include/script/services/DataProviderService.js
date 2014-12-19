@@ -19,6 +19,12 @@ app.factory('DataProviderService', ['$http', function ($http) {
             var _id = (id) ? id : "";
             return $http({method: 'GET', url: server_url + 'api/subdistribution/' + _id});
         };
+        
+        dataFactory.getDistributionReport = function (id) {
+            var _id = (id) ? id : "";
+            return server_url + 'report/saveDistributionReport/' + _id;
+        };
+        
         dataFactory.getSubdistributionsByFilter = function (params) {
             return $http({method: 'GET', url: server_url + 'api/subdistribution/?filter=' + JSON.stringify(GetFilter(params))});
         };
@@ -159,7 +165,7 @@ app.factory('DataProviderService', ['$http', function ($http) {
         };
         dataFactory.createSubdistributionVoucher = function (voucherType) {
             $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-            return $http({method: 'POST', url: server_url + 'api/distributionvoucher', data: voucherType});
+            return $http({method: 'POST', url: server_url + 'api/distributionVoucher', data: voucherType});
         };
         dataFactory.createVendorMobile = function (vendor) {
             $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
@@ -187,7 +193,13 @@ app.factory('DataProviderService', ['$http', function ($http) {
         };
         dataFactory.updateDistribution = function (distribution) {
             console.log(distribution);
-            return $http({method: 'PUT', url: server_url + 'api/distribution/' + distribution.id, data: distribution});
+            var headers = {
+				'Access-Control-Allow-Origin' : '*',
+				'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS, PUT',
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+			};
+            return $http({method: 'PUT', url: server_url + 'api/distribution/' + distribution.id, headers: headers, data: distribution});
         };
         //*********************//
         /*
