@@ -18,15 +18,15 @@ app.config(['$urlRouterProvider', '$stateProvider', '$httpProvider', function ($
         }).state('viewvouchertypes', {            
             url: "/viewvouchertypes",      
             controller: 'ViewVoucherTypesController',
-            templateUrl: 'views/wizardviews/ViewVoucherTypes.html'          
+            templateUrl: 'views/voucherType/ViewVoucherTypes.html'          
         }).state('viewvendors', {            
             url: "/viewvendors",      
             controller: 'ViewVendorsController',
-            templateUrl: 'views/wizardviews/ViewVendors.html'          
+            templateUrl: 'views/vendor/ViewVendors.html'          
         }).state('viewmobiles', {            
             url: "/viewmobiles",      
             controller: 'ViewMobilesController',
-            templateUrl: 'views/wizardviews/ViewMobiles.html'          
+            templateUrl: 'views/mobile/ViewMobiles.html'          
         }).state('addvouchertype', {            
             url: "/addvouchertype",      
             controller: 'AddVoucherTypeController',
